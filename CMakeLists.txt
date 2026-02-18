@@ -12,10 +12,7 @@ file(GLOB SOURCES CMAKE_CONFIGURE_DEPENDS
 set(name RPS)
 add_executable(${name} ${SOURCES})
 
-target_include_directories(${name} PRIVATE 
-                                    "engine/include/"
-                                    #"game/include/"
-                                    )
+target_include_directories(${name} PRIVATE engine/include/)
 target_link_directories(${name} PRIVATE engine/lib/)
 
 #Linux

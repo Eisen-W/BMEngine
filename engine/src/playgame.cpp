@@ -1,5 +1,6 @@
 #include "playgame.hpp"
 #include "engine.hpp"
+#include<raylib.h>
 
 void Play::playgame()
 {
@@ -20,6 +21,7 @@ void Play::playgame()
 
         BeginTextureMode(EWE.DM.getCanvas());
         ClearBackground(BLACK);
+        DrawRectangle(0,0,EWE.DM.getCanvasWidth(), EWE.DM.getCanvasHeight(), SKYBLUE);
         //Gctx.game.Draw();
         EndTextureMode();
 
