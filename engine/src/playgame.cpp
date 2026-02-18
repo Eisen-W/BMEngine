@@ -9,6 +9,8 @@ void Play::playgame()
     SetTargetFPS(60);
 
     EWE.DM.initCanvas();
+    EWE.intro.Init();
+
     
     //Gctx.game.changeGameState(GameState::TITLE);
 
@@ -18,10 +20,12 @@ void Play::playgame()
 
         //if(!Gctx.game.Update()) break;
         if(DEV_MODE) EWE.dbg.Update();
+        if(EWE.intro.Engineintro) EWE.intro.Update();
 
         BeginTextureMode(EWE.DM.getCanvas());
         ClearBackground(BLACK);
         DrawRectangle(0,0,EWE.DM.getCanvasWidth(), EWE.DM.getCanvasHeight(), SKYBLUE);
+        if(EWE.intro.Engineintro) EWE.intro.Draw();
         //Gctx.game.Draw();
         EndTextureMode();
 

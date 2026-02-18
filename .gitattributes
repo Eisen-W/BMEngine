@@ -1,0 +1,2 @@
+engine/lib/* linguist-vendored
+engine/include/raylib.h linguist-vendored
