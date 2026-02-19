@@ -1,2 +1,2 @@
 engine/lib/* linguist-vendored
-engine/include/raylib.h linguist-vendored
+engine/include/*.h linguist-vendored

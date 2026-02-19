@@ -1,4 +1,5 @@
 #pragma once
+#include<raylib.h>
 
 class Intro{
     public:
@@ -11,4 +12,5 @@ class Intro{
     int count;
     const char* engineTitle;
     int textSize;
+    //Music chirp;
 };
