@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.12)
-project(RPS)
+project(EWE2D)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -9,7 +9,7 @@ file(GLOB SOURCES CMAKE_CONFIGURE_DEPENDS
     # add game directories here
     "engine/src/*.cpp")
 
-set(name RPS)
+set(name EWE)
 add_executable(${name} ${SOURCES})
 
 target_include_directories(${name} PRIVATE engine/include/)

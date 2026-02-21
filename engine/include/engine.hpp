@@ -4,6 +4,7 @@
 #include "display_manager.hpp"
 #include "debug.hpp"
 #include "input_manager.hpp"
+#include "anim_manager.hpp"
 #include "intro.hpp"
 
 struct Engine{
