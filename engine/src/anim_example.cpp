@@ -15,7 +15,17 @@ void Example::anim_update(anim *self)
 
         if(self->curr > self->last)
         {
-            self->curr = self->first;
+            switch(self->type)
+            {
+                case anim_Type::REPEATING: 
+                    self->curr = self->first;
+                    break;
+                
+                case anim_Type::ONESHOT:
+                    self->curr = self->last;
+                    break;
+                    
+            }
         }
     }
 }
@@ -31,12 +41,18 @@ Rectangle Example::anim_frame(anim *self, int frames_per_row, int tileset_px)
 void Example::Init()
 {
     ShootRunTexture = EWE.AM.getTexture("../assets/ShootingRun.png"); 
-    shootrun = {0, 6, 0, 0.1f, 0.1f};
+    //anim = first,last,current, speed, duration left, type
+    shootrun = {0, 6, 0, 0.1f, 0.1f, anim_Type::ONESHOT};
+    shootrun.curr = shootrun.last;
 }
 
 void Example::Update()
 {
+    
+    if(IsKeyPressed(KEY_SPACE)) shootrun.curr = shootrun.first;
     anim_update(&shootrun);
+    //if(shootrun.curr == shootrun.last) shootrun.curr = shootrun.first;
+    
 }
 
 void Example::Draw()

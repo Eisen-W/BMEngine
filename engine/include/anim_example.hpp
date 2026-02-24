@@ -1,6 +1,11 @@
 #pragma once
 #include<raylib.h>
 
+enum class anim_Type{
+    REPEATING,
+    ONESHOT
+};
+
 struct anim{
     int first;
     int last;
@@ -8,7 +13,9 @@ struct anim{
 
     float speed;
     float duration_left;
+    anim_Type type;
 };
+
 
 class Example{
     public:
