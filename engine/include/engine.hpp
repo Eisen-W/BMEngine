@@ -6,6 +6,7 @@
 #include "input_manager.hpp"
 #include "anim_manager.hpp"
 #include "intro.hpp"
+#include "anim_manager.hpp"
 
 struct Engine{
     assetManager AM;
