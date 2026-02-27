@@ -19,5 +19,6 @@ class Intro{
     int count;
     const char* engineTitle;
     int textSize;
-    //Music chirp;
+    int revealedPixels;
+    float timer, speed;
 };

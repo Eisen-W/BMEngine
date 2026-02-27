@@ -11,5 +11,9 @@ if you're not using the current template/file structure
 - [x] Display Manager (to handle window, canvas, and scaling)
 - [x] Input Manager (to handle keyboard, mouse and gamepad input)
 - [x] Debug view (for DEV BUILDS, it just shows stats like FPS, Time, memory usage etc.)
-- [ ] Intro
-- [ ] Animation Manager (to handle animations)
+- [x] Intro
+- [x] Animation Manager (to handle animations)
+- [ ] Basic save system
+
+### DevLog
+- v1: asset manager, display manager, input manager, animation manager, debug view, intro 

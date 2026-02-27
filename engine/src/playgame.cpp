@@ -21,15 +21,16 @@ void Play::playgame()
         //UPDATE
         EWE.DM.scaleWindow();
 
+        if(EWE.intro.Engineintro) EWE.intro.Update();
         //if(!Gctx.game.Update()) break;
         if(DEV_MODE) EWE.dbg.Update();
-        if(EWE.intro.Engineintro) EWE.intro.Update();
+        
             
 
         //TEXTURE MODE
         BeginTextureMode(EWE.DM.getCanvas());
         ClearBackground(BLACK);
-        DrawRectangle(0,0,EWE.DM.getCanvasWidth(), EWE.DM.getCanvasHeight(), SKYBLUE);
+        DrawRectangle(0,0,EWE.DM.getCanvasWidth(), EWE.DM.getCanvasHeight(), BLACK);
         if(EWE.intro.Engineintro) EWE.intro.Draw();
         //Gctx.game.Draw();
         EndTextureMode();

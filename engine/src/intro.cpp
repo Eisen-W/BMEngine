@@ -6,32 +6,39 @@ void Intro::Init()
     Engineintro = 1;
     count = 0;
     engineTitle = "EWEngine";
-
-    intro_texture = EWE.AM.getTexture("../assets/ShootingRun.png");
-    intro_animType = Animation::anim_Type::REPEATING;
-    intro_animValue = {0,6,0, 0.1f,0.1f, intro_animType};
+    timer = 0.0f;
+    speed = 100.0f;
+    revealedPixels = 0;
+    textSize = MeasureText(engineTitle, 80);
     
-    //chirp = EWE.AM.getMusic("../assets/chirp - c418.mp3");
-    //PlayMusicStream(chirp);
 }
 
 void Intro::Update()
 {
-    //UpdateMusicStream(chirp);
-    anim_intro.anim_Update(&intro_animValue);
+    timer += GetFrameTime();
+    revealedPixels = (int)(timer * speed);
+    if(revealedPixels > textSize) revealedPixels = textSize;
+
     count++;
-    if(count == 20*60)
+    if(count == 5*60)
     {
         Engineintro = 0;
         count = 0;
-        //StopMusicStream(chirp);
     }
 }
 
 void Intro::Draw()
 {
-    DrawTexturePro(intro_texture, anim_intro.anime_frame(&intro_animValue, 6, 48), 
-                    {10,10,100,100}, {0,0}, 0.0f, WHITE);
-    textSize = MeasureText(engineTitle, 80);
-    DrawText(engineTitle, textSize/3, textSize/2, 80, WHITE);
-}
+    //DrawText(engineTitle, textSize/3, textSize/2, 80, WHITE);
+    
+    int offsetX = 0;
+    for(int j = 0; engineTitle[j] != '\0'; j++)
+    {
+        char single[2] = { engineTitle[j], '\0'};
+        int charWidth = MeasureText(single, 80);
+
+        if(offsetX >= revealedPixels) break;
+        DrawText(single, textSize/3 + offsetX, textSize/2, 80, WHITE);
+        offsetX += charWidth + 5;
+    }
+} 
