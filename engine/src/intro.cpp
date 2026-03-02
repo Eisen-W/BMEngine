@@ -5,7 +5,7 @@ void Intro::Init()
 {
     Engineintro = 1;
     count = 0;
-    engineTitle = "EWEngine";
+    engineTitle = "EWEngine v1";
     timer = 0.0f;
     speed = 100.0f;
     revealedPixels = 0;

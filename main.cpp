@@ -2,7 +2,7 @@
 
 int main()
 {
-    Play RPS;
-    RPS.playgame();
+    Play ewengine;
+    ewengine.playgame();
     return 0;
 }
