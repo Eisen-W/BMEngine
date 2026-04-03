@@ -22,6 +22,7 @@ namespace Input{
     // -0.25f <= deadzone <= 0.25f
     constexpr float DEADZONE = 0.25f;
 
+    
     inline bool moveUp() 
     {return IsKeyDown(KEY_W) 
         || IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_UP)
@@ -46,9 +47,14 @@ namespace Input{
     }
 
     //Action keys
-    inline bool fire()
+    inline bool holdB()
     {return IsKeyDown(KEY_SPACE)
         || IsGamepadButtonDown(0, GAMEPAD_BUTTON_RIGHT_FACE_RIGHT);
+    }
+
+    inline bool holdA()
+    { return IsKeyDown(KEY_SPACE)
+        || IsGamepadButtonDown(0, GAMEPAD_BUTTON_RIGHT_FACE_DOWN);
     }
 
     //input per frame
@@ -72,13 +78,18 @@ namespace Input{
         || IsGamepadButtonPressed(0, GAMEPAD_BUTTON_LEFT_FACE_RIGHT);
     }
 
-    inline bool confirm() 
+    //face buttons
+    inline bool pressA() 
     {return IsKeyPressed(KEY_SPACE) 
         || IsKeyPressed(KEY_ENTER) 
         || IsGamepadButtonPressed(0, GAMEPAD_BUTTON_RIGHT_FACE_DOWN);
     }
 
-    inline bool back() 
-    {return IsGamepadButtonPressed(0, GAMEPAD_BUTTON_LEFT_FACE_RIGHT);
+    inline bool pressB() 
+    {return IsGamepadButtonPressed(0, GAMEPAD_BUTTON_RIGHT_FACE_RIGHT);
+    }
+    
+    inline bool pressX()
+    {return IsGamepadButtonPressed(0, GAMEPAD_BUTTON_RIGHT_FACE_LEFT);
     }
 }
