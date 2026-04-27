@@ -4,9 +4,8 @@
 #include "display_manager.hpp"
 #include "debug.hpp"
 #include "input_manager.hpp"
-#include "anim_manager.hpp"
 #include "intro.hpp"
-#include "anim_manager.hpp"
+#include "tilemap.hpp"
 
 struct Engine{
     assetManager AM;
@@ -14,5 +13,6 @@ struct Engine{
     Debug dbg;
     Mpoint mousepoint;
     Intro intro;
+    Tilemap TM;
 };
 extern Engine EWE;

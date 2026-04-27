@@ -1,5 +1,5 @@
 #include "intro.hpp"
-#include "engine.hpp"
+//#include "engine.hpp"
 
 void Intro::Init()
 {
@@ -7,7 +7,7 @@ void Intro::Init()
     count = 0;
     engineTitle = "EWEngine v1";
     timer = 0.0f;
-    speed = 100.0f;
+    speed = 150.0f;
     revealedPixels = 0;
     textSize = MeasureText(engineTitle, 80);
     
@@ -20,7 +20,7 @@ void Intro::Update()
     if(revealedPixels > textSize) revealedPixels = textSize;
 
     count++;
-    if(count == 5*60)
+    if(count == 3*60)
     {
         Engineintro = 0;
         count = 0;
@@ -38,7 +38,7 @@ void Intro::Draw()
         int charWidth = MeasureText(single, 80);
 
         if(offsetX >= revealedPixels) break;
-        DrawText(single, textSize/3 + offsetX, textSize/2, 80, WHITE);
+        DrawText(single, textSize/5 + offsetX, textSize/2, 80, WHITE);
         offsetX += charWidth + 5;
     }
 } 

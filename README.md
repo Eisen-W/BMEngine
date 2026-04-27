@@ -14,6 +14,7 @@ if you're not using the current template/file structure
 - [x] Intro
 - [x] Animation Manager (to handle animations)
 - [ ] Basic save system
+- [x] Tilemap Parser
 
 ### DevLog
 - v1: asset manager, display manager, input manager, animation manager, debug view, intro 
