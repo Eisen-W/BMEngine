@@ -7,13 +7,14 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 file(GLOB SOURCES CMAKE_CONFIGURE_DEPENDS
     "*.cpp"
-    # add game directories here
+    # add game directories here like shown below
+    "game/src/main/*.cpp"
     "engine/src/*.cpp")
 
 set(name EWE)
 add_executable(${name} ${SOURCES})
 
-target_include_directories(${name} PRIVATE engine/include/)
+target_include_directories(${name} PRIVATE engine/include/ game/include/)
 target_link_directories(${name} PRIVATE engine/lib/)
 
 #Linux

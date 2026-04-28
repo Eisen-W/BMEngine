@@ -18,3 +18,4 @@ if you're not using the current template/file structure
 
 ### DevLog
 - v1: asset manager, display manager, input manager, animation manager, debug view, intro 
+- v1.1: tilemap parser and default game file structure

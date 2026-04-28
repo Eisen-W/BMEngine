@@ -7,7 +7,7 @@ class Intro{
     void Init();
     void Update();
     void Draw();
-    bool Engineintro;
+    bool Engineintro = 1;
 
     Texture2D intro_texture;
     Animation anim_intro;
@@ -16,9 +16,10 @@ class Intro{
 
 
     private:
-    int count;
-    const char* engineTitle;
-    int textSize;
-    int revealedPixels;
-    float timer, speed;
+    int count = 0;
+    const char* engineTitle = "";
+    int textSize = 0;
+    int revealedPixels = 0;
+    float timer = 0;
+    float speed = 0;
 };

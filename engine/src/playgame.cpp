@@ -2,6 +2,8 @@
 #include "engine.hpp"
 #include<raylib.h>
 
+#include "game.hpp"
+
 
 void Play::playgame()
 {
@@ -10,19 +12,22 @@ void Play::playgame()
     SetTargetFPS(60);
     InitAudioDevice();
 
+    Game game;
+
     EWE.DM.initCanvas();
+    EWE.DM.scaleWindow();
     EWE.intro.Init();
 
-    
+    game.Init();
     //Gctx.game.changeGameState(GameState::TITLE);
 
     while(!WindowShouldClose())
     {
         //UPDATE
-        EWE.DM.scaleWindow();
+        if(IsWindowResized()) EWE.DM.scaleWindow();
 
         if(EWE.intro.Engineintro) EWE.intro.Update();
-        //if(!Gctx.game.Update()) break;
+        else if(!game.gameInit) game.Update();
         if(DEV_MODE) EWE.dbg.Update();
         
             
@@ -32,7 +37,7 @@ void Play::playgame()
         ClearBackground(BLACK);
         DrawRectangle(0,0,EWE.DM.getCanvasWidth(), EWE.DM.getCanvasHeight(), BLACK);
         if(EWE.intro.Engineintro) EWE.intro.Draw();
-        //Gctx.game.Draw();
+        else if(!game.gameInit) game.Draw();
         EndTextureMode();
 
         //DRAWING

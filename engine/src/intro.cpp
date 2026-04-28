@@ -1,4 +1,5 @@
 #include "intro.hpp"
+#include <cstdio>
 //#include "engine.hpp"
 
 void Intro::Init()
@@ -10,6 +11,7 @@ void Intro::Init()
     speed = 150.0f;
     revealedPixels = 0;
     textSize = MeasureText(engineTitle, 80);
+    printf("intro init");
     
 }
 
