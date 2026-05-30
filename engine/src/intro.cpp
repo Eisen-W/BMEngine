@@ -4,7 +4,7 @@
 
 void Intro::Init()
 {
-    Engineintro = 1;
+    Engineintro = 0;
     count = 0;
     engineTitle = "EWEngine v1";
     timer = 0.0f;

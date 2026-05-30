@@ -6,7 +6,7 @@ class Game{
     void Update();
     void Draw();
 
-    bool gameInit = 1;
+    bool gameReady = 1;
 
     private:
 };

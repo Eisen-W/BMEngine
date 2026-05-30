@@ -3,7 +3,7 @@
 
 void Game::Init() {
   //to load all game objects and set custom values to variables
-  gameInit = 0;
+  gameReady = 0;
 }
 
 void Game::Update() {

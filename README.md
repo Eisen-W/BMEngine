@@ -17,5 +17,6 @@ if you're not using the current template/file structure
 - [x] Tilemap Parser
 
 ### DevLog
-- v1: asset manager, display manager, input manager, animation manager, debug view, intro 
-- v1.1: tilemap parser and default game file structure
+- v0.1: asset manager, display manager, input manager, animation manager, debug view, intro 
+- v0.2: tilemap parser and default game file structure
+- v0.3: interactable tiles and messagebox

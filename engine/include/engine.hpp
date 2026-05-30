@@ -4,8 +4,11 @@
 #include "display_manager.hpp"
 #include "debug.hpp"
 #include "input_manager.hpp"
+#include "interactable.hpp"
 #include "intro.hpp"
+#include "messagebox.hpp"
 #include "tilemap.hpp"
+#include "anim_manager.hpp"
 
 struct Engine{
     assetManager AM;
@@ -14,5 +17,8 @@ struct Engine{
     Mpoint mousepoint;
     Intro intro;
     Tilemap TM;
+    Animation Anim;
+    MessageBox MB;
+    Interactable interact;
 };
 extern Engine EWE;

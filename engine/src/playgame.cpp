@@ -8,7 +8,7 @@
 void Play::playgame()
 {
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
-    InitWindow(EWE.DM.getWWidth(), EWE.DM.getWHeight(), "EWEngine-2D");
+    InitWindow(EWE.DM.getWWidth(), EWE.DM.getWHeight(), "ZOM");
     SetTargetFPS(60);
     InitAudioDevice();
 
@@ -27,7 +27,7 @@ void Play::playgame()
         if(IsWindowResized()) EWE.DM.scaleWindow();
 
         if(EWE.intro.Engineintro) EWE.intro.Update();
-        else if(!game.gameInit) game.Update();
+        else if(!game.gameReady) game.Update();
         if(DEV_MODE) EWE.dbg.Update();
         
             
@@ -37,7 +37,7 @@ void Play::playgame()
         ClearBackground(BLACK);
         DrawRectangle(0,0,EWE.DM.getCanvasWidth(), EWE.DM.getCanvasHeight(), BLACK);
         if(EWE.intro.Engineintro) EWE.intro.Draw();
-        else if(!game.gameInit) game.Draw();
+        else if(!game.gameReady) game.Draw();
         EndTextureMode();
 
         //DRAWING
