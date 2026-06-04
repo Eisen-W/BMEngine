@@ -19,7 +19,7 @@ target_link_directories(${name} PRIVATE engine/lib/)
 
 #Linux
 if(UNIX) 
-    target_link_libraries(${name} PRIVATE m pthread dl GL X11 raylib)
+    target_link_libraries(${name} PRIVATE m pthread dl GL raylib X11)
 endif()
 
 #Windows
