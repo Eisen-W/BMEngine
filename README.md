@@ -18,6 +18,12 @@ git subtree pull --prefix=engine/ engine-upstream main --squash
 DO NOT USE "git subtree add" as it copies entire ewengine repo inside the engine directory if the project doesnt already have the engine directory, in that case just copy 
 the engine files
 
+### MadokaScript Integration
+MadokaScript is my custom scripting language now integrated with EWEngine-2D <br>
+For now it creates dialogue triggers without hardcoding it in code, simply create a file with '.mad' extension and load it in the game code corresponding to levels. <br>
+To modify the triggers or dialogues just edit the .mad file without worrying about recompiling the game <br>
+check out [madokascript-EWE documentation]() for more help.
+
 ### Features
 - [x] Asset Manager (to load and cache assets such as texture, font, sound, music)
 - [x] Display Manager (to handle window, canvas, and scaling)
@@ -29,9 +35,9 @@ the engine files
 - [x] Tilemap Parser
 - [x] Message Box
 - [x] Interactable tiles
+- [x] Madokascript Integration (for dialogues and interactables)
 
 ### ChangeLog
 - v0.3: interactable tiles and messagebox
 - v0.2: tilemap parser and default game file structure
-- v0.1: asset manager, display manager, input manager, animation manager, debug view, intro 
-
+- v0.1: asset manager, display manager, input manager, animation manager, debug view, intro
