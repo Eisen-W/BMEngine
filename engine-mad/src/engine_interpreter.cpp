@@ -1,4 +1,6 @@
 #include "engine_interpreter.hpp"
+#include "engine_ast.hpp"
+#include <vector>
 
 void DialogueInterpreter::load(const DialogueNodes& node)
 {
@@ -58,4 +60,14 @@ std::string DialogueInterpreter::build_raw(const DialogueBlock& block) const
         if(i < (int)block.lines.size() - 1) raw += "|";
     }
     return raw;
+}
+
+std::vector<DialogueBlock> DialogueInterpreter::getblocks() const
+{
+    std::vector<DialogueBlock> result;
+    for(auto& pair : blocks)
+    {
+        result.push_back(pair.second);
+    }
+    return result;
 }

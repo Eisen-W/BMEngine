@@ -7,3 +7,6 @@ cd madokascript-EWE
 git remote add base-upstream https://github.com/Eisen-W/madokaScript.git
 git subtree pull --prefix=base/ base-upstream main --squash
 ```
+
+### RELEASES
+first release: June 10, 2026; 16:20
