@@ -11,7 +11,7 @@ class Loader{
     void DLoad(const char* dialogue_filepath); // Load Dialogue File
 
     const std::vector<DialogueBlock>& getDialogueBlocks() const {
-        return dialogue_interp.getblocks();
+        return dialogue_interp.getBlocks();
     }
 
     private:
