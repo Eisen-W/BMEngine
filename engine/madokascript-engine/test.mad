@@ -1,0 +1,5 @@
+SAY("HELLO LOL");
+int x = 35;
+int y = x * 2;
+SAY(x);
+SAY(y);
