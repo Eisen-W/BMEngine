@@ -1,0 +1,19 @@
+DIALOGUES {
+    auto {
+        id = 1;
+        next = 2;
+        once = true;
+        rect = (0,0,320,240);
+        speaker = "Narrator";
+        lines = ["welcome idiot"];
+    }
+
+    interact {
+        id = 2;
+        next = 0;
+        once = false;
+        rect = (100, 200, 32, 48);
+        speaker = "Old man";
+        lines = ["its dangerous, to go alone", "take this"];
+    }
+}
