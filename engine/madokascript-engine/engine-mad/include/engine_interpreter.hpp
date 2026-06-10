@@ -1,8 +1,9 @@
 #pragma once
-
 #include "engine_ast.hpp"
 #include <string>
 #include <unordered_map>
+#include <vector>
+
 class DialogueInterpreter{
     std::unordered_map<int, DialogueBlock> blocks;
     std::unordered_map<int, bool> fired; //tracking 'once' blocks
@@ -21,4 +22,6 @@ class DialogueInterpreter{
     void advance(); //call this when msgbox finishes a block to advance to the next
 
     std::string build_raw(const DialogueBlock& block) const;
+    
+    std::vector<DialogueBlock> getblocks() const;
 };
