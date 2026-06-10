@@ -39,6 +39,5 @@ void Loader::DLoad(const char* dialogue_filepath)
 
     free(src);
 
-    DialogueInterpreter dialogue_interp;
     dialogue_interp.load(dialogues);
 }
