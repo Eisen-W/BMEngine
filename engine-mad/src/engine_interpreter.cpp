@@ -77,6 +77,11 @@ const std::vector<DialogueBlock>& DialogueInterpreter::getBlocks() const
     return blocks;
 }
 
+bool DialogueInterpreter::hasFired(int id) const
+{
+    return fired.count(id) > 0;
+}
+
 DialogueBlock* DialogueInterpreter::findByID(int id)
 {
     for(auto& b : blocks)
