@@ -10,6 +10,7 @@ void EngineUtils::checkInteractDialogue(Rectangle playerRec)
     for(auto& data : EWE.loader.getDialogueBlocks())
     {
         if(data.trigger != DialogueTrigger::INTERACT) continue;
+        if(data.once && EWE.loader.hasFired(data.id)) continue;
         if(CheckCollisionRecs(playerRec, data.rect))
         {
             EWE.loader.startDialogue(data.id);

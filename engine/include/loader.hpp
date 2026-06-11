@@ -18,6 +18,7 @@ class Loader{
     const DialogueData* currentDialogue() const;
     bool dialogueRunning() const;
     std::string buildRaw(const DialogueData& data) const;
+    bool hasFired(int id) const;
 
     private:
     DialogueInterpreter dialogue_interp;

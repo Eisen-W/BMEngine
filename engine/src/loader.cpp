@@ -103,3 +103,8 @@ std::string Loader::buildRaw(const DialogueData& data) const
     }
     return raw;
 }
+
+bool Loader::hasFired(int id) const
+{
+    return dialogue_interp.hasFired(id);
+}
