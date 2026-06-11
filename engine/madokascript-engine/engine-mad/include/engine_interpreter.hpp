@@ -13,6 +13,7 @@ class DialogueInterpreter{
     bool isRunning() const;
     std::string buildRaw(const DialogueBlock& block) const;
     const std::vector<DialogueBlock>& getBlocks() const;
+    bool hasFired(int id) const;
 
     private:
     std::vector<DialogueBlock> blocks;
