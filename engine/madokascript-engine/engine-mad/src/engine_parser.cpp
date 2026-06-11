@@ -90,6 +90,7 @@ DialogueBlock EngineParser::parse_dialogue_block(bool is_interact)
     expect_engine(EngineTokenType::LBRACE,"expected '{'");
 
     DialogueBlock block;
+    block.trigger = is_interact ? DialogueTrigger::INTERACT : DialogueTrigger::AUTO;
 
     while(!check_engine(EngineTokenType::RBRACE) && !check_core(TokenType::EOF_))
     {
