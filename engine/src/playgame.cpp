@@ -1,4 +1,6 @@
 #include "playgame.hpp"
+#include "constants.hpp"
+#include "dialogue.hpp"
 #include "engine.hpp"
 #include<raylib.h>
 
@@ -23,11 +25,29 @@ void Play::playgame()
 
     while(!WindowShouldClose())
     {
+        float dt = GetFrameTime();
         //UPDATE
         if(IsWindowResized()) EWE.DM.scaleWindow();
 
         if(EWE.intro.Engineintro) EWE.intro.Update();
-        else if(!game.gameReady) game.Update();
+        else if(!game.gameReady && gamestate == GameState::PLAY) game.Update();
+        else if(gamestate == GameState::MESSAGE)
+        {
+            EWE.MB.Update(dt);
+            if(!EWE.MB.isActive())
+            {
+                EWE.loader.advanceDialogue();
+                const DialogueData* next = EWE.loader.currentDialogue();
+                if(next)
+                {
+                    EWE.MB.Start(EWE.loader.buildRaw(*next));
+                }
+                else
+                {
+                    gamestate = GameState::PLAY;
+                }
+            }
+        }
         if(DEV_MODE) EWE.dbg.Update();
         
             
@@ -38,6 +58,7 @@ void Play::playgame()
         DrawRectangle(0,0,EWE.DM.getCanvasWidth(), EWE.DM.getCanvasHeight(), BLACK);
         if(EWE.intro.Engineintro) EWE.intro.Draw();
         else if(!game.gameReady) game.Draw();
+        else if(gamestate == GameState::MESSAGE) EWE.MB.Draw();
         EndTextureMode();
 
         //DRAWING

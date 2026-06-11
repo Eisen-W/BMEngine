@@ -10,6 +10,7 @@
 #include "tilemap.hpp"
 #include "anim_manager.hpp"
 #include "loader.hpp"
+#include "engine_utils.hpp"
 
 struct Engine{
     assetManager AM;
@@ -22,5 +23,6 @@ struct Engine{
     MessageBox MB;
     Interactable interact;
     Loader loader;
+    EngineUtils EUtils;
 };
 extern Engine EWE;
