@@ -58,8 +58,11 @@ void Play::playgame()
         ClearBackground(BLACK);
         DrawRectangle(0,0,EWE.DM.getCanvasWidth(), EWE.DM.getCanvasHeight(), BLACK);
         if(EWE.intro.Engineintro) EWE.intro.Draw();
-        else if(!game.gameReady) game.Draw();
-        else if(gamestate == GameState::MESSAGE) EWE.MB.Draw();
+        else if(!game.gameReady) 
+        {
+            game.Draw();
+            if(gamestate == GameState::MESSAGE) EWE.MB.Draw();
+        }
         EndTextureMode();
 
         //DRAWING
