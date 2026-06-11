@@ -8,7 +8,10 @@ enum class EngineNodeType{
     DIALOGUE_INTERACT
 };
 
+enum struct DialogueTrigger { AUTO, INTERACT };
+
 struct DialogueBlock{
+    DialogueTrigger trigger = DialogueTrigger::AUTO;
     int id = 0;
     int next = 0;
     bool once = false;
