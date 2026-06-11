@@ -9,7 +9,7 @@ void EngineUtils::checkInteractDialogue(Rectangle playerRec)
 {
     for(auto& data : EWE.loader.getDialogueBlocks())
     {
-        if(data.trigger != DialogueTrigger::AUTO) continue;
+        if(data.trigger != DialogueTrigger::INTERACT) continue;
         if(CheckCollisionRecs(playerRec, data.rect))
         {
             EWE.loader.startDialogue(data.id);
@@ -28,7 +28,7 @@ void EngineUtils::checkAutoDialogue(Rectangle playerRec)
 {
     for(auto& data : EWE.loader.getDialogueBlocks())
     {
-        if(data.trigger != DialogueTrigger::INTERACT) continue;
+        if(data.trigger != DialogueTrigger::AUTO) continue;
         if(CheckCollisionRecs(playerRec, data.rect))
         {
             EWE.loader.startDialogue(data.id);

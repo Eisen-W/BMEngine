@@ -41,6 +41,7 @@ void Play::playgame()
                 if(next)
                 {
                     EWE.MB.Start(EWE.loader.buildRaw(*next));
+                    gamestate = GameState::MESSAGE;
                 }
                 else
                 {
