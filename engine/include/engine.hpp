@@ -9,6 +9,7 @@
 #include "messagebox.hpp"
 #include "tilemap.hpp"
 #include "anim_manager.hpp"
+#include "loader.hpp"
 
 struct Engine{
     assetManager AM;
@@ -20,5 +21,6 @@ struct Engine{
     Animation Anim;
     MessageBox MB;
     Interactable interact;
+    Loader loader;
 };
 extern Engine EWE;
