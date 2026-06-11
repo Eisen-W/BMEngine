@@ -1,10 +1,11 @@
 #include "engine_utils.hpp"
+#include "constants.hpp"
 #include "dialogue.hpp"
 #include "engine.hpp"
 #include "engine_ast.hpp"
 #include "raylib.h"
 
-void EngineUtils::checkDialogueTriggers(Rectangle playerRec)
+void EngineUtils::checkInteractDialogue(Rectangle playerRec)
 {
     for(auto& data : EWE.loader.getDialogueBlocks())
     {
@@ -16,6 +17,7 @@ void EngineUtils::checkDialogueTriggers(Rectangle playerRec)
             if(current)
             {
                 EWE.MB.Start(EWE.loader.buildRaw(*current));
+                gamestate = GameState::MESSAGE;
             }
             return;
         }
@@ -34,6 +36,8 @@ void EngineUtils::checkAutoDialogue(Rectangle playerRec)
             if(current)
             {
                 EWE.MB.Start(EWE.loader.buildRaw(*current));
+                gamestate = GameState::MESSAGE;
+                
             }
             return;
         }

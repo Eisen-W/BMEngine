@@ -3,6 +3,6 @@
 
 class EngineUtils {
     public:
-    void checkDialogueTriggers(Rectangle playerRec);    //call on input
+    void checkInteractDialogue(Rectangle playerRec);    //call on input
     void checkAutoDialogue(Rectangle playerRec);        //call every frame
 };
