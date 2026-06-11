@@ -1,8 +1,4 @@
 #include "engine_ast.hpp"
-#include "lexer.hpp"
-#include "parser.hpp"
-#include "interpreter.hpp"
-
 #include "engine_lexer.hpp"
 #include "engine_parser.hpp"
 
@@ -56,7 +52,7 @@ int main(int argc, char** argv)
 
     for(auto& block : dialogues.blocks)
     {
-        printf("id=%d, net=%d, speaker=%s, lines=%zu\n", block.id, block.next, block.speaker.c_str(), block.lines.size());
+        printf("id=%d, next=%d, speaker=%s, lines=%zu\n", block.id, block.next, block.speaker.c_str(), block.lines.size());
     }
 
     free(src);

@@ -1,53 +1,34 @@
 #include "engine_interpreter.hpp"
 #include "engine_ast.hpp"
-#include <vector>
+#include <string>
 
 void DialogueInterpreter::load(const DialogueNodes& node)
 {
+    blocks.clear();
+    fired.clear();
+    currentid = 0;
+    running = false;
+
     for(auto& block : node.blocks)
     {
-        blocks[block.id] = block;
+        blocks.push_back(block);
     }
 }
 
-void DialogueInterpreter::trigger(int id)
+void DialogueInterpreter::startDialogue(int id)
 {
-    for(auto& block : blocks)
-    {
-        if(block.id == id)
-        {
-            if(block.once && fired.count(id)) return;
-            currentid = id;
-            running = true;
-            return;
-        }
-    }
-}
-    
-const DialogueBlock* DialogueInterpreter::current() const 
-{
-    if(!running) return nullptr;
-    for(auto& block : blocks)
-    {
-        if(block.id == currentid) return &block;
-    }
-    return nullptr;
+    DialogueBlock* block = findByID(id);
+    if(!block) return;
+    if(block->once && fired.count(id)) return;
+    currentid = id;
+    running = true;
 }
 
 void DialogueInterpreter::advance()
 {
     if(!running) return;
-    
-    auto find_block = [&](int id) -> DialogueBlock* 
-    {
-        for(auto& b : blocks)
-        {
-            if(b.id == id) return &b;
-        }
-        return nullptr;
-    };
 
-    DialogueBlock* block = find_block(currentid);
+    DialogueBlock* block = findByID(currentid);
     if(!block) { running = false; return; }
 
     if(block->once) fired[currentid] = true;
@@ -58,23 +39,58 @@ void DialogueInterpreter::advance()
         currentid = 0;
         return;
     }
+
     currentid = block->next;
 
-    DialogueBlock* next_block = find_block(currentid);
-    if(!next_block || (next_block->once && fired.count(currentid)))
+    DialogueBlock* next = findByID(currentid);
+    if(!next || (next->once && fired.count(currentid)))
     {
         running = false;
         currentid = 0;
     }
 }
 
-std::string DialogueInterpreter::build_raw(const DialogueBlock& block) const
+const DialogueBlock* DialogueInterpreter::current() const
+{
+    if(!running) return nullptr;
+    return findByID(currentid);
+}
+
+bool DialogueInterpreter::isRunning() const
+{
+    return running;
+}
+
+std::string DialogueInterpreter::buildRaw(const DialogueBlock& block) const
 {
     std::string raw;
     for(int i = 0; i < (int)block.lines.size(); i++)
     {
         raw += block.lines[i];
-        if(i < (int)block.lines.size() - 1) raw += "|";
+        if(i < (int)block.lines.size() - 1) raw += '|';
     }
     return raw;
+}
+
+const std::vector<DialogueBlock>& DialogueInterpreter::getBlocks() const
+{
+    return blocks;
+}
+
+DialogueBlock* DialogueInterpreter::findByID(int id)
+{
+    for(auto& b : blocks)
+    {
+        if(b.id == id) return &b;
+    }
+    return nullptr;
+}
+
+const DialogueBlock* DialogueInterpreter::findByID(int id) const
+{
+    for(auto& b : blocks)
+    {
+        if(b.id == id) return &b;
+    }
+    return nullptr;
 }
