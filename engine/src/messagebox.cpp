@@ -12,12 +12,14 @@
     @see Draw
 */
 
-void MessageBox::Start(const std::string& raw)
+void MessageBox::Start(const std::string& raw, const std::string& speakerName)
 {
     defaultFont = EWE.AM.getFont("../assets/pc-9800.ttf");
+    speaker = "";
     pages.clear();
     currentPage = 0;
 
+    speaker = speakerName;
     std::stringstream ss(raw);
     std::string page;
     while(std::getline(ss, page, '|'))
@@ -144,15 +146,22 @@ void MessageBox::Draw()
     DrawRectangleRec(MSG_BOX, BLACK);
     DrawRectangleLinesEx(MSG_BOX, 2,WHITE);
 
+    //speaker
+    DrawTextEx(defaultFont, speaker.c_str(), {MSG_BOX.x + MSG_PADDING, MSG_BOX.y + MSG_PADDING},
+                MSG_FONTSIZE, MSG_SPACING, WHITE);
+
+    //message
     for(int i = 0; i < (int)lines.size(); i++)
     {
-        DrawTextEx(defaultFont, lines[i].c_str(), {MSG_BOX.x + 5,MSG_BOX.y + MSG_PADDING + i * (MSG_FONTSIZE + 4)},
+        DrawTextEx(defaultFont, lines[i].c_str(), 
+            {MSG_BOX.x + MSG_PADDING,MSG_BOX.y + MSG_PADDING + (MSG_FONTSIZE + 4) + i * (MSG_FONTSIZE + 4)},
                     MSG_FONTSIZE, MSG_SPACING, WHITE);
     }
     
     if(msgState == messageState::TYPING && !currentLine.empty())
     {
-        DrawTextEx(defaultFont,currentLine.c_str(), {MSG_BOX.x + 5, MSG_BOX.y + MSG_PADDING + (int)lines.size() * (MSG_FONTSIZE + 4)},
+        DrawTextEx(defaultFont,currentLine.c_str(), 
+        {MSG_BOX.x + MSG_PADDING, MSG_BOX.y + MSG_PADDING + (MSG_FONTSIZE + 4) + (int)lines.size() * (MSG_FONTSIZE + 4)},
                     MSG_FONTSIZE, MSG_SPACING, WHITE);
     }
 

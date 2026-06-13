@@ -12,7 +12,7 @@ enum class messageState { TYPING, FULL, WAITING, DONE };
 class MessageBox
 {
     public:
-    void Start(const std::string& raw);
+    void Start(const std::string& raw, const std::string& speakerName);
     void Update(float dt);
     void Draw();
     bool isActive() const { return active; }
@@ -28,6 +28,7 @@ class MessageBox
     std::vector<std::string> words;
     std::vector<std::string> lines;
 
+    std::string speaker;
     std::string currentLine;
     std::string displayed;
     int currentPage = 0;

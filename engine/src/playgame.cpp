@@ -40,7 +40,7 @@ void Play::playgame()
                 const DialogueData* next = EWE.loader.currentDialogue();
                 if(next)
                 {
-                    EWE.MB.Start(EWE.loader.buildRaw(*next));
+                    EWE.MB.Start(EWE.loader.buildRaw(*next), next->speaker);
                     gamestate = GameState::MESSAGE;
                 }
                 else

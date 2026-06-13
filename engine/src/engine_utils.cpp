@@ -17,7 +17,7 @@ void EngineUtils::checkInteractDialogue(Rectangle playerRec)
             const DialogueData* current = EWE.loader.currentDialogue();
             if(current)
             {
-                EWE.MB.Start(EWE.loader.buildRaw(*current));
+                EWE.MB.Start(EWE.loader.buildRaw(*current), current->speaker);
                 gamestate = GameState::MESSAGE;
             }
             return;
@@ -36,7 +36,7 @@ void EngineUtils::checkAutoDialogue(Rectangle playerRec)
             const DialogueData* current = EWE.loader.currentDialogue();
             if(current)
             {
-                EWE.MB.Start(EWE.loader.buildRaw(*current));
+                EWE.MB.Start(EWE.loader.buildRaw(*current), current->speaker);
                 gamestate = GameState::MESSAGE;
                 
             }
