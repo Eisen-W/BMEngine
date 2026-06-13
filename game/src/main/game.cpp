@@ -4,15 +4,20 @@
 
 void Game::Init() {
   //to load all game objects and set custom values to variables
-  gameReady = 0;
+
   EWE.loader.DLoad("../assets/msg.mad");
+
+
+
+  gameReady = 0; //keep at the end of the function
 }
 
 void Game::Update() {
   //all update code and functions go here
   float dt = GetFrameTime();
 
-  EWE.EUtils.checkAutoDialogue({0,0,640,480});
+  //Replace the rec values below with player rec 
+  //EWE.EUtils.checkAutoDialogue({0,0,640,480});
 }
 
 void Game::Draw() {
