@@ -1,4 +1,5 @@
 #pragma once
+#include "parser.hpp"
 #include <string>
 #include <vector>
 
@@ -22,4 +23,28 @@ struct DialogueBlock{
 
 struct DialogueNodes {
     std::vector<DialogueBlock> blocks;
+};
+
+
+//parse time only
+struct RawDialogueBlock {
+    int id = 0;
+    int next = 0;
+    bool once = false;
+    DialogueTrigger trigger = DialogueTrigger::AUTO;
+    ASTNode* rectX = nullptr;
+    ASTNode* rectY = nullptr;
+    ASTNode* rectW = nullptr;
+    ASTNode* rectH = nullptr;
+    std::string speaker;
+    std::vector<std::string> lines;
+};
+
+struct RawDialogueNodes {
+    std::vector<RawDialogueBlock> blocks;
+};
+
+struct ParseResult{
+    std::vector<ASTNode*> core_statements;
+    RawDialogueNodes dialogues;
 };

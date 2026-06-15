@@ -2,9 +2,32 @@
 #include "engine_ast.hpp"
 #include "engine_lexer.hpp"
 #include "lexer.hpp"
+#include "parser.hpp"
 #include <cstdio>
 #include <string>
 #include <vector>
+
+std::vector<Token> EngineParser::build_core_tokens(const std::vector<EngineToken>& toks)
+{
+    std::vector<Token> result;
+    for(auto& et : toks)
+    {
+        if(et.source == EngineToken::Source::CORE)
+        {
+            result.push_back({et.core_type, et.value});
+        }
+        else {
+            result.push_back({TokenType::EOF_, ""});
+        }
+    }
+    return result;
+
+}
+
+EngineParser::EngineParser(std::vector<EngineToken> toks) : tokens(std::move(toks)), pos(0), 
+                                                            core_tokens(build_core_tokens(tokens)),
+                                                            core_parser(core_tokens, pos)
+{}
 
 bool EngineParser::check_core(TokenType t)
 {
@@ -39,15 +62,23 @@ void EngineParser::expect_engine(EngineTokenType et, const char* err)
 }
 
 //PUBLIC
-DialogueNodes EngineParser::parse()
+ParseResult EngineParser::parse()
 {
-    DialogueNodes result;
+    ParseResult result;
 
     while(!check_core(TokenType::EOF_))
     {
         if(check_engine(EngineTokenType::DIALOGUES))
         {
-            result = parse_dialogues();
+            result.dialogues = parse_dialogues();
+        }
+        else if(check_core(TokenType::INT) ||
+                check_core(TokenType::FLOAT) ||
+                check_core(TokenType::STRING) ||
+                check_core(TokenType::BOOL))
+        {
+            ASTNode* node = core_parser.parse_statement();
+            result.core_statements.push_back(node);
         }
         else {
             printf("unexpected token: %s\n", tokens[pos].value.c_str());
@@ -59,12 +90,12 @@ DialogueNodes EngineParser::parse()
 
 //PRIVATE
 
-DialogueNodes EngineParser::parse_dialogues()
+RawDialogueNodes EngineParser::parse_dialogues()
 {
     advance(); //consume dialogue
     expect_engine(EngineTokenType::LBRACE, "expected '{' after DIALOGUES");
 
-    DialogueNodes node;
+    RawDialogueNodes node;
 
     while(!check_engine(EngineTokenType::RBRACE) && !check_core(TokenType::EOF_))
     {
@@ -84,12 +115,12 @@ DialogueNodes EngineParser::parse_dialogues()
     return node;
 }
 
-DialogueBlock EngineParser::parse_dialogue_block(bool is_interact)
+RawDialogueBlock EngineParser::parse_dialogue_block(bool is_interact)
 {
     advance(); //consume auto or interact
     expect_engine(EngineTokenType::LBRACE,"expected '{'");
 
-    DialogueBlock block;
+    RawDialogueBlock block;
     block.trigger = is_interact ? DialogueTrigger::INTERACT : DialogueTrigger::AUTO;
 
     while(!check_engine(EngineTokenType::RBRACE) && !check_core(TokenType::EOF_))
@@ -175,16 +206,16 @@ std::string EngineParser::parse_string()
     return advance().value;
 }
 
-void EngineParser::parse_rect(DialogueBlock& block)
+void EngineParser::parse_rect(RawDialogueBlock& block)
 {
     expect_core(TokenType::LPAREN, "expected '(' for rect\n");
-    block.rectX = parse_number();
+    block.rectX = core_parser.parse_expr();
     expect_core(TokenType::COMMA, "expected ','\n");
-    block.rectY = parse_number();
+    block.rectY = core_parser.parse_expr();
     expect_core(TokenType::COMMA, "expected ','\n");
-    block.rectW = parse_number();
+    block.rectW = core_parser.parse_expr();
     expect_core(TokenType::COMMA, "expected ','\n");
-    block.rectH = parse_number();
+    block.rectH = core_parser.parse_expr();
     expect_core(TokenType::RPAREN, "expected ')' for rect\n");
 }
 
@@ -211,4 +242,9 @@ std::vector<std::string> EngineParser::parse_lines()
 
     expect_engine(EngineTokenType::RBRACKET, "expected ']'\n");
     return lines;
+}
+
+ASTNode* EngineParser::parse_rect_expr()
+{
+    return core_parser.parse_expr();
 }

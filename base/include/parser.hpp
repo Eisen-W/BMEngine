@@ -28,8 +28,8 @@ struct ASTNode {
 };
 
 class Parser {
-    std::vector<Token> tokens;
-    size_t pos;
+    std::vector<Token>& tokens;
+    size_t& pos;
 
     Token peek() { return tokens[pos]; }
     Token advance() { return tokens[pos++]; }
@@ -47,14 +47,15 @@ class Parser {
     }
 
     public:
-    Parser(std::vector<Token> tok) : tokens(std::move(tok)), pos(0) {}
+    Parser(std::vector<Token>& tok, size_t& p) : tokens(tok), pos(p) {}
 
     std::vector<ASTNode*> parse();
 
-    private:
     ASTNode* parse_statement();
-    ASTNode* parse_declaration();
     ASTNode* parse_expr();
+
+    private:
+    ASTNode* parse_declaration();
     ASTNode* parse_additive();
     ASTNode* parse_multiplicative();
     ASTNode* parse_primary();

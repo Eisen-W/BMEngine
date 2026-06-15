@@ -45,12 +45,12 @@ int main(int argc, char** argv)
     
     
     EngineParser parser(tokens);
-    DialogueNodes dialogues = parser.parse();
+    ParseResult result = parser.parse();
 
     //Interpreter interp;
     //interp.run(ast);
 
-    for(auto& block : dialogues.blocks)
+    for(auto& block : result.dialogues.blocks)
     {
         printf("id=%d, next=%d, speaker=%s, lines=%zu\n", block.id, block.next, block.speaker.c_str(), block.lines.size());
     }

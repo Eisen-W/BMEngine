@@ -1,16 +1,16 @@
+int tile = 16;
+
 DIALOGUES {
     auto {
         id = 1;
-        next = 2;
         once = true;
-        rect = (0,0,320,240);
+        rect = (0 * tile, 0 * tile, 20 * tile, 15 * tile);
         speaker = "Narrator";
         lines = ["welcome idiot"];
     }
 
     interact {
         id = 2;
-        next = 0;
         once = false;
         rect = (100, 200, 32, 48);
         speaker = "Old man";
