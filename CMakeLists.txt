@@ -10,7 +10,8 @@ file(GLOB SOURCES CMAKE_CONFIGURE_DEPENDS
     # add game directories here like shown below
     "game/src/main/*.cpp"
     "engine/src/*.cpp"
-    "engine/madokascript-engine/engine-mad/src/*.cpp")
+    "engine/madokascript-engine/engine-mad/src/*.cpp"
+    "engine/madokascript-engine/base/src/*.cpp")
 
 set(name EWE)
 add_executable(${name} ${SOURCES})

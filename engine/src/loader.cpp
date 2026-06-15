@@ -36,7 +36,7 @@ void Loader::DLoad(const char* dialogue_filepath)
     auto tokens = lexer.tokenize();
 
     EngineParser parser(tokens);
-    DialogueNodes dialogues = parser.parse();
+    ParseResult dialogues = parser.parse();
 
     free(src);
 
