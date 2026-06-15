@@ -1,18 +1,45 @@
 #include "engine_interpreter.hpp"
 #include "engine_ast.hpp"
+#include "interpreter.hpp"
 #include <string>
 
-void DialogueInterpreter::load(const DialogueNodes& node)
+void DialogueInterpreter::load(const ParseResult& result)
 {
     blocks.clear();
     fired.clear();
     currentid = 0;
     running = false;
 
-    for(auto& block : node.blocks)
+    // run core statements first
+    for(auto* node : result.core_statements)
     {
+        core_interp.exec_node(node);
+    }
+
+    // evaluate raw blocks into final DialogueBlock
+    for(auto& raw : result.dialogues.blocks)
+    {
+        DialogueBlock block;
+        block.id = raw.id;
+        block.next = raw.next;
+        block.once = raw.once;
+        block.trigger = raw.trigger;
+        block.speaker = raw.speaker;
+        block.lines = raw.lines;
+
+        block.rectX = (float)core_interp.eval_node(raw.rectX).num;
+        block.rectY = (float)core_interp.eval_node(raw.rectY).num;
+        block.rectW = (float)core_interp.eval_node(raw.rectW).num;
+        block.rectH = (float)core_interp.eval_node(raw.rectH).num;
+        
         blocks.push_back(block);
     }
+}
+
+float DialogueInterpreter::eval_expr(ASTNode* node)
+{
+    Value v = core_interp.eval_node(node);
+    return (float)v.num;
 }
 
 void DialogueInterpreter::startDialogue(int id)

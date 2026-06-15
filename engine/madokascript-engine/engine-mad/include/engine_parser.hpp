@@ -3,13 +3,17 @@
 #include "engine_ast.hpp"
 #include "engine_lexer.hpp"
 #include "lexer.hpp"
+#include "lexer.hpp"
+#include "parser.hpp"
 #include <cstddef>
 #include <string>
 #include <vector>
 
 class EngineParser {
     std::vector<EngineToken> tokens;
+    std::vector<Token> core_tokens;
     size_t pos;
+    Parser core_parser;
 
     EngineToken peek() { return tokens[pos]; }
     EngineToken advance() { return tokens[pos++]; }
@@ -20,20 +24,22 @@ class EngineParser {
     void expect_core(TokenType t, const char* err);
     void expect_engine(EngineTokenType t, const char* err);
 
-    public:
-    EngineParser(std::vector<EngineToken> toks) : tokens(std::move(toks)), pos(0) {}
+    static std::vector<Token> build_core_tokens(const std::vector<EngineToken>& toks);
 
-    DialogueNodes parse();
+    public:
+    EngineParser(std::vector<EngineToken> toks);
+    ParseResult parse();
 
     private:
-    DialogueNodes parse_dialogues();
-    DialogueBlock parse_dialogue_block(bool is_interact);
+    RawDialogueNodes parse_dialogues();
+    RawDialogueBlock parse_dialogue_block(bool is_interact);
+    ASTNode* parse_rect_expr();
 
     int parse_int();
     bool parse_bool();
     std::string parse_string();
 
-    void parse_rect(DialogueBlock& block);
+    void parse_rect(RawDialogueBlock& block);
 
     float parse_number();
 
