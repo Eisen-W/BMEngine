@@ -24,6 +24,11 @@ For now it creates dialogue triggers without hardcoding it in code, simply creat
 To modify the triggers or dialogues just edit the .mad file without worrying about recompiling the game <br>
 check out [madokascript-EWE documentation]() for more help.
 
+### Pull madokascript updates from subtree
+```shell
+git subtree pull --prefix=engine/madokascript-engine/ mad-upstream main --squash 
+```
+
 ### Features
 - [x] Asset Manager (to load and cache assets such as texture, font, sound, music)
 - [x] Display Manager (to handle window, canvas, and scaling)
