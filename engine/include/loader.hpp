@@ -13,12 +13,12 @@ class Loader{
     public:
     void DLoad(const char* dialogue_filepath);
     const std::vector<DialogueData>& getDialogueBlocks() const;
-    void startDialogue(int id);
+    void startDialogue(int id, int rectIndex = -1);
     void advanceDialogue();
     const DialogueData* currentDialogue() const;
     bool dialogueRunning() const;
     std::string buildRaw(const DialogueData& data) const;
-    bool hasFired(int id) const;
+    bool hasFiredRect(int id, int rectIndex) const;
 
     private:
     DialogueInterpreter dialogue_interp;

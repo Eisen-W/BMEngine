@@ -10,7 +10,7 @@ struct DialogueData{
     int next;
     bool once;
     DialogueTrigger trigger;
-    Rectangle rect;
+    std::vector<Rectangle> rects;
     std::string speaker;
     std::vector<std::string> lines;
 };

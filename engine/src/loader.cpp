@@ -50,12 +50,18 @@ void Loader::DLoad(const char* dialogue_filepath)
         data.id = block.id;
         data.next = block.next;
         data.once = block.once;
+        /*
         data.trigger =  (block.trigger == DialogueTrigger::INTERACT)
                         ? DialogueTrigger::INTERACT 
                         : DialogueTrigger::AUTO;
-        data.rect = {block.rectX, block.rectY, block.rectW, block.rectH};
+        */
+        data.trigger = block.trigger;
         data.speaker = block.speaker;
         data.lines = block.lines;
+        for(auto& r : block.rects)
+        {
+            data.rects.push_back({r.x, r.y, r.w, r.h});
+        }
         d_data.push_back(data);
 
     }
@@ -66,9 +72,9 @@ const std::vector<DialogueData>& Loader::getDialogueBlocks() const
     return d_data;
 }
 
-void Loader::startDialogue(int id)
+void Loader::startDialogue(int id, int rectIndex)
 {
-    dialogue_interp.startDialogue(id);
+    dialogue_interp.startDialogue(id, rectIndex);
 }
 
 void Loader::advanceDialogue()
@@ -104,7 +110,7 @@ std::string Loader::buildRaw(const DialogueData& data) const
     return raw;
 }
 
-bool Loader::hasFired(int id) const
+bool Loader::hasFiredRect(int id, int rectIndex) const
 {
-    return dialogue_interp.hasFired(id);
+    return dialogue_interp.hasFiredRect(id, rectIndex);
 }
