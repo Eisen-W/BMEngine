@@ -150,7 +150,7 @@ RawDialogueBlock EngineParser::parse_dialogue_block(bool is_interact)
         {
             advance();
             expect_core(TokenType::EQUALS, "expected '='");
-            parse_rect(block);
+            parse_rect_fields(block);
             expect_core(TokenType::SEMICOLON, "expected ';'");
         }
         else if(check_engine(EngineTokenType::SPEAKER))
@@ -206,17 +206,36 @@ std::string EngineParser::parse_string()
     return advance().value;
 }
 
-void EngineParser::parse_rect(RawDialogueBlock& block)
+void EngineParser::parse_rect_fields(RawDialogueBlock& block)
+{
+    if(check_engine(EngineTokenType::LBRACKET))
+    {
+        advance();  //consume '['
+        while(!check_engine(EngineTokenType::RBRACKET) && !check_core(TokenType::EOF_))
+        {
+            block.rects.push_back(parse_single_rect());
+            if(check_core(TokenType::COMMA)) advance();
+        }
+        expect_engine(EngineTokenType::RBRACKET, "expected ']'");
+    }
+    else {
+        block.rects.push_back(parse_single_rect());
+    }
+}
+
+RawRect EngineParser::parse_single_rect()
 {
     expect_core(TokenType::LPAREN, "expected '(' for rect\n");
-    block.rectX = core_parser.parse_expr();
+    RawRect r;
+    r.x = core_parser.parse_expr();
     expect_core(TokenType::COMMA, "expected ','\n");
-    block.rectY = core_parser.parse_expr();
+    r.y = core_parser.parse_expr();
     expect_core(TokenType::COMMA, "expected ','\n");
-    block.rectW = core_parser.parse_expr();
+    r.w = core_parser.parse_expr();
     expect_core(TokenType::COMMA, "expected ','\n");
-    block.rectH = core_parser.parse_expr();
+    r.h = core_parser.parse_expr();
     expect_core(TokenType::RPAREN, "expected ')' for rect\n");
+    return r;
 }
 
 float EngineParser::parse_number()

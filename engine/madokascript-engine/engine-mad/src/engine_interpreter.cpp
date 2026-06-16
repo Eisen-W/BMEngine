@@ -2,11 +2,12 @@
 #include "engine_ast.hpp"
 #include "interpreter.hpp"
 #include <string>
+#include <vector>
 
 void DialogueInterpreter::load(const ParseResult& result)
 {
     blocks.clear();
-    fired.clear();
+    firedRects.clear();
     currentid = 0;
     running = false;
 
@@ -27,12 +28,19 @@ void DialogueInterpreter::load(const ParseResult& result)
         block.speaker = raw.speaker;
         block.lines = raw.lines;
 
-        block.rectX = (float)core_interp.eval_node(raw.rectX).num;
-        block.rectY = (float)core_interp.eval_node(raw.rectY).num;
-        block.rectW = (float)core_interp.eval_node(raw.rectW).num;
-        block.rectH = (float)core_interp.eval_node(raw.rectH).num;
-        
+        for(auto& r : raw.rects)
+        {
+            MRect rect;
+            rect.x = (float)core_interp.eval_node(r.x).num;
+            rect.y = (float)core_interp.eval_node(r.y).num;
+            rect.w = (float)core_interp.eval_node(r.w).num;
+            rect.h = (float)core_interp.eval_node(r.h).num;
+            
+            blocks.push_back(block);
+        }
+        firedRects[block.id] = std::vector<bool>(block.rects.size(), false);
         blocks.push_back(block);
+        
     }
 }
 
@@ -42,11 +50,16 @@ float DialogueInterpreter::eval_expr(ASTNode* node)
     return (float)v.num;
 }
 
-void DialogueInterpreter::startDialogue(int id)
+void DialogueInterpreter::startDialogue(int id, int rectIndex)
 {
     DialogueBlock* block = findByID(id);
     if(!block) return;
-    if(block->once && fired.count(id)) return;
+
+    if(rectIndex >= 0 && block->once)
+    {
+        if(firedRects[id][rectIndex]) return;
+        firedRects[id][rectIndex] = true;
+    }
     currentid = id;
     running = true;
 }
@@ -58,8 +71,6 @@ void DialogueInterpreter::advance()
     DialogueBlock* block = findByID(currentid);
     if(!block) { running = false; return; }
 
-    if(block->once) fired[currentid] = true;
-
     if(block->next == 0)
     {
         running = false;
@@ -69,8 +80,7 @@ void DialogueInterpreter::advance()
 
     currentid = block->next;
 
-    DialogueBlock* next = findByID(currentid);
-    if(!next || (next->once && fired.count(currentid)))
+    if(!findByID(currentid))
     {
         running = false;
         currentid = 0;
@@ -104,9 +114,12 @@ const std::vector<DialogueBlock>& DialogueInterpreter::getBlocks() const
     return blocks;
 }
 
-bool DialogueInterpreter::hasFired(int id) const
+bool DialogueInterpreter::hasFiredRect(int id, int rectIndex) const
 {
-    return fired.count(id) > 0;
+    auto it = firedRects.find(id);
+    if(it == firedRects.end()) return false;
+    if(rectIndex < 0 || rectIndex >= (int)it->second.size()) return false;
+    return it->second[rectIndex];
 }
 
 DialogueBlock* DialogueInterpreter::findByID(int id)

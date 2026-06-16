@@ -39,7 +39,8 @@ class EngineParser {
     bool parse_bool();
     std::string parse_string();
 
-    void parse_rect(RawDialogueBlock& block);
+    void parse_rect_fields(RawDialogueBlock& block);
+    RawRect parse_single_rect();
 
     float parse_number();
 
