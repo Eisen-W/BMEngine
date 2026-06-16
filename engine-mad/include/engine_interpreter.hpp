@@ -9,17 +9,17 @@
 class DialogueInterpreter{
     public:
     void load(const ParseResult& result);
-    void startDialogue(int id);
+    void startDialogue(int id, int rectIndex = -1);
     void advance();
     const DialogueBlock* current() const;
     bool isRunning() const;
     std::string buildRaw(const DialogueBlock& block) const;
     const std::vector<DialogueBlock>& getBlocks() const;
-    bool hasFired(int id) const;
+    bool hasFiredRect(int id, int rectIndex) const;
 
     private:
     std::vector<DialogueBlock> blocks;
-    std::unordered_map<int, bool> fired;
+    std::unordered_map<int, std::vector<bool>> firedRects;
     int currentid = 0;
     bool running = false;
     Interpreter core_interp;

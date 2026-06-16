@@ -4,7 +4,7 @@ DIALOGUES {
     auto {
         id = 1;
         once = true;
-        rect = (0 * tile, 0 * tile, 20 * tile, 15 * tile);
+        rect = [(0 * tile, 0 * tile, 20 * tile, 15 * tile), (16,16,16,16)];
         speaker = "Narrator";
         lines = ["welcome idiot"];
     }

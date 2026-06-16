@@ -11,20 +11,8 @@ enum class EngineNodeType{
 
 enum struct DialogueTrigger { AUTO, INTERACT };
 
-struct DialogueBlock{
-    DialogueTrigger trigger = DialogueTrigger::AUTO;
-    int id = 0;
-    int next = 0;
-    bool once = false;
-    float rectX = 0, rectY = 0, rectW = 0, rectH = 0;
-    std::string speaker;
-    std::vector<std::string> lines;
-};
-
-struct DialogueNodes {
-    std::vector<DialogueBlock> blocks;
-};
-
+struct RawRect { ASTNode* x; ASTNode* y; ASTNode* w; ASTNode* h; };
+struct MRect { float x, y, w, h; };
 
 //parse time only
 struct RawDialogueBlock {
@@ -32,12 +20,23 @@ struct RawDialogueBlock {
     int next = 0;
     bool once = false;
     DialogueTrigger trigger = DialogueTrigger::AUTO;
-    ASTNode* rectX = nullptr;
-    ASTNode* rectY = nullptr;
-    ASTNode* rectW = nullptr;
-    ASTNode* rectH = nullptr;
+    std::vector<RawRect> rects;
     std::string speaker;
     std::vector<std::string> lines;
+};
+
+struct DialogueBlock{
+    DialogueTrigger trigger = DialogueTrigger::AUTO;
+    int id = 0;
+    int next = 0;
+    bool once = false;
+    std::vector<MRect> rects;
+    std::string speaker;
+    std::vector<std::string> lines;
+};
+
+struct DialogueNodes {
+    std::vector<DialogueBlock> blocks;
 };
 
 struct RawDialogueNodes {
