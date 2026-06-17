@@ -37,11 +37,10 @@ void DialogueInterpreter::load(const ParseResult& result)
             rect.h = (float)core_interp.eval_node(r.h).num;
             rect.dir = r.dir;
             
-            blocks.push_back(block);
+            block.rects.push_back(rect);
         }
         firedRects[block.id] = std::vector<bool>(block.rects.size(), false);
         blocks.push_back(block);
-        
     }
 }
 

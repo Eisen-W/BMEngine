@@ -13,7 +13,7 @@ If you're on old engine version, After using the template
 ``` shell
 cd <yourclonedrepo>
 git remote add engine-upstream  https://github.com/Eisen-W/EWEngine-2D.git
-git subtree pull --prefix=engine/ engine-upstream main --squash 
+git subtree pull --prefix=engine/ engine-upstream main --squash
 ```
 DO NOT USE "git subtree add" as it copies entire ewengine repo inside the engine directory if the project doesnt already have the engine directory, in that case just copy 
 the engine files
