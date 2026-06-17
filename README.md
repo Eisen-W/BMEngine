@@ -24,6 +24,8 @@ For now it creates dialogue triggers without hardcoding it in code, simply creat
 To modify the triggers or dialogues just edit the .mad file without worrying about recompiling the game <br>
 check out [madokascript-EWE documentation]() for more help.
 
+### NOTE: 
+17/6/2026: MadokaScript-EWE is no longer a separate repo and has been completely integrated with EWEngine, the core MadokaScript is still a separate repo and now EWEngine only pulls updates for the core in engine/madokascript-engine/base/ directory
 ### Pull madokascript updates from subtree
 ```shell
 git subtree pull --prefix=engine/madokascript-engine/ mad-upstream main --squash 
