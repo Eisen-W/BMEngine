@@ -28,7 +28,7 @@ check out [madokascript-EWE documentation]() for more help.
 17/6/2026: MadokaScript-EWE is no longer a separate repo and has been completely integrated with EWEngine, the core MadokaScript is still a separate repo and now EWEngine only pulls updates for the core in engine/madokascript-engine/base/ directory
 ### Pull madokascript updates from subtree
 ```shell
-git subtree pull --prefix=engine/madokascript-engine/ mad-upstream main --squash 
+git subtree pull --prefix=engine/madokascript-engine/base/ mad-base main --squash
 ```
 
 ### Features
