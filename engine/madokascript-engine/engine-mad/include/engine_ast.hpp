@@ -9,10 +9,12 @@ enum class EngineNodeType{
     DIALOGUE_INTERACT
 };
 
+enum struct InteractDirection { UP, DOWN, LEFT, RIGHT, ANY };
+
 enum struct DialogueTrigger { AUTO, INTERACT };
 
-struct RawRect { ASTNode* x; ASTNode* y; ASTNode* w; ASTNode* h; };
-struct MRect { float x, y, w, h; };
+struct RawRect { ASTNode* x; ASTNode* y; ASTNode* w; ASTNode* h; InteractDirection dir = InteractDirection::ANY; };
+struct MRect { float x, y, w, h; InteractDirection dir = InteractDirection::ANY; };
 
 //parse time only
 struct RawDialogueBlock {

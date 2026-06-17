@@ -35,6 +35,7 @@ void DialogueInterpreter::load(const ParseResult& result)
             rect.y = (float)core_interp.eval_node(r.y).num;
             rect.w = (float)core_interp.eval_node(r.w).num;
             rect.h = (float)core_interp.eval_node(r.h).num;
+            rect.dir = r.dir;
             
             blocks.push_back(block);
         }

@@ -39,6 +39,7 @@ class EngineParser {
     bool parse_bool();
     std::string parse_string();
 
+    InteractDirection parse_dir_string(const std::string& dir);
     void parse_rect_fields(RawDialogueBlock& block);
     RawRect parse_single_rect();
 

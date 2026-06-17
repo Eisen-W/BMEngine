@@ -206,6 +206,15 @@ std::string EngineParser::parse_string()
     return advance().value;
 }
 
+InteractDirection EngineParser::parse_dir_string(const std::string& dir)
+{
+    if(dir == "up")     return InteractDirection::UP;
+    if(dir == "down")   return InteractDirection::DOWN;
+    if(dir == "left")   return InteractDirection::LEFT;
+    if(dir == "right")  return InteractDirection::RIGHT;
+    return InteractDirection::ANY;
+}
+
 void EngineParser::parse_rect_fields(RawDialogueBlock& block)
 {
     if(check_engine(EngineTokenType::LBRACKET))
@@ -234,7 +243,18 @@ RawRect EngineParser::parse_single_rect()
     r.w = core_parser.parse_expr();
     expect_core(TokenType::COMMA, "expected ','\n");
     r.h = core_parser.parse_expr();
-    expect_core(TokenType::RPAREN, "expected ')' for rect\n");
+
+    if(check_core(TokenType::COMMA))
+    {
+        advance();
+        if(!check_core(TokenType::STRING_LIT))
+        {
+            printf("parse error: expected direction string\n");
+            exit(1);
+        }
+        r.dir = parse_dir_string(advance().value);
+    }
+    expect_core(TokenType::RPAREN, "expected ')' for rect");
     return r;
 }
 

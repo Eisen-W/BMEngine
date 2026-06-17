@@ -60,7 +60,10 @@ void Loader::DLoad(const char* dialogue_filepath)
         data.lines = block.lines;
         for(auto& r : block.rects)
         {
-            data.rects.push_back({r.x, r.y, r.w, r.h});
+            DialogueRect dr;
+            dr.rect = {r.x, r.y, r.w, r.h};
+            dr.dir = r.dir;
+            data.rects.push_back(dr);
         }
         d_data.push_back(data);
 

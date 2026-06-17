@@ -5,7 +5,20 @@
 #include "engine_ast.hpp"
 #include "raylib.h"
 
-void EngineUtils::checkInteractDialogue(Rectangle playerRec, Vector2 facingPoint)
+bool EngineUtils::directionMatch(InteractDirection interactDir, Direction playerDir)
+{
+    if(interactDir == InteractDirection::ANY) return true;
+    switch(playerDir)
+    {
+        case Direction::UP:     return interactDir == InteractDirection::UP;
+        case Direction::DOWN:   return interactDir == InteractDirection::DOWN;
+        case Direction::LEFT:   return interactDir == InteractDirection::LEFT;
+        case Direction::RIGHT:  return interactDir == InteractDirection::RIGHT;
+    }
+    return false;
+}
+
+void EngineUtils::checkInteractDialogue(Rectangle playerRec, Direction playerDir)
 {
     for(auto& data : EWE.loader.getDialogueBlocks())
     {
@@ -13,7 +26,8 @@ void EngineUtils::checkInteractDialogue(Rectangle playerRec, Vector2 facingPoint
         for(int i = 0; i < (int)data.rects.size(); i++)
         {
             if(data.once && EWE.loader.hasFiredRect(data.id, i)) continue;
-            if(CheckCollisionPointRec(facingPoint, data.rects[i]))
+            if(!directionMatch(data.rects[i].dir, playerDir))
+            if(CheckCollisionRecs(playerRec, data.rects[i].rect))
             {
                 EWE.loader.startDialogue(data.id, i);
                 const DialogueData* current = EWE.loader.currentDialogue();
@@ -37,7 +51,7 @@ void EngineUtils::checkAutoDialogue(Rectangle playerRec)
         for(int i = 0; i < (int)data.rects.size(); i++)
         {
             if(data.once && EWE.loader.hasFiredRect(data.id, i)) continue;
-            if(CheckCollisionRecs(playerRec, data.rects[i]))
+            if(CheckCollisionRecs(playerRec, data.rects[i].rect))
             {
                 EWE.loader.startDialogue(data.id, i);
                 const DialogueData* current = EWE.loader.currentDialogue();

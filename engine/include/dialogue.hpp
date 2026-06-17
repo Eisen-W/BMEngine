@@ -5,12 +5,17 @@
 #include <vector>
 #include "engine_ast.hpp"
 
+struct DialogueRect{
+    Rectangle rect;
+    InteractDirection dir;
+};
+
 struct DialogueData{
     int id;
     int next;
     bool once;
     DialogueTrigger trigger;
-    std::vector<Rectangle> rects;
+    std::vector<DialogueRect> rects;
     std::string speaker;
     std::vector<std::string> lines;
 };
