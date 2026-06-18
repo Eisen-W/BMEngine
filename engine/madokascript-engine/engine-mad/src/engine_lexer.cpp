@@ -83,6 +83,7 @@ EngineToken EngineLexer::read_word()
     if(word == "once") return make_engine(EngineTokenType::ONCE, word);
     if(word == "rect") return make_engine(EngineTokenType::RECT, word);
     if(word == "speaker") return make_engine(EngineTokenType::SPEAKER, word);
+    if(word == "sprite") return make_engine(EngineTokenType::SPRITE, word);
     if(word == "lines") return make_engine(EngineTokenType::LINES, word);
 
     //core keywords

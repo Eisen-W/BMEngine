@@ -160,6 +160,13 @@ RawDialogueBlock EngineParser::parse_dialogue_block(bool is_interact)
             block.speaker = parse_string();
             expect_core(TokenType::SEMICOLON, "expected ';'");
         }
+        else if(check_engine(EngineTokenType::SPRITE))
+        {
+            advance();
+            expect_core(TokenType::EQUALS, "expected '='");
+            block.sprite = parse_string();
+            expect_core(TokenType::SEMICOLON, "expected ';'");
+        }
         else if(check_engine(EngineTokenType::LINES))
         {
             advance();

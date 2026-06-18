@@ -17,5 +17,6 @@ struct DialogueData{
     DialogueTrigger trigger;
     std::vector<DialogueRect> rects;
     std::string speaker;
+    std::string sprite;
     std::vector<std::string> lines;
 };

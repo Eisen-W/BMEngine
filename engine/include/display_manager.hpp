@@ -3,7 +3,7 @@
 
 class displayManager{
     private:
-    float scale = 1.0f;
+    int scale = 1.0f;
     Vector2 fit = {0,0};
     int offsetX = 0;
     int offsetY = 0;

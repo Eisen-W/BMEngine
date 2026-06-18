@@ -10,7 +10,7 @@ enum class EngineTokenType {
     INTERACT,
 
     //dialogue fields
-    ID, NEXT, ONCE, RECT, SPEAKER, LINES,
+    ID, NEXT, ONCE, RECT, SPEAKER, SPRITE, LINES,
 
     // extra symbols
     LBRACE, RBRACE,     // {}        

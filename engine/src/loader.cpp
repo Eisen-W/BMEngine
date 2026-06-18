@@ -57,6 +57,7 @@ void Loader::DLoad(const char* dialogue_filepath)
         */
         data.trigger = block.trigger;
         data.speaker = block.speaker;
+        data.sprite = block.sprite;
         data.lines = block.lines;
         for(auto& r : block.rects)
         {

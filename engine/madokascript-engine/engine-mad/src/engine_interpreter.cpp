@@ -26,6 +26,7 @@ void DialogueInterpreter::load(const ParseResult& result)
         block.once = raw.once;
         block.trigger = raw.trigger;
         block.speaker = raw.speaker;
+        block.sprite = raw.sprite;
         block.lines = raw.lines;
 
         for(auto& r : raw.rects)

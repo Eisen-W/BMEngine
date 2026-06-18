@@ -24,6 +24,7 @@ struct RawDialogueBlock {
     DialogueTrigger trigger = DialogueTrigger::AUTO;
     std::vector<RawRect> rects;
     std::string speaker;
+    std::string sprite;
     std::vector<std::string> lines;
 };
 
@@ -34,6 +35,7 @@ struct DialogueBlock{
     bool once = false;
     std::vector<MRect> rects;
     std::string speaker;
+    std::string sprite;
     std::vector<std::string> lines;
 };
 

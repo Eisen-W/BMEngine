@@ -1,4 +1,5 @@
 #include "display_manager.hpp"
+#include "raylib.h"
 #include<cmath>
 
 
@@ -10,8 +11,12 @@ void displayManager::initCanvas()
 
 void displayManager::scaleWindow()
 {
-    scale = fminf((float)GetScreenWidth()/canvasWidth, (float)GetScreenHeight()/canvasHeight);
-    fit = {canvasWidth*scale, canvasHeight*scale};
+    int scaleX = GetScreenWidth() / canvasWidth;
+    int scaleY = GetScreenHeight() / canvasHeight;
+    scale = (scaleX < scaleY) ? scaleX : scaleY;
+    if(scale < 1) scale = 1;
+    
+    fit = {(float)(canvasWidth * scale), (float)(canvasHeight * scale)};
     offsetX = (GetScreenWidth() - (int)fit.x)/2;
     offsetY = (GetScreenHeight() - (int)fit.y)/2;
 };
