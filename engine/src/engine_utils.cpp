@@ -33,7 +33,9 @@ void EngineUtils::checkInteractDialogue(Rectangle playerRec, Direction playerDir
                 const DialogueData* current = EWE.loader.currentDialogue();
                 if(current)
                 {
-                    EWE.MB.Start(EWE.loader.buildRaw(*current), current->speaker);
+                    Rectangle faceRect;
+                    bool hasFace = !current->sprite.empty() && EWE.FSM.getFace(current->sprite, faceRect);
+                    EWE.MB.Start(EWE.loader.buildRaw(*current), current->speaker, hasFace, EWE.FSM.texture, faceRect);
                     gamestate = GameState::MESSAGE;
                 }
                 return;
@@ -57,7 +59,9 @@ void EngineUtils::checkAutoDialogue(Rectangle playerRec)
                 const DialogueData* current = EWE.loader.currentDialogue();
                 if(current)
                 {
-                    EWE.MB.Start(EWE.loader.buildRaw(*current), current->speaker);
+                    Rectangle faceRect;
+                    bool hasFace = !current->sprite.empty() && EWE.FSM.getFace(current->sprite, faceRect);
+                    EWE.MB.Start(EWE.loader.buildRaw(*current), current->speaker, hasFace, EWE.FSM.texture, faceRect);
                     gamestate = GameState::MESSAGE;
 
                 }

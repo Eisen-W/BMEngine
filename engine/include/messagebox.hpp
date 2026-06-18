@@ -12,7 +12,7 @@ enum class messageState { TYPING, FULL, WAITING, DONE };
 class MessageBox
 {
     public:
-    void Start(const std::string& raw, const std::string& speakerName);
+    void Start(const std::string& raw, const std::string& speakerName, bool hasFace_ = false, Texture2D faceTex_ = {}, Rectangle faceRect_ = {});
     void Update(float dt);
     void Draw();
     bool isActive() const { return active; }
@@ -44,4 +44,9 @@ class MessageBox
     bool active = false;
 
     int boxWdith = MSG_BOX.width - MSG_PADDING * 2;
+
+    // faceset
+    bool hasFace = false;
+    Texture2D faceTexture;
+    Rectangle faceRect;
 };

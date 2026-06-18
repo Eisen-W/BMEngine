@@ -6,6 +6,8 @@ void Game::Init() {
   //to load all game objects and set custom values to variables
 
   EWE.loader.DLoad("../assets/msg.mad");
+  EWE.FSM.texture = EWE.AM.getTexture("../assets/face.png");
+  EWE.FSM.registerFace("EisenW", {0,0,16,16});
 
 
 
@@ -17,7 +19,7 @@ void Game::Update() {
   float dt = GetFrameTime();
 
   //Replace the rec values below with player rec 
-  //EWE.EUtils.checkAutoDialogue({0,0,640,480});
+  EWE.EUtils.checkAutoDialogue({0,0,640,480});
 }
 
 void Game::Draw() {

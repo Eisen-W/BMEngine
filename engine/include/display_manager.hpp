@@ -1,9 +1,11 @@
 #pragma once
 #include<raylib.h>
 
+inline constexpr bool PIXEL_PERFECT = false;
+
 class displayManager{
     private:
-    int scale = 1.0f;
+    float scale = 1.0f;
     Vector2 fit = {0,0};
     int offsetX = 0;
     int offsetY = 0;

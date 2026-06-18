@@ -1,7 +1,6 @@
 #pragma once
 #include<raylib.h>
 #include<sys/resource.h>
-#include<unordered_set>
 
 
 inline constexpr bool DEV_MODE = true; //set to false for release builds

@@ -12,7 +12,7 @@
     @see Draw
 */
 
-void MessageBox::Start(const std::string& raw, const std::string& speakerName)
+void MessageBox::Start(const std::string& raw, const std::string& speakerName, bool hasFace_, Texture2D faceTex_, Rectangle faceRect_)
 {
     defaultFont = EWE.AM.getFont("../assets/pc-9800.ttf");
     speaker = "";
@@ -20,6 +20,9 @@ void MessageBox::Start(const std::string& raw, const std::string& speakerName)
     currentPage = 0;
 
     speaker = speakerName;
+    hasFace = hasFace_;
+    faceTexture = faceTex_;
+    faceRect = faceRect_;
     std::stringstream ss(raw);
     std::string page;
     while(std::getline(ss, page, '|'))
@@ -142,26 +145,37 @@ void MessageBox::Draw()
 {
     if(!active) return;
 
+    
     //box
     DrawRectangleRec(MSG_BOX, BLACK);
     DrawRectangleLinesEx(MSG_BOX, 2,WHITE);
 
+    //face
+    int textOffsetX = MSG_PADDING;
+    if(hasFace)
+    {
+        DrawTexturePro(faceTexture, faceRect, 
+                        {MSG_BOX.x + MSG_PADDING, MSG_BOX.y + MSG_PADDING, faceRect.width, faceRect.height},
+                        {0,0}, 0, WHITE);
+        textOffsetX = MSG_PADDING + (int)faceRect.width + MSG_PADDING;
+    }
+
     //speaker
-    DrawTextEx(defaultFont, speaker.c_str(), {MSG_BOX.x + MSG_PADDING, MSG_BOX.y + MSG_PADDING},
+    DrawTextEx(defaultFont, speaker.c_str(), {MSG_BOX.x + textOffsetX, MSG_BOX.y + MSG_PADDING},
                 MSG_FONTSIZE, MSG_SPACING, WHITE);
 
     //message
     for(int i = 0; i < (int)lines.size(); i++)
     {
         DrawTextEx(defaultFont, lines[i].c_str(), 
-            {MSG_BOX.x + MSG_PADDING,MSG_BOX.y + MSG_PADDING + (MSG_FONTSIZE + 4) + i * (MSG_FONTSIZE + 4)},
+            {MSG_BOX.x + textOffsetX,MSG_BOX.y + MSG_PADDING + (MSG_FONTSIZE + 4) + i * (MSG_FONTSIZE + 4)},
                     MSG_FONTSIZE, MSG_SPACING, WHITE);
     }
     
     if(msgState == messageState::TYPING && !currentLine.empty())
     {
         DrawTextEx(defaultFont,currentLine.c_str(), 
-        {MSG_BOX.x + MSG_PADDING, MSG_BOX.y + MSG_PADDING + (MSG_FONTSIZE + 4) + (int)lines.size() * (MSG_FONTSIZE + 4)},
+        {MSG_BOX.x + textOffsetX, MSG_BOX.y + MSG_PADDING + (MSG_FONTSIZE + 4) + (int)lines.size() * (MSG_FONTSIZE + 4)},
                     MSG_FONTSIZE, MSG_SPACING, WHITE);
     }
 

@@ -11,6 +11,7 @@
 #include "anim_manager.hpp"
 #include "loader.hpp"
 #include "engine_utils.hpp"
+#include "faceset_manager.hpp"
 
 struct Engine{
     assetManager AM;
@@ -24,5 +25,6 @@ struct Engine{
     Interactable interact;
     Loader loader;
     EngineUtils EUtils;
+    FacesetManager FSM;
 };
 extern Engine EWE;
