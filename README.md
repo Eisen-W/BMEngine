@@ -48,3 +48,6 @@ git subtree pull --prefix=engine/madokascript-engine/base/ mad-base main --squas
 - v0.3: interactable tiles and messagebox
 - v0.2: tilemap parser and default game file structure
 - v0.1: asset manager, display manager, input manager, animation manager, debug view, intro
+
+### TO-DO
+- [ ] WRITE DOCS ASAP
