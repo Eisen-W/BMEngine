@@ -7,3 +7,7 @@ build
 assets
 .clangd-tidy
 compile_commands.json
+
+# doxygen files
+html/
+latex/
