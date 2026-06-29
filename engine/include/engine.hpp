@@ -12,6 +12,7 @@
 #include "loader.hpp"
 #include "engine_utils.hpp"
 #include "faceset_manager.hpp"
+#include "save_manager.hpp"
 
 struct Engine{
     assetManager AM;
@@ -26,5 +27,6 @@ struct Engine{
     Loader loader;
     EngineUtils EUtils;
     FacesetManager FSM;
+    SaveManager SAVE;
 };
 extern Engine EWE;
