@@ -15,6 +15,7 @@ class MessageBox
     void Start(const std::string& raw, const std::string& speakerName, bool hasFace_ = false, Texture2D faceTex_ = {}, Rectangle faceRect_ = {});
     void Update(float dt);
     void Draw();
+    void HandleMB();
     bool isActive() const { return active; }
 
     private:

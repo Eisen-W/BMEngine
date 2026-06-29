@@ -1,6 +1,5 @@
 #include "playgame.hpp"
 #include "constants.hpp"
-#include "dialogue.hpp"
 #include "engine.hpp"
 #include<raylib.h>
 
@@ -34,20 +33,7 @@ void Play::playgame()
         else if(gamestate == GameState::MESSAGE)
         {
             EWE.MB.Update(dt);
-            if(!EWE.MB.isActive())
-            {
-                EWE.loader.advanceDialogue();
-                const DialogueData* next = EWE.loader.currentDialogue();
-                if(next)
-                {
-                    EWE.MB.Start(EWE.loader.buildRaw(*next), next->speaker);
-                    gamestate = GameState::MESSAGE;
-                }
-                else
-                {
-                    gamestate = GameState::PLAY;
-                }
-            }
+            EWE.MB.HandleMB();
         }
         if(DEV_MODE) EWE.dbg.Update();
         

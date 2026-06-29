@@ -17,6 +17,10 @@ class DialogueInterpreter{
     const std::vector<DialogueBlock>& getBlocks() const;
     bool hasFiredRect(int id, int rectIndex) const;
 
+    //save & load
+    void saveFiredRects(const char* path) const;
+    void loadFiredRects(const char* path);
+
     private:
     std::vector<DialogueBlock> blocks;
     std::unordered_map<int, std::vector<bool>> firedRects;

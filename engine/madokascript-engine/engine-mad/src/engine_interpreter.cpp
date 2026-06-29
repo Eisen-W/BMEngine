@@ -1,6 +1,7 @@
 #include "engine_interpreter.hpp"
 #include "engine_ast.hpp"
 #include "interpreter.hpp"
+#include <cstdio>
 #include <string>
 #include <vector>
 
@@ -139,4 +140,47 @@ const DialogueBlock* DialogueInterpreter::findByID(int id) const
         if(b.id == id) return &b;
     }
     return nullptr;
+}
+
+void DialogueInterpreter::saveFiredRects(const char* path) const
+{
+    FILE* f = fopen(path, "wb");
+    if(!f) { printf("save error: could not open %s\n", path); return; }
+
+    for(auto& pair : firedRects)
+    {
+        int id = pair.first;
+        int count = (int)pair.second.size();
+        fwrite(&id, sizeof(int), 1, f);
+        fwrite(&count, sizeof(int), 1, f);
+
+        for(bool b : pair.second)
+        {
+            int val = b ? 1 : 0;
+            fwrite(&val, sizeof(int), 1, f);
+        }
+    }
+
+    fclose(f);
+}
+
+void DialogueInterpreter::loadFiredRects(const char* path)
+{
+    FILE* f = fopen(path, "rb");
+    if(!f) return;
+
+    int id, count;
+    while(fread(&id, sizeof(int), 1, f) == 1)
+    {
+        fread(&count, sizeof(int), 1, f);
+        std::vector<bool> fired(count, false);
+        for(int i = 0; i < count; i++)
+        {
+            int val;
+            fread(&val, sizeof(int), 1,f);
+            fired[i] = val != 0;
+        }
+        firedRects[id] = fired;
+    }
+    fclose(f);
 }

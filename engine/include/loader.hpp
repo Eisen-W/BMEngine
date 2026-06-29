@@ -20,6 +20,10 @@ class Loader{
     std::string buildRaw(const DialogueData& data) const;
     bool hasFiredRect(int id, int rectIndex) const;
 
+    //save and load
+    void saveDialogueState(const char* path) const { dialogue_interp.saveFiredRects(path); }
+    void loadDialogueState(const char* path) { dialogue_interp.loadFiredRects(path); }
+
     private:
     DialogueInterpreter dialogue_interp;
     std::vector<DialogueData> d_data;

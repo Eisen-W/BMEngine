@@ -187,3 +187,21 @@ void MessageBox::Draw()
                     MSG_FONTSIZE , MSG_SPACING, WHITE);
     }
 }
+
+void MessageBox::HandleMB()
+{
+    if(!isActive())
+    {
+        EWE.loader.advanceDialogue();
+        const DialogueData* next = EWE.loader.currentDialogue();
+        if(next)
+        {
+            EWE.MB.Start(EWE.loader.buildRaw(*next), next->speaker);
+            gamestate = GameState::MESSAGE;
+        }
+        else
+        {
+            gamestate = GameState::PLAY;
+        }
+    }
+}
