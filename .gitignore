@@ -11,3 +11,4 @@ compile_commands.json
 # doxygen files
 html/
 latex/
+doxygen-docs/

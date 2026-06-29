@@ -1,5 +1,6 @@
 # EWEngine-2D
-drag and drop engine files and template for my 2D games
+drag and drop engine files and template for my 2D games. <br>
+It is more of a game systems library than an engine with visual tools and editor. 
 
 ### How to Use
 Just drag and drop include, lib and src folders into engine directory \
