@@ -21,8 +21,8 @@ class Loader{
     bool hasFiredRect(int id, int rectIndex) const;
 
     //save and load
-    void saveDialogueState(const char* path) const { dialogue_interp.saveFiredRects(path); }
-    void loadDialogueState(const char* path) { dialogue_interp.loadFiredRects(path); }
+    void saveDialogueState(FILE* f) const { dialogue_interp.saveFiredRects(f); }
+    void loadDialogueState(FILE* f) { dialogue_interp.loadFiredRects(f); }
 
     private:
     DialogueInterpreter dialogue_interp;

@@ -18,8 +18,8 @@ class DialogueInterpreter{
     bool hasFiredRect(int id, int rectIndex) const;
 
     //save & load
-    void saveFiredRects(const char* path) const;
-    void loadFiredRects(const char* path);
+    void saveFiredRects(FILE* f) const;
+    void loadFiredRects(FILE* f);
 
     private:
     std::vector<DialogueBlock> blocks;

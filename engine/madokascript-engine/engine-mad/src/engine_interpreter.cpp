@@ -142,10 +142,8 @@ const DialogueBlock* DialogueInterpreter::findByID(int id) const
     return nullptr;
 }
 
-void DialogueInterpreter::saveFiredRects(const char* path) const
+void DialogueInterpreter::saveFiredRects(FILE* f) const
 {
-    FILE* f = fopen(path, "wb");
-    if(!f) { printf("save error: could not open %s\n", path); return; }
 
     for(auto& pair : firedRects)
     {
@@ -160,15 +158,10 @@ void DialogueInterpreter::saveFiredRects(const char* path) const
             fwrite(&val, sizeof(int), 1, f);
         }
     }
-
-    fclose(f);
 }
 
-void DialogueInterpreter::loadFiredRects(const char* path)
+void DialogueInterpreter::loadFiredRects(FILE* f)
 {
-    FILE* f = fopen(path, "rb");
-    if(!f) return;
-
     int id, count;
     while(fread(&id, sizeof(int), 1, f) == 1)
     {
@@ -182,5 +175,4 @@ void DialogueInterpreter::loadFiredRects(const char* path)
         }
         firedRects[id] = fired;
     }
-    fclose(f);
 }
