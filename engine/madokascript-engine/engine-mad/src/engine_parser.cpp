@@ -4,6 +4,7 @@
 #include "lexer.hpp"
 #include "parser.hpp"
 #include <cstdio>
+#include <cstdlib>
 #include <string>
 #include <vector>
 
@@ -72,6 +73,10 @@ ParseResult EngineParser::parse()
         {
             result.dialogues = parse_dialogues();
         }
+        else if(check_engine(EngineTokenType::INTERACTABLES))
+        {
+            result.interactables = parse_interactables();
+        }
         else if(check_core(TokenType::INT) ||
                 check_core(TokenType::FLOAT) ||
                 check_core(TokenType::STRING) ||
@@ -90,6 +95,7 @@ ParseResult EngineParser::parse()
 
 //PRIVATE
 
+//====================DIALOGUES=============================
 RawDialogueNodes EngineParser::parse_dialogues()
 {
     advance(); //consume dialogue
@@ -224,19 +230,7 @@ InteractDirection EngineParser::parse_dir_string(const std::string& dir)
 
 void EngineParser::parse_rect_fields(RawDialogueBlock& block)
 {
-    if(check_engine(EngineTokenType::LBRACKET))
-    {
-        advance();  //consume '['
-        while(!check_engine(EngineTokenType::RBRACKET) && !check_core(TokenType::EOF_))
-        {
-            block.rects.push_back(parse_single_rect());
-            if(check_core(TokenType::COMMA)) advance();
-        }
-        expect_engine(EngineTokenType::RBRACKET, "expected ']'");
-    }
-    else {
-        block.rects.push_back(parse_single_rect());
-    }
+    parse_rect_fields_generic(block.rects);
 }
 
 RawRect EngineParser::parse_single_rect()
@@ -293,4 +287,133 @@ std::vector<std::string> EngineParser::parse_lines()
 ASTNode* EngineParser::parse_rect_expr()
 {
     return core_parser.parse_expr();
+}
+
+//====================INTERACTABLES=====================
+
+RawInteractableNodes EngineParser::parse_interactables()
+{
+    advance();
+    expect_engine(EngineTokenType::LBRACE, "expected '{' after INTERACTABLES\n");
+
+    RawInteractableNodes node;
+
+    while(!check_engine(EngineTokenType::RBRACE) && !check_core(TokenType::EOF_))
+    {
+        if(check_engine(EngineTokenType::SWITCHER))
+        {
+            node.switchers.push_back(parse_switcher());
+        }
+        else if(check_engine(EngineTokenType::MOVEABLE))
+        {
+            node.moveables.push_back(parse_moveable());
+        }
+        else{
+            printf("parse error: expected 'switcher' or 'moveable', got %s\n", tokens[pos].value.c_str());
+        }
+    }
+    expect_engine(EngineTokenType::RBRACE, "expected '}' after INTERACTABLES block\n");
+    return node;
+}
+
+RawSwitcherBlock EngineParser::parse_switcher()
+{
+    advance();
+    expect_engine(EngineTokenType::LBRACE, "expected '{'");
+
+    RawSwitcherBlock block;
+
+    while(!check_engine(EngineTokenType::RBRACE) && check_core(TokenType::EOF_))
+    {
+        if(check_engine(EngineTokenType::ID))
+        {
+            advance();
+            expect_core(TokenType::EQUALS, "expected '='");
+            block.id = parse_int();
+            expect_core(TokenType::SEMICOLON, "expected ';'");
+        }
+        else if(check_engine(EngineTokenType::NAME))
+        {
+            advance();
+            expect_core(TokenType::EQUALS, "expected '='");
+            block.name = parse_string();
+            expect_core(TokenType::SEMICOLON, "expected ';'");
+        }
+        else if(check_engine(EngineTokenType::RECT))
+        {
+            advance();
+            expect_core(TokenType::EQUALS, "expected '='");
+            parse_rect_fields_generic(block.rects);
+            expect_core(TokenType::SEMICOLON, "expected ';'");
+        }
+        else{
+            printf("parse error: unknown field: %s", tokens[pos].value.c_str());
+            exit(1);
+        }
+    }
+    expect_engine(EngineTokenType::RBRACE, "expected '}'");
+    return block;
+}
+
+RawMoveableBlock EngineParser::parse_moveable()
+{
+    advance();
+    expect_engine(EngineTokenType::LBRACE, "expected '{'");
+
+    RawMoveableBlock block;
+
+    while(!check_engine(EngineTokenType::RBRACE) && check_core(TokenType::EOF_))
+    {
+        if(check_engine(EngineTokenType::ID))
+        {
+            advance();
+            expect_core(TokenType::EQUALS, "expected '='");
+            block.id = parse_int();
+            expect_core(TokenType::SEMICOLON, "expected ';'");
+        }
+        else if(check_engine(EngineTokenType::NAME))
+        {
+            advance();
+            expect_core(TokenType::EQUALS, "expected '='");
+            block.name = parse_string();
+            expect_core(TokenType::SEMICOLON, "expected ';'");
+        }
+        else if(check_engine(EngineTokenType::START))
+        {
+            advance();
+            expect_core(TokenType::EQUALS, "expected '='");
+            block.start = parse_single_rect();
+            expect_core(TokenType::SEMICOLON, "expected ';'");
+        }
+        else if(check_engine(EngineTokenType::DEST))
+        {
+            advance();
+            expect_core(TokenType::EQUALS, "expected '='");
+            parse_rect_fields_generic(block.dest);
+            expect_core(TokenType::SEMICOLON, "expected ';'");
+        }
+        else{
+            printf("parse error: unknown field: %s", tokens[pos].value.c_str());
+            exit(1);
+        }
+    }
+    expect_engine(EngineTokenType::RBRACE, "expected '}'");
+    return block;
+}
+
+void EngineParser::parse_rect_fields_generic(std::vector<RawRect>& rects)
+{
+    if(check_engine(EngineTokenType::LBRACKET))
+    {
+        advance();  //consume '['
+        while(!check_engine(EngineTokenType::RBRACKET) && !check_core(TokenType::EOF_))
+        {
+            rects.push_back(parse_single_rect());
+            if(check_core(TokenType::COMMA)) advance();
+        }
+        expect_engine(EngineTokenType::RBRACKET, "expected ']'");
+    }
+    else {
+        rects.push_back(parse_single_rect());
+    }
 }

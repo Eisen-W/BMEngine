@@ -31,8 +31,17 @@ class EngineParser {
     ParseResult parse();
 
     private:
+    //dialogues
     RawDialogueNodes parse_dialogues();
     RawDialogueBlock parse_dialogue_block(bool is_interact);
+
+    //interactables
+    RawInteractableNodes parse_interactables();
+    RawSwitcherBlock parse_switcher();
+    RawMoveableBlock parse_moveable();
+
+    void parse_rect_fields_generic(std::vector<RawRect>& rects);
+
     ASTNode* parse_rect_expr();
 
     int parse_int();

@@ -74,7 +74,7 @@ EngineToken EngineLexer::read_word()
     while(pos < len && (isalnum(src[pos]) || src[pos] == '_')) pos++;
     std::string word(src + start, pos - start);
 
-    //engine keywords
+    //engine keywords FOR DIALOGUES field
     if(word == "DIALOGUES") return make_engine(EngineTokenType::DIALOGUES , word);
     if(word == "auto") return make_engine(EngineTokenType::AUTO, word);
     if(word == "interact") return make_engine(EngineTokenType::INTERACT, word);
@@ -85,6 +85,14 @@ EngineToken EngineLexer::read_word()
     if(word == "speaker") return make_engine(EngineTokenType::SPEAKER, word);
     if(word == "sprite") return make_engine(EngineTokenType::SPRITE, word);
     if(word == "lines") return make_engine(EngineTokenType::LINES, word);
+
+    //engine keywords for INTERACTABLES field
+    if(word == "INTERACTABLES") return make_engine(EngineTokenType::INTERACTABLES, word);
+    if(word == "switcher") return make_engine(EngineTokenType::SWITCHER, word);
+    if(word == "moveable") return make_engine(EngineTokenType::MOVEABLE, word);
+    if(word == "name") return make_engine(EngineTokenType::NAME, word);
+    if(word == "start") return make_engine(EngineTokenType::START, word);
+    if(word == "dest") return make_engine(EngineTokenType::DEST, word);
 
     //core keywords
     if(word == "int") return make_core(TokenType::INT, word);

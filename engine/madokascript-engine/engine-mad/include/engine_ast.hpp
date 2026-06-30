@@ -6,12 +6,15 @@
 enum class EngineNodeType{
     DIALOGUES,
     DIALOGUE_AUTO,
-    DIALOGUE_INTERACT
+    DIALOGUE_INTERACT,
+    INTERACTABLES
 };
 
 enum struct InteractDirection { UP, DOWN, LEFT, RIGHT, ANY };
 
 enum struct DialogueTrigger { AUTO, INTERACT };
+
+enum struct InteractableType { SWITCHER, MOVEABLE };
 
 struct RawRect { ASTNode* x; ASTNode* y; ASTNode* w; ASTNode* h; InteractDirection dir = InteractDirection::ANY; };
 struct MRect { float x, y, w, h; InteractDirection dir = InteractDirection::ANY; };
@@ -47,7 +50,49 @@ struct RawDialogueNodes {
     std::vector<RawDialogueBlock> blocks;
 };
 
+
+
+//====================INTERACTABLES=====================
+
+struct RawSwitcherBlock{
+    int id = 0;
+    std::string name;
+    std::vector<RawRect> rects;
+};
+
+struct RawMoveableBlock{
+    int id = 0;
+    std::string name;
+    RawRect start;
+    std::vector<RawRect> dest;
+};
+
+struct SwitcherBlock{
+    int id = 0;
+    std::string name;
+    std::vector<MRect> rects;
+};
+
+struct MoveableBlock{
+    int id = 0;
+    std::string name;
+    MRect start;
+    std::vector<MRect> dest;
+    MRect current; //resolved at load
+};
+
+struct RawInteractableNodes{
+    std::vector<RawSwitcherBlock> switchers;
+    std::vector<RawMoveableBlock> moveables;
+};
+
+struct InteractableNodes{
+    std::vector<SwitcherBlock> switchers;
+    std::vector<MoveableBlock> moveables;
+};
+
 struct ParseResult{
     std::vector<ASTNode*> core_statements;
     RawDialogueNodes dialogues;
+    RawInteractableNodes interactables;
 };

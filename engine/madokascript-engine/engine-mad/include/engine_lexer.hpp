@@ -15,6 +15,11 @@ enum class EngineTokenType {
     // extra symbols
     LBRACE, RBRACE,     // {}        
     LBRACKET, RBRACKET, // []
+
+    //interactable tokens
+    INTERACTABLES, SWITCHER, MOVEABLE,
+    NAME,
+    START, DEST
 };
 
 struct EngineToken {
