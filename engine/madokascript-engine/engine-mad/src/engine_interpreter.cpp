@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-void DialogueInterpreter::load(const ParseResult& result)
+void DialogueInterpreter::load(const ParseResult& result, Interpreter& core_interp)
 {
     blocks.clear();
     firedRects.clear();
@@ -44,12 +44,6 @@ void DialogueInterpreter::load(const ParseResult& result)
         firedRects[block.id] = std::vector<bool>(block.rects.size(), false);
         blocks.push_back(block);
     }
-}
-
-float DialogueInterpreter::eval_expr(ASTNode* node)
-{
-    Value v = core_interp.eval_node(node);
-    return (float)v.num;
 }
 
 void DialogueInterpreter::startDialogue(int id, int rectIndex)

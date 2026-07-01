@@ -5,7 +5,7 @@
 void Game::Init() {
   //to load all game objects and set custom values to variables
 
-  EWE.loader.DLoad("../assets/msg.mad");
+  EWE.loader.FLoad("../assets/msg.mad");
   EWE.FSM.texture = EWE.AM.getTexture("../assets/face.png");
   EWE.FSM.registerFace("EisenW", {0,0,16,16});
 

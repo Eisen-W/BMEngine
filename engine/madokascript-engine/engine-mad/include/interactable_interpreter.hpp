@@ -29,5 +29,5 @@ class InteractableInterpreter{
     std::unordered_map<int, bool> switcherState;
     std::unordered_map<int, int> moveableState;
 
-    void ResolveMoveablePos(MoveableBlock& m);
+    void ResolveMoveablePos(MoveableBlock& mb);
 };

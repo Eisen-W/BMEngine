@@ -20,3 +20,17 @@ struct DialogueData{
     std::string sprite;
     std::vector<std::string> lines;
 };
+
+struct SwitcherData{
+    int id;
+    std::string name;
+    std::vector<DialogueRect> rects;
+};
+
+struct MoveableData{
+    int id;
+    std::string name;
+    Rectangle start;
+    std::vector<Rectangle> dest;
+    Rectangle current;
+};
