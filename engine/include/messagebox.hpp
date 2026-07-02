@@ -5,7 +5,7 @@
 
 constexpr Rectangle MSG_BOX = {16, 340, 608, 124};
 constexpr int MSG_PADDING = 8;
-constexpr int MSG_SPACING = 4;
+constexpr int MSG_SPACING = 2;
 constexpr int MSG_FONTSIZE = 16;
 enum class messageState { TYPING, FULL, WAITING, DONE };
 

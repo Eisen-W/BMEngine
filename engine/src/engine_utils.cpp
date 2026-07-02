@@ -59,7 +59,6 @@ void EngineUtils::checkInteractDialogue(Rectangle playerRec, Direction playerDir
 
 void EngineUtils::checkAutoDialogue(Rectangle playerRec)
 {
-    printf("checkAutoDialogue called, block count=%zu\n", EWE.loader.getDialogueBlocks().size());
     for(auto& data : EWE.loader.getDialogueBlocks())
     {
         if(data.trigger != DialogueTrigger::AUTO) continue;
