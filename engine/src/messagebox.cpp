@@ -14,6 +14,7 @@
 
 void MessageBox::Start(const std::string& raw, const std::string& speakerName, bool hasFace_, Texture2D faceTex_, Rectangle faceRect_)
 {
+    printf("MB::Start raw='%s' len=%zu\n", raw.c_str(), raw.size());
     defaultFont = EWE.AM.getFont("../assets/pc-9800.ttf");
     speaker = "";
     pages.clear();
@@ -23,12 +24,19 @@ void MessageBox::Start(const std::string& raw, const std::string& speakerName, b
     hasFace = hasFace_;
     faceTexture = faceTex_;
     faceRect = faceRect_;
+
+    pages.clear();
+    currentPage = 0;
+
     std::stringstream ss(raw);
     std::string page;
     while(std::getline(ss, page, '|'))
     {
         if(!page.empty()) pages.push_back(page);
     }
+
+    printf("Start: pages.size()=%zu\n", pages.size());
+    if(!pages.empty()) printf("Start: pages[0]='%s'\n", pages[0].c_str());
 
     if(pages.empty()) return;
 
@@ -47,10 +55,20 @@ void MessageBox::LoadPage(int index)
     waitFrames = 0;
     msgState = messageState::TYPING;
     splitWords(pages[index]);
+    
+    
+    if(!words.empty())
+    {
+        currentLine = words[0];
+        currentWord = 1;
+    }
+    wordTimer = WORD_DELAY;
+    printf("LoadPage: words=%zu currentLine='%s'\n", words.size(), currentLine.c_str());
 }
 
 void MessageBox::splitWords(const std::string& page)
 {
+    printf("splitWords received: '%s'\n", page.c_str());
     words.clear();
     std::stringstream ss(page);
     std::string word;
@@ -97,7 +115,7 @@ void MessageBox::Update(float dt)
         if(Input::pressA())
         {
             //skip to full text
-            currentLine.clear();
+            //currentLine.clear();
             lines.clear();
             while(currentWord < (int)words.size())
             {
@@ -196,8 +214,11 @@ void MessageBox::HandleMB()
         const DialogueData* next = EWE.loader.currentDialogue();
         if(next)
         {
+            EWE.EUtils.startMessageBox(*next);
+            /*
             EWE.MB.Start(EWE.loader.buildRaw(*next), next->speaker);
             gamestate = GameState::MESSAGE;
+            */
         }
         else
         {

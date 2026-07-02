@@ -9,7 +9,7 @@
 void Play::playgame()
 {
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
-    InitWindow(EWE.DM.getWWidth(), EWE.DM.getWHeight(), "ZOM");
+    InitWindow(EWE.DM.getWWidth(), EWE.DM.getWHeight(), "EWE");
     SetTargetFPS(60);
     InitAudioDevice();
 
@@ -33,7 +33,10 @@ void Play::playgame()
         else if(gamestate == GameState::MESSAGE)
         {
             EWE.MB.Update(dt);
-            EWE.MB.HandleMB();
+            if(!EWE.MB.isActive())
+            {
+                EWE.MB.HandleMB();
+            }
         }
         if(DEV_MODE) EWE.dbg.Update();
         
@@ -47,8 +50,8 @@ void Play::playgame()
         else if(!game.gameReady) 
         {
             game.Draw();
-            if(gamestate == GameState::MESSAGE) EWE.MB.Draw();
         }
+        EWE.MB.Draw();
         EndTextureMode();
 
         //DRAWING
