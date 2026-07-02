@@ -323,7 +323,7 @@ RawSwitcherBlock EngineParser::parse_switcher()
 
     RawSwitcherBlock block;
 
-    while(!check_engine(EngineTokenType::RBRACE) && check_core(TokenType::EOF_))
+    while(!check_engine(EngineTokenType::RBRACE) && !check_core(TokenType::EOF_))
     {
         if(check_engine(EngineTokenType::ID))
         {
@@ -362,7 +362,7 @@ RawMoveableBlock EngineParser::parse_moveable()
 
     RawMoveableBlock block;
 
-    while(!check_engine(EngineTokenType::RBRACE) && check_core(TokenType::EOF_))
+    while(!check_engine(EngineTokenType::RBRACE) && !check_core(TokenType::EOF_))
     {
         if(check_engine(EngineTokenType::ID))
         {
