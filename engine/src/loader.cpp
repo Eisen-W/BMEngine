@@ -20,6 +20,7 @@ void Loader::FLoad(const char* madfile)
         exit(1);
     }
 
+    currentLevelPath = madfile;
     FILE* f = fopen(madfile, "r");
     if(!f)
     {
@@ -47,6 +48,37 @@ void Loader::FLoad(const char* madfile)
     for(auto* node : result.core_statements) core_interp.exec_node(node);
     dialogue_interp.load(result, core_interp);
     interact_interp.load(result, core_interp);
+
+    //overlay master state onto fresh loaded blocks
+    for(auto& block : dialogue_interp.getBlocksMutable())
+    {
+        StateKey key{currentLevelPath, block.id};
+        auto it = masterFiredRects.find(key);
+        if(it != masterFiredRects.end()) 
+        {
+            dialogue_interp.setFiredRects(block.id, it->second);
+        }
+    }
+
+    for(auto& sw : interact_interp.getSwitchersMutable())
+    {
+        StateKey key{currentLevelPath, sw.id};
+        auto it = masterSwitcherState.find(key);
+        if(it != masterSwitcherState.end())
+        {
+            interact_interp.setSwitcherState(sw.id, it->second);
+        }
+    }
+
+    for(auto& mv : interact_interp.getMoveablesMutable())
+    {
+        StateKey key{currentLevelPath, mv.id};
+        auto it = masterMoveableState.find(key);
+        if(it != masterMoveableState.end())
+        {
+            interact_interp.setMoveableDestIndex(mv.id, it->second);
+        }
+    }
 
     convertDialogueData();
     convertInteractableData();
@@ -120,7 +152,29 @@ bool Loader::hasFiredRect(int id, int rectIndex) const
     return dialogue_interp.hasFiredRect(id, rectIndex);
 }
 
-void Loader::saveDialogueState(FILE* f) const { dialogue_interp.saveFiredRects(f); }
+void Loader::saveDialogueState(FILE* f) const 
+{ 
+    int count = (int)masterFiredRects.size();
+    fwrite(&count, sizeof(int), 1, f);
+    for(auto& fr : masterFiredRects)
+    {
+        int pathLen = (int)fr.first.levelPath.size();
+        fwrite(&pathLen, sizeof(int), 1, f);
+        fwrite(fr.first.levelPath.c_str(),1,pathLen, f);
+        fwrite(&fr.first.id, sizeof(int), 1, f);
+
+        int rectCount = (int)fr.second.size();
+        fwrite(&rectCount, sizeof(int), 1, f);
+        for(bool b : fr.second)
+        {
+            int val = b ? 1 : 0;
+            fwrite(&val, sizeof(int), 1, f);
+        }
+    }
+
+    
+    dialogue_interp.saveFiredRects(f);
+}
 void Loader::loadDialogueState(FILE* f) { dialogue_interp.loadFiredRects(f); }
 
 const DialogueData* Loader::currentDialogue() const

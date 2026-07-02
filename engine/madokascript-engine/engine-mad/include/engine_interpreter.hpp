@@ -16,6 +16,9 @@ class DialogueInterpreter{
     const std::vector<DialogueBlock>& getBlocks() const;
     bool hasFiredRect(int id, int rectIndex) const;
 
+    std::vector<DialogueBlock>& getBlocksMutable();
+    void setFiredRects(int id, const std::vector<bool>& fired);
+
     //save & load
     void saveFiredRects(FILE* f) const;
     void loadFiredRects(FILE* f);

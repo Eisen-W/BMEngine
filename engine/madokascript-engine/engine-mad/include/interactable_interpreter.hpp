@@ -20,6 +20,9 @@ class InteractableInterpreter{
     const std::vector<MoveableBlock>& getMoveables() const;
     MoveableBlock* findMoveableByID(int id);
 
+    std::vector<SwitcherBlock>& getSwitchersMutable();
+    std::vector<MoveableBlock>& getMoveablesMutable();
+    
     void saveState(FILE* f) const;
     void loadState(FILE* f);
 

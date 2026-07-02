@@ -9,6 +9,12 @@ if you're not using the current template/file structure
 
 Raylib v6 update: in cmakelists target_link_libraries, move X11 after raylib
 
+### Docs
+- [Handwritten documentation](docs/index.md) <br>
+- Generate Doxygen docs for graphs and visual heirarchies by running:
+```shell
+doxygen Doxyfile
+```
 ### How to Update From Previous Version
 If you're on old engine version, After using the template
 ``` shell

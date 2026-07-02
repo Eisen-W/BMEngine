@@ -112,6 +112,16 @@ MoveableBlock* InteractableInterpreter::findMoveableByID(int id)
     return nullptr;
 }
 
+std::vector<SwitcherBlock>& InteractableInterpreter::getSwitchersMutable()
+{
+    return switchers;
+}
+
+std::vector<MoveableBlock>& InteractableInterpreter::getMoveablesMutable()
+{
+    return moveables;
+}
+
 void InteractableInterpreter::saveState(FILE* f) const
 {
     int swCount = (int)switcherState.size();

@@ -118,6 +118,16 @@ bool DialogueInterpreter::hasFiredRect(int id, int rectIndex) const
     return it->second[rectIndex];
 }
 
+std::vector<DialogueBlock>& DialogueInterpreter::getBlocksMutable()
+{
+    return blocks;
+}
+
+void DialogueInterpreter::setFiredRects(int id, const std::vector<bool>& fired)
+{
+    firedRects[id] = fired;
+}
+
 DialogueBlock* DialogueInterpreter::findByID(int id)
 {
     for(auto& b : blocks)

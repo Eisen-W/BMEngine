@@ -4,8 +4,23 @@
 #include "interpreter.hpp"
 #include "mad_data.hpp"
 #include "engine_interpreter.hpp"
+#include <functional>
 #include <string>
+#include <unordered_map>
 #include <vector>
+
+struct StateKey{
+    std::string levelPath;
+    int id;
+    bool operator==(const StateKey& o) const { return levelPath == o.levelPath && id == o.id; }
+};
+
+struct StateKeyHash{
+    size_t operator()(const StateKey& k) const
+    {
+        return std::hash<std::string>()(k.levelPath) ^ (std::hash<int>()(k.id) << 1);
+    }
+};
 
 class Loader{
     public:
@@ -48,6 +63,11 @@ class Loader{
     std::vector<DialogueData> d_data;
     std::vector<SwitcherData> switcher_data;
     std::vector<MoveableData> moveable_data;
+
+    std::unordered_map<StateKey, bool, StateKeyHash> masterSwitcherState;
+    std::unordered_map<StateKey, int, StateKeyHash> masterMoveableState;
+    std::unordered_map<StateKey, std::vector<bool>, StateKeyHash> masterFiredRects;
+    std::string currentLevelPath;
 
     void convertDialogueData();
     void convertInteractableData();
