@@ -123,22 +123,21 @@ void Loader::convertInteractableData()
             data.rects.push_back({{r.x, r.y, r.w, r.h}, r.dir});   
         }
         switcher_data.push_back(data);
-
-        moveable_data.clear();
-        for(auto& block : interact_interp.getMoveables())
+    }
+    
+    moveable_data.clear();
+    for(auto& block : interact_interp.getMoveables())
+    {
+        MoveableData data;
+        data.id = block.id;
+        data.name = block.name;
+        data.start = {block.start.x, block.start.y, block.start.w, block.start.h};
+        for(auto& d : block.dest)
         {
-            MoveableData data;
-            data.id = block.id;
-            data.name = block.name;
-            data.start = {block.start.x, block.start.y, block.start.w, block.start.h};
-
-            for(auto& d : block.dest)
-            {
-                data.dest.push_back({d.x, d.y, d.w, d.h});
-            }
-            data.current = {block.current.x, block.current.y, block.current.w, block.current.h};
-            moveable_data.push_back(data);
+            data.dest.push_back({d.x, d.y, d.w, d.h});
         }
+        data.current = {block.current.x, block.current.y, block.current.w, block.current.h};
+        moveable_data.push_back(data);
     }
 }
 
