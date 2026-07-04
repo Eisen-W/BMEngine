@@ -7,6 +7,7 @@
 #include "interactable.hpp"
 #include "intro.hpp"
 #include "messagebox.hpp"
+#include "moveblock_manager.hpp"
 #include "tilemap.hpp"
 #include "anim_manager.hpp"
 #include "loader.hpp"
@@ -28,5 +29,6 @@ struct Engine{
     EngineUtils EUtils;
     FacesetManager FSM;
     SaveManager SAVE;
+    BlockManager moveblock;
 };
 extern Engine EWE;
