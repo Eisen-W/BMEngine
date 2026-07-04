@@ -80,13 +80,14 @@ namespace Input{
 
     //face buttons
     inline bool pressA() 
-    {return IsKeyPressed(KEY_SPACE) 
+    {return IsKeyPressed(KEY_E) 
         || IsKeyPressed(KEY_ENTER) 
         || IsGamepadButtonPressed(0, GAMEPAD_BUTTON_RIGHT_FACE_DOWN);
     }
 
     inline bool pressB() 
-    {return IsGamepadButtonPressed(0, GAMEPAD_BUTTON_RIGHT_FACE_RIGHT);
+    {return IsGamepadButtonPressed(0, GAMEPAD_BUTTON_RIGHT_FACE_RIGHT) || 
+            IsKeyPressed(KEY_SPACE);
     }
     
     inline bool pressX()

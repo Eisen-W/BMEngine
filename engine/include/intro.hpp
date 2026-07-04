@@ -7,7 +7,7 @@ class Intro{
     void Init();
     void Update();
     void Draw();
-    bool Engineintro = 1;
+    bool Engineintro = 0;
 
     Texture2D intro_texture;
     Animation anim_intro;

@@ -9,7 +9,6 @@
 #include <string>
 #include <vector>
 
-//=======================DIALOGUE FILE=================================
 void Loader::FLoad(const char* madfile)
 {
     
@@ -108,6 +107,13 @@ void Loader::convertDialogueData()
         }
         d_data.push_back(data);
     }
+    for(auto& data : getDialogueBlocks())
+    {
+        for(auto& r : data.rects)
+            printf("id=%d rect=(%.0f,%.0f,%.0f,%.0f) dir=%d trigger=%d\n",
+            data.id, r.rect.x, r.rect.y, r.rect.width, r.rect.height,
+            (int)r.dir, (int)data.trigger);
+    }
 }
 
 void Loader::convertInteractableData()
@@ -153,6 +159,7 @@ bool Loader::hasFiredRect(int id, int rectIndex) const
 
 void Loader::saveDialogueState(FILE* f) const 
 { 
+    printf("saveDialogue: file pos=%ld\n", ftell(f));
     int count = (int)masterFiredRects.size();
     fwrite(&count, sizeof(int), 1, f);
     for(auto& fr : masterFiredRects)
@@ -170,11 +177,35 @@ void Loader::saveDialogueState(FILE* f) const
             fwrite(&val, sizeof(int), 1, f);
         }
     }
-
-    
-    dialogue_interp.saveFiredRects(f);
+    printf("saveDialogue: masterFiredRects count=%d\n", count);
 }
-void Loader::loadDialogueState(FILE* f) { dialogue_interp.loadFiredRects(f); }
+
+void Loader::loadDialogueState(FILE* f) 
+{ 
+    printf("loadDialogue: file pos=%ld\n", ftell(f));
+    int count = 0;
+    fread(&count, sizeof(int), 1, f);
+    printf("loadDialogue: read count=%d\n", count);
+    for(int i = 0; i < count; i++)
+    {
+        int pathLen = 0;
+        fread(&pathLen, sizeof(int), 1, f);
+        std::string path(pathLen, '\0');
+        fread(&path[0], 1, pathLen, f);
+        int id = 0;
+        fread(&id, sizeof(int), 1, f);
+        int rectCount = 0;
+        fread(&rectCount, sizeof(int), 1, f);
+        std::vector<bool> fired(rectCount, false);
+        for(int j = 0; j < rectCount; j++)
+        {
+            int val = 0;
+            fread(&val, sizeof(int), 1, f);
+            fired[j] = val != 0;
+        }
+        masterFiredRects[{path, id}] = fired;
+    }
+}
 
 const DialogueData* Loader::currentDialogue() const
 {
@@ -215,9 +246,15 @@ void Loader::setMoveableDestIndex(int id, int destIndex)
     convertInteractableData();
 }
 
-void Loader::saveInteractableState(FILE* f) const { interact_interp.saveState(f); }
+void Loader::saveInteractableState(FILE* f) const 
+{
+    printf("saveInteractable: file pos=%ld\n", ftell(f));
+    interact_interp.saveState(f); 
+}
+
 void Loader::loadInteractableState(FILE* f)
 {
+    printf("loadInteractable: file pos=%ld\n", ftell(f));
     interact_interp.loadState(f);
     convertInteractableData();
 }

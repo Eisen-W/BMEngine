@@ -5,7 +5,7 @@
 #include "raylib.h"
 
 class EngineUtils {
-    bool directionMatch(InteractDirection interactDir, Direction playerDir);
+    bool directionMatch(InteractDirection interactDir, Direction PDir);
 
     public:
     void startMessageBox(const DialogueData& data);

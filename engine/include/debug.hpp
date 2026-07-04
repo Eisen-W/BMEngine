@@ -2,6 +2,10 @@
 #include<raylib.h>
 #include<sys/resource.h>
 
+#ifdef __linux__
+#include<sys/resource.h>
+#endif
+
 
 inline constexpr bool DEV_MODE = true; //set to false for release builds
 

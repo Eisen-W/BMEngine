@@ -43,7 +43,9 @@ void DialogueInterpreter::load(const ParseResult& result, Interpreter& core_inte
         }
         firedRects[block.id] = std::vector<bool>(block.rects.size(), false);
         blocks.push_back(block);
+        printf("interpreter loaded %zu blocks\n", blocks.size());
     }
+    
 }
 
 void DialogueInterpreter::startDialogue(int id, int rectIndex)

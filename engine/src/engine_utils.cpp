@@ -5,10 +5,10 @@
 #include "engine_ast.hpp"
 #include "raylib.h"
 
-bool EngineUtils::directionMatch(InteractDirection interactDir, Direction playerDir)
+bool EngineUtils::directionMatch(InteractDirection interactDir, Direction PDir)
 {
     if(interactDir == InteractDirection::ANY) return true;
-    switch(playerDir)
+    switch(PDir)
     {
         case Direction::UP:     return interactDir == InteractDirection::UP;
         case Direction::DOWN:   return interactDir == InteractDirection::DOWN;

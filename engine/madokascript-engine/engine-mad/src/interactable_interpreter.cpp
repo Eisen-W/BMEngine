@@ -141,29 +141,43 @@ void InteractableInterpreter::saveState(FILE* f) const
         fwrite(&id, sizeof(int), 1, f);
         fwrite(&idx, sizeof(int), 1, f);
     }
+
+    printf("saveState: swCount=%d mvCount=%d\n", (int)switcherState.size(), (int)moveableState.size());
+    for(auto& p : moveableState)
+    {
+        printf("saveState: moveable id=%d destIndex=%d\n", p.first, p.second);
+    }
 }
 
 void InteractableInterpreter::loadState(FILE* f)
 {
     int swCount = 0;
     fread(&swCount, sizeof(int), 1, f);
+    printf("loadstate: swCount = %d\n", swCount);
     for(int i = 0; i < swCount; i++)
     {
         int id, val;
         fread(&id, sizeof(int), 1, f);
         fread(&val, sizeof(int), 1, f);
         switcherState[id] = val != 0;
+        printf("loadState: switcher id=%d val=%d\n", id, val);
     }
 
     int mvCount;
     fread(&mvCount, sizeof(int), 1, f);
+    printf("loadState: mvCount=%d\n", mvCount);
     for(int i = 0; i < mvCount; i++)
     {
         int id, idx;
         fread(&id, sizeof(int), 1, f);
         fread(&idx, sizeof(int), 1, f);
         moveableState[id] = idx;
+        printf("loadState: moveable id=%d destIndex=%d\n", id, idx);
     }
 
-    for(auto& m : moveables) { ResolveMoveablePos(m); }
+    for(auto& m : moveables) 
+    { 
+        ResolveMoveablePos(m); 
+        printf("loadState: resolved id=%d current=(%.0f,%.0f)\n", m.id, m.current.x, m.current.y);
+    }
 }
