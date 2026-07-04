@@ -53,7 +53,7 @@ namespace Input{
     }
 
     inline bool holdA()
-    { return IsKeyDown(KEY_SPACE)
+    { return IsKeyDown(KEY_E)
         || IsGamepadButtonDown(0, GAMEPAD_BUTTON_RIGHT_FACE_DOWN);
     }
 

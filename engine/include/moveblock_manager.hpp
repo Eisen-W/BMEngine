@@ -12,7 +12,7 @@ struct LiveBlock{
 class BlockManager{
     public:
     void InitBlocks();
-    void UpdateBlocks(float dt, Rectangle playerRec, Direction playerDir);
+    void UpdateBlocks(Rectangle playerRec, Direction playerDir);
     void DrawBlocks();
 
     void checkBlockDest(); 

@@ -14,7 +14,7 @@ void BlockManager::InitBlocks()
     }
 }
 
-void BlockManager::UpdateBlocks(float dt, Rectangle playerRec, Direction playerDir)
+void BlockManager::UpdateBlocks(Rectangle playerRec, Direction playerDir)
 {
     for(auto& block : liveblocks)
     {
@@ -24,18 +24,15 @@ void BlockManager::UpdateBlocks(float dt, Rectangle playerRec, Direction playerD
         switch(playerDir)
         {
             case Direction::UP:     pushDir = {0, -1};  pushCheck.y -= TILE_SIZE; break;
-            case Direction::DOWN:   pushDir = {0, 1};   pushCheck.y -= TILE_SIZE; break;
+            case Direction::DOWN:   pushDir = {0, 1};   pushCheck.y += TILE_SIZE; break;
             case Direction::LEFT:   pushDir = {-1, 0};  pushCheck.x -= TILE_SIZE; break;
-            case Direction::RIGHT:  pushDir = {1, 0};   pushCheck.x -= TILE_SIZE; break;
+            case Direction::RIGHT:  pushDir = {1, 0};   pushCheck.x += TILE_SIZE; break;
         }
 
-        bool touchingBlock = CheckCollisionRecs(pushCheck, block.rect);
-        
-        if(touchingBlock && Input::holdA())
+        if(CheckCollisionRecs(pushCheck, block.rect) && Input::holdA())
         {
-            Rectangle nextPos = block.rect;
-            nextPos.x += pushDir.x * TILE_SIZE * dt;
-            nextPos.y += pushDir.y * TILE_SIZE * dt;
+            block.rect.x += pushDir.x * TILE_SIZE;
+            block.rect.y += pushDir.y * TILE_SIZE;
         }
 
         //add collision detection here
