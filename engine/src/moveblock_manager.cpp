@@ -23,16 +23,17 @@ void BlockManager::UpdateBlocks(Rectangle playerRec, Direction playerDir)
 
         switch(playerDir)
         {
-            case Direction::UP:     pushDir = {0, -1};  pushCheck.y -= TILE_SIZE; break;
-            case Direction::DOWN:   pushDir = {0, 1};   pushCheck.y += TILE_SIZE; break;
-            case Direction::LEFT:   pushDir = {-1, 0};  pushCheck.x -= TILE_SIZE; break;
-            case Direction::RIGHT:  pushDir = {1, 0};   pushCheck.x += TILE_SIZE; break;
+            case Direction::UP:     pushDir = {0, -1};  pushCheck.y -= 2; break;
+            case Direction::DOWN:   pushDir = {0, 1};   pushCheck.y += 2; break;
+            case Direction::LEFT:   pushDir = {-1, 0};  pushCheck.x -= 2; break;
+            case Direction::RIGHT:  pushDir = {1, 0};   pushCheck.x += 2; break;
         }
 
         if(CheckCollisionRecs(pushCheck, block.rect) && Input::holdA())
         {
             block.rect.x += pushDir.x * TILE_SIZE;
             block.rect.y += pushDir.y * TILE_SIZE;
+            checkBlockDest();
         }
 
         //add collision detection here
