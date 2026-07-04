@@ -50,6 +50,7 @@ class Loader{
     const std::vector<MoveableData>& getMoveables() const;
     int getMoveableDestIndex(int id) const;
     void setMoveableDestIndex(int id, int destIndex);
+    bool isMoveableSolved(int id) const;
 
     void saveInteractableState(FILE* f) const;
     void loadInteractableState(FILE* f);

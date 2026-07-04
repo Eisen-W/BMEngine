@@ -98,6 +98,12 @@ void InteractableInterpreter::setMoveableDestIndex(int id, int destIndex)
     if(mb) ResolveMoveablePos(*mb);
 }
 
+bool InteractableInterpreter::isMoveableSolved(int id) const
+{
+    auto it = moveableState.find(id);
+    return it != moveableState.end() && it->second >= 0;
+}
+
 const std::vector<MoveableBlock>& InteractableInterpreter::getMoveables() const
 {
     return moveables;

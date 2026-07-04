@@ -15,8 +15,9 @@ class InteractableInterpreter{
     const std::vector<SwitcherBlock>& getSwitchers() const;
 
     //moveables
-    int getMoveableDestIndex(int id) const; // -1 if unsolved
+    int getMoveableDestIndex(int id) const; // -1 if unsolved, only answers "which dest is block 'n' at"
     void setMoveableDestIndex(int id, int destIndex); // -1 to reset
+    bool isMoveableSolved(int id) const; // for boolean only checks, only answers "is block 'n' solved or not"
     const std::vector<MoveableBlock>& getMoveables() const;
     MoveableBlock* findMoveableByID(int id);
 

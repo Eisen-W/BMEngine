@@ -235,6 +235,7 @@ std::string Loader::buildRaw(const DialogueData& data) const
 const std::vector<SwitcherData>& Loader::getSwitchers() const { return switcher_data; }
 bool Loader::getSwitcherState(int id) const { return interact_interp.getSwitcherState(id); }
 void Loader::setSwitcherState(int id, bool value) { interact_interp.setSwitcherState(id, value); }
+bool Loader::isMoveableSolved(int id) const { return interact_interp.isMoveableSolved(id); }
 
 // MOVEABLES
 const std::vector<MoveableData>& Loader::getMoveables() const { return moveable_data; }
