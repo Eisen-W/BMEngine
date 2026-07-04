@@ -157,7 +157,7 @@ void InteractableInterpreter::loadState(FILE* f)
 
     int mvCount;
     fread(&mvCount, sizeof(int), 1, f);
-    for(int i = 0; i < swCount; i++)
+    for(int i = 0; i < mvCount; i++)
     {
         int id, idx;
         fread(&id, sizeof(int), 1, f);
