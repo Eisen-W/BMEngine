@@ -2,6 +2,7 @@
 #include<raylib.h>
 #include<string>
 #include<unordered_map>
+#include <vector>
 
 class assetManager{
 private: 
@@ -14,6 +15,7 @@ private:
 public: 
     Texture2D& getTexture(const std::string& path);    
     Font& getFont(const std::string& path);
+    Font& getFontEx(const std::string& path, int FontSize, std::vector<int> codepoints);
     Sound& getSound(const std::string& path);
     Music& getMusic(const std::string& path);
     void unloadAssets();

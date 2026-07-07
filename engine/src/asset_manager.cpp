@@ -21,6 +21,16 @@ Font& assetManager::getFont(const std::string& path)
     return fonts[path];
 }
 
+Font& assetManager::getFontEx(const std::string& path, int FontSize, std::vector<int> codepoints)
+{
+    if(fonts.find(path) == fonts.end())
+    {
+        fonts[path] = LoadFontEx(path.c_str(), FontSize, codepoints.data(), codepoints.size());
+        SetTextureFilter(fonts[path].texture, TEXTURE_FILTER_POINT);
+    }
+    return fonts[path];
+}
+
 Sound& assetManager::getSound(const std::string& path)
 {
     if(sounds.find(path) == sounds.end())
