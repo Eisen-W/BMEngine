@@ -1,4 +1,5 @@
 #include "messagebox.hpp"
+#include "globalfont.hpp"
 #include "input_manager.hpp"
 #include "raylib.h"
 #include "engine.hpp"
@@ -14,7 +15,7 @@
 
 void MessageBox::Start(const std::string& raw, const std::string& speakerName, bool hasFace_, Texture2D faceTex_, Rectangle faceRect_)
 {
-    defaultFont = EWE.AM.getFont("../assets/pc-9800.ttf");
+    defaultFont = GlobalFont::EngineFont();
     speaker = "";
     pages.clear();
     currentPage = 0;

@@ -28,5 +28,5 @@ void Game::Update() {
 
 void Game::Draw() {
   //all draw calls here
-  DrawRectangle(0, 0, 640, 480, DARKBLUE);
+  DrawRectangle(0, 0, 640, 480, {0,4,51,255});
 }

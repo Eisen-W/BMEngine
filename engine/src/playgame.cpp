@@ -4,6 +4,7 @@
 #include<raylib.h>
 
 #include "game.hpp"
+#include "globalfont.hpp"
 
 
 void Play::playgame()
@@ -63,6 +64,7 @@ void Play::playgame()
     }
     printf("before unload\n");
     EWE.AM.unloadAssets();
+    GlobalFont::getAM().unloadAssets();
     EWE.DM.unloadCanvas();
     printf("after unload\n");
     CloseAudioDevice();
