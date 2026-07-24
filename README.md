@@ -16,14 +16,19 @@ Raylib v6 update: in cmakelists target_link_libraries, move X11 after raylib
 doxygen Doxyfile
 ```
 ### How to Update From Previous Version
-If you're on old engine version, After using the template
+If you're on old engine version and haven't added engine-upstream in remote
 ``` shell
 cd <yourclonedrepo>
 git remote add engine-upstream  https://github.com/Eisen-W/EWEngine-2D.git
+git subtree add --prefix=engine/ engine-upstream main --squash
+```
+After adding subtree, delete everything from 'parent engine' directory and copy contents of 'engine subdirectory' in 'parent engine' directory
+commit changes and use command below to update/pull changes from remote
+
+``` shell
 git subtree pull --prefix=engine/ engine-upstream main --squash
 ```
-DO NOT USE "git subtree add" as it copies entire ewengine repo inside the engine directory if the project doesnt already have the engine directory, in that case just copy 
-the engine files
+directly use the above command to update if you've already added subtree
 
 ### MadokaScript Integration
 MadokaScript is my custom scripting language now integrated with EWEngine-2D <br>
@@ -52,6 +57,7 @@ git subtree pull --prefix=engine/madokascript-engine/base/ mad-base main --squas
 - [x] Madokascript Integration (for dialogues and interactables)
 
 ### ChangeLog
+- v.04: generalized display manager and added MadokaScript features such as Dialogue scripting and moveable block puzzle scripting
 - v0.3: interactable tiles and messagebox
 - v0.2: tilemap parser and default game file structure
 - v0.1: asset manager, display manager, input manager, animation manager, debug view, intro
