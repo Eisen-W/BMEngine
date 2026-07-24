@@ -45,7 +45,7 @@ git subtree pull --prefix=engine/madokascript-engine/base/ mad-base main --squas
 - [x] Debug view (for DEV BUILDS, it just shows stats like FPS, Time, memory usage etc.)
 - [x] Intro
 - [x] Animation Manager (to handle animations)
-- [ ] Basic save system
+- [x] Basic save system
 - [x] Tilemap Parser
 - [x] Message Box
 - [x] Interactable tiles

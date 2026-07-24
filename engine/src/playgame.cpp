@@ -21,7 +21,8 @@ void Play::playgame()
     EWE.intro.Init();
 
     game.Init();
-    //Gctx.game.changeGameState(GameState::TITLE);
+
+    //int debugIdx = EWE.DM.addCanvas("debug", 320, 240);
 
     while(!WindowShouldClose())
     {
@@ -41,12 +42,11 @@ void Play::playgame()
         }
         if(DEV_MODE) EWE.dbg.Update();
         
-            
 
         //TEXTURE MODE
         BeginTextureMode(EWE.DM.getCanvas());
         ClearBackground(BLACK);
-        DrawRectangle(0,0,EWE.DM.getCanvasWidth(), EWE.DM.getCanvasHeight(), BLACK);
+        DrawRectangle(0,0,EWE.DM.getCanvasWidth(), EWE.DM.getCanvasHeight(), RED);
         if(EWE.intro.Engineintro) EWE.intro.Draw();
         else if(!game.gameReady) 
         {
@@ -55,10 +55,25 @@ void Play::playgame()
         EWE.MB.Draw();
         EndTextureMode();
 
+        // Uncomment the code below to render another canvas
+        //=================== "DEBUG" TEXTURE MODE ======================
+        /*
+        BeginTextureMode(EWE.DM.getCanvas(debugIdx));
+        ClearBackground(BLACK);
+        DrawRectangle(0,0, 320,240, GREEN);
+        EndTextureMode();
+        */
+        
         //DRAWING
         BeginDrawing();
         ClearBackground(BLACK);
-        EWE.DM.drawCanvasOnScreen();
+        EWE.DM.drawCanvasOnScreen(0);
+        
+        // Uncomment the code below to render another canvas
+        /*
+        EWE.DM.drawCanvasAt(debugIdx,
+            {GetScreenWidth() - 160.0f, 0, 160, 120});
+        */
         if(DEV_MODE) EWE.dbg.Draw();
         EndDrawing();
     }

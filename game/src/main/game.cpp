@@ -10,7 +10,6 @@ void Game::Init() {
   EWE.FSM.registerFace("EisenW", {0,0,16,16});
 
 
-
   gameReady = 0; //keep at the end of the function
 }
 
