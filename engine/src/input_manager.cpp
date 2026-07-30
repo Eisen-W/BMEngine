@@ -5,7 +5,7 @@
 bool Mpoint::MouseRec(Rectangle Rec)
 {
     Vector2 mouse = GetMousePosition();
-    auto& dm = EWE.DM;
+    auto& dm = BME.DM;
     float ox = dm.getOffsetX();
     float oy = dm.getOffsetY();
     scale = dm.getScale();

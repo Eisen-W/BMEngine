@@ -5,9 +5,9 @@
 void Game::Init() {
   //to load all game objects and set custom values to variables
 
-  EWE.loader.FLoad("../assets/msg.mad");
-  EWE.FSM.texture = EWE.AM.getTexture("../assets/face.png");
-  EWE.FSM.registerFace("EisenW", {0,0,16,16});
+  BME.madloader.FLoad("../assets/msg.mad");
+  BME.FSM.texture = BME.AM.getTexture("../assets/face.png");
+  BME.FSM.registerFace("EisenW", {0,0,16,16});
 
 
   gameReady = 0; //keep at the end of the function
@@ -18,9 +18,9 @@ void Game::Update() {
   float dt = GetFrameTime();
 
   //Replace the rec values below with player rec 
-  if(!EWE.MB.isActive())
+  if(!BME.TB.isActive())
   {
-    EWE.EUtils.checkAutoDialogue({0,0,640,480});
+    BME.EUtils.checkAutoDialogue({0,0,640,480});
   }
   
 }

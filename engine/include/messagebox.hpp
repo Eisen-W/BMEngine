@@ -9,13 +9,13 @@ constexpr int MSG_SPACING = 2;
 constexpr int MSG_FONTSIZE = 20;
 enum class messageState { TYPING, FULL, WAITING, DONE };
 
-class MessageBox
+class TextBox
 {
     public:
     void Start(const std::string& raw, const std::string& speakerName, bool hasFace_ = false, Texture2D faceTex_ = {}, Rectangle faceRect_ = {});
     void Update(float dt);
     void Draw();
-    void HandleMB();
+    void HandleTB();
     bool isActive() const { return active; }
 
     private:

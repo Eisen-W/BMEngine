@@ -12,14 +12,14 @@ struct CanvasEntry{
     int height;
 };
 
-class displayManager{
+class DisplayManager{
     private:
     float scale = 1.0f;
     Vector2 fit = {0,0};
     int offsetX = 0;
     int offsetY = 0;
 
-    static constexpr int windowWidth = 640; // initial window
+    static constexpr int windowWidth = 640; // initial window size
     static constexpr int windowHeight = 480;
 
     static constexpr int canvasWidth = 640; // canvas dimensions
@@ -28,8 +28,8 @@ class displayManager{
     std::vector<CanvasEntry> canvases;
 
     public:
-    displayManager();
-    ~displayManager();
+    DisplayManager();
+    ~DisplayManager();
 
     //main canvas - index 0
     void initCanvas();

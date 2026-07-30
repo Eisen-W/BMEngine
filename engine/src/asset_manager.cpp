@@ -1,6 +1,7 @@
 #include "asset_manager.hpp"
+#include "raylib.h"
 
-Texture2D& assetManager::getTexture(const std::string& path)
+Texture2D& AssetManager::getTexture(const std::string& path)
 {
     if(textures.find(path) == textures.end())
     {
@@ -10,7 +11,7 @@ Texture2D& assetManager::getTexture(const std::string& path)
     return textures[path];
 }
 
-Font& assetManager::getFont(const std::string& path)
+Font& AssetManager::getFont(const std::string& path)
 {
     if(fonts.find(path) == fonts.end())
     {
@@ -21,7 +22,7 @@ Font& assetManager::getFont(const std::string& path)
     return fonts[path];
 }
 
-Font& assetManager::getFontEx(const std::string& path, int FontSize, std::vector<int> codepoints)
+Font& AssetManager::getFontEx(const std::string& path, int FontSize, std::vector<int> codepoints)
 {
     if(fonts.find(path) == fonts.end())
     {
@@ -31,7 +32,7 @@ Font& assetManager::getFontEx(const std::string& path, int FontSize, std::vector
     return fonts[path];
 }
 
-Sound& assetManager::getSound(const std::string& path)
+Sound& AssetManager::getSound(const std::string& path)
 {
     if(sounds.find(path) == sounds.end())
     {
@@ -40,17 +41,26 @@ Sound& assetManager::getSound(const std::string& path)
     return sounds[path];
 }
 
-Music& assetManager::getMusic(const std::string &path)
+Music& AssetManager::getMusic(const std::string &path)
 {
     if(music.find(path) == music.end())
     {
         music[path] = LoadMusicStream(path.c_str());
     }
     return music[path];
+    // use "UpdateMusicStream(music_path)" in update function load next bytes
 }
-// use "UpdateMusicStream(music_path)" in update function load next bytes
 
-void assetManager::unloadAssets()
+Model& AssetManager::getModel(const std::string& path)
+{
+    if(model.find(path) == model.end())
+    {
+        model[path] = LoadModel(path.c_str());
+    }
+    return model[path];
+}
+
+void AssetManager::unloadAssets()
 {
     for(auto& pair : textures) UnloadTexture(pair.second);
     textures.clear();
@@ -58,10 +68,12 @@ void assetManager::unloadAssets()
     fonts.clear();
     for(auto& pair : sounds) UnloadSound(pair.second);
     sounds.clear();
+    for(auto& pair : model) UnloadModel(pair.second);
+    model.clear();
     unloaded = true;
 }
 
-assetManager::~assetManager()
+AssetManager::~AssetManager()
 {
     printf("AM destructor called\n");
     if(!unloaded) unloadAssets();

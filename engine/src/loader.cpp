@@ -9,7 +9,7 @@
 #include <string>
 #include <vector>
 
-void Loader::FLoad(const char* madfile)
+void MadLoader::FLoad(const char* madfile)
 {
     
     std::string filename(madfile);
@@ -83,7 +83,7 @@ void Loader::FLoad(const char* madfile)
     convertInteractableData();
 }
 
-void Loader::convertDialogueData()
+void MadLoader::convertDialogueData()
 {
     //convert DialogueBlock to DialogueData
     d_data.clear();
@@ -116,7 +116,7 @@ void Loader::convertDialogueData()
     }
 }
 
-void Loader::convertInteractableData()
+void MadLoader::convertInteractableData()
 {
     switcher_data.clear();
     for(auto& block : interact_interp.getSwitchers())
@@ -148,16 +148,16 @@ void Loader::convertInteractableData()
 }
 
 //==================DIALOGUE PASSTHROUGHS=========================
-const std::vector<DialogueData>& Loader::getDialogueBlocks() const { return d_data; } 
-void Loader::startDialogue(int id, int rectIndex) { dialogue_interp.startDialogue(id, rectIndex); }
-void Loader::advanceDialogue() { dialogue_interp.advance(); }
-bool Loader::dialogueRunning() const { return dialogue_interp.isRunning(); }
-bool Loader::hasFiredRect(int id, int rectIndex) const
+const std::vector<DialogueData>& MadLoader::getDialogueBlocks() const { return d_data; } 
+void MadLoader::startDialogue(int id, int rectIndex) { dialogue_interp.startDialogue(id, rectIndex); }
+void MadLoader::advanceDialogue() { dialogue_interp.advance(); }
+bool MadLoader::dialogueRunning() const { return dialogue_interp.isRunning(); }
+bool MadLoader::hasFiredRect(int id, int rectIndex) const
 {
     return dialogue_interp.hasFiredRect(id, rectIndex);
 }
 
-void Loader::saveDialogueState(FILE* f) const 
+void MadLoader::saveDialogueState(FILE* f) const 
 { 
     printf("saveDialogue: file pos=%ld\n", ftell(f));
     int count = (int)masterFiredRects.size();
@@ -180,7 +180,7 @@ void Loader::saveDialogueState(FILE* f) const
     printf("saveDialogue: masterFiredRects count=%d\n", count);
 }
 
-void Loader::loadDialogueState(FILE* f) 
+void MadLoader::loadDialogueState(FILE* f) 
 { 
     printf("loadDialogue: file pos=%ld\n", ftell(f));
     int count = 0;
@@ -207,7 +207,7 @@ void Loader::loadDialogueState(FILE* f)
     }
 }
 
-const DialogueData* Loader::currentDialogue() const
+const DialogueData* MadLoader::currentDialogue() const
 {
     const DialogueBlock* block = dialogue_interp.current();
     if(!block) return nullptr;
@@ -219,7 +219,7 @@ const DialogueData* Loader::currentDialogue() const
     return nullptr;
 }
 
-std::string Loader::buildRaw(const DialogueData& data) const
+std::string MadLoader::buildRaw(const DialogueData& data) const
 {
     std::string raw;
     for(int i = 0; i < (int)data.lines.size(); i++)
@@ -232,28 +232,28 @@ std::string Loader::buildRaw(const DialogueData& data) const
 
 //=================INTERACTABLE PASSTHROUGHS==================
 // SWITCHERS
-const std::vector<SwitcherData>& Loader::getSwitchers() const { return switcher_data; }
-bool Loader::getSwitcherState(int id) const { return interact_interp.getSwitcherState(id); }
-void Loader::setSwitcherState(int id, bool value) { interact_interp.setSwitcherState(id, value); }
-bool Loader::isMoveableSolved(int id) const { return interact_interp.isMoveableSolved(id); }
+const std::vector<SwitcherData>& MadLoader::getSwitchers() const { return switcher_data; }
+bool MadLoader::getSwitcherState(int id) const { return interact_interp.getSwitcherState(id); }
+void MadLoader::setSwitcherState(int id, bool value) { interact_interp.setSwitcherState(id, value); }
+bool MadLoader::isMoveableSolved(int id) const { return interact_interp.isMoveableSolved(id); }
 
 // MOVEABLES
-const std::vector<MoveableData>& Loader::getMoveables() const { return moveable_data; }
-int Loader::getMoveableDestIndex(int id) const { return interact_interp.getMoveableDestIndex(id); }
+const std::vector<MoveableData>& MadLoader::getMoveables() const { return moveable_data; }
+int MadLoader::getMoveableDestIndex(int id) const { return interact_interp.getMoveableDestIndex(id); }
 
-void Loader::setMoveableDestIndex(int id, int destIndex)
+void MadLoader::setMoveableDestIndex(int id, int destIndex)
 {
     interact_interp.setMoveableDestIndex(id, destIndex);
     convertInteractableData();
 }
 
-void Loader::saveInteractableState(FILE* f) const 
+void MadLoader::saveInteractableState(FILE* f) const 
 {
     printf("saveInteractable: file pos=%ld\n", ftell(f));
     interact_interp.saveState(f); 
 }
 
-void Loader::loadInteractableState(FILE* f)
+void MadLoader::loadInteractableState(FILE* f)
 {
     printf("loadInteractable: file pos=%ld\n", ftell(f));
     interact_interp.loadState(f);

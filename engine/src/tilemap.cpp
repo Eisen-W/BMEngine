@@ -10,7 +10,7 @@ void Tilemap::Load(const char *collisionFile, const char *visualFile,
   mapWidth = width;
   mapHeight = height;
   tilesetPath = TsPath;
-  Texture2D &tileset = EWE.AM.getTexture(tilesetPath);
+  Texture2D &tileset = BME.AM.getTexture(tilesetPath);
   tilesPerRow = tileset.width / TILE_SIZE;
 
   //---------COLLISION MAP----------------
@@ -62,7 +62,7 @@ void Tilemap::Load(const char *collisionFile, const char *visualFile,
 
 //-------------------------------
 void Tilemap::Draw() {
-  Texture2D &tilesetTexture = EWE.AM.getTexture(tilesetPath);
+  Texture2D &tilesetTexture = BME.AM.getTexture(tilesetPath);
   for (int y = 0; y < mapHeight; y++) {
     for (int x = 0; x < mapWidth; x++) {
       int tile = visualMap[y][x];

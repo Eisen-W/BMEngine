@@ -4,21 +4,20 @@
 #include<raylib.h>
 
 #include "game.hpp"
-#include "globalfont.hpp"
 
 
 void Play::playgame()
 {
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
-    InitWindow(EWE.DM.getWWidth(), EWE.DM.getWHeight(), "EWE");
+    InitWindow(BME.DM.getWWidth(), BME.DM.getWHeight(), "BME");
     SetTargetFPS(60);
     InitAudioDevice();
 
     Game game;
 
-    EWE.DM.initCanvas();
-    EWE.DM.scaleWindow();
-    EWE.intro.Init();
+    BME.DM.initCanvas();
+    BME.DM.scaleWindow();
+    BME.intro.Init();
 
     game.Init();
 
@@ -28,37 +27,37 @@ void Play::playgame()
     {
         float dt = GetFrameTime();
         //UPDATE
-        if(IsWindowResized()) EWE.DM.scaleWindow();
+        if(IsWindowResized()) BME.DM.scaleWindow();
 
-        if(EWE.intro.Engineintro) EWE.intro.Update();
+        if(BME.intro.Engineintro) BME.intro.Update();
         else if(!game.gameReady && gamestate == GameState::PLAY) game.Update();
         else if(gamestate == GameState::MESSAGE)
         {
-            EWE.MB.Update(dt);
-            if(!EWE.MB.isActive())
+            BME.TB.Update(dt);
+            if(!BME.TB.isActive())
             {
-                EWE.MB.HandleMB();
+                BME.TB.HandleTB();
             }
         }
-        if(DEV_MODE) EWE.dbg.Update();
+        if(DEV_MODE) BME.dbg.Update();
         
 
         //TEXTURE MODE
-        BeginTextureMode(EWE.DM.getCanvas());
+        BeginTextureMode(BME.DM.getCanvas());
         ClearBackground(BLACK);
-        DrawRectangle(0,0,EWE.DM.getCanvasWidth(), EWE.DM.getCanvasHeight(), RED);
-        if(EWE.intro.Engineintro) EWE.intro.Draw();
+        DrawRectangle(0,0,BME.DM.getCanvasWidth(), BME.DM.getCanvasHeight(), RED);
+        if(BME.intro.Engineintro) BME.intro.Draw();
         else if(!game.gameReady) 
         {
             game.Draw();
         }
-        EWE.MB.Draw();
+        BME.TB.Draw();
         EndTextureMode();
 
         // Uncomment the code below to render another canvas
         //=================== "DEBUG" TEXTURE MODE ======================
         /*
-        BeginTextureMode(EWE.DM.getCanvas(debugIdx));
+        BeginTextureMode(BME.DM.getCanvas(debugIdx));
         ClearBackground(BLACK);
         DrawRectangle(0,0, 320,240, GREEN);
         EndTextureMode();
@@ -67,20 +66,19 @@ void Play::playgame()
         //DRAWING
         BeginDrawing();
         ClearBackground(BLACK);
-        EWE.DM.drawCanvasOnScreen(0);
+        BME.DM.drawCanvasOnScreen(0);
         
         // Uncomment the code below to render another canvas
         /*
-        EWE.DM.drawCanvasAt(debugIdx,
+        BME.DM.drawCanvasAt(debugIdx,
             {GetScreenWidth() - 160.0f, 0, 160, 120});
         */
-        if(DEV_MODE) EWE.dbg.Draw();
+        if(DEV_MODE) BME.dbg.Draw();
         EndDrawing();
     }
     printf("before unload\n");
-    EWE.AM.unloadAssets();
-    GlobalFont::getAM().unloadAssets();
-    EWE.DM.unloadCanvas();
+    BME.AM.unloadAssets();
+    BME.DM.unloadCanvas();
     printf("after unload\n");
     CloseAudioDevice();
     CloseWindow();

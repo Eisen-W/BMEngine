@@ -3,10 +3,10 @@
 #include <cmath>
 #include <stdexcept>
 
-displayManager::displayManager() {}
-displayManager::~displayManager() {}
+DisplayManager::DisplayManager() {}
+DisplayManager::~DisplayManager() {}
 
-void displayManager::initCanvas()
+void DisplayManager::initCanvas()
 {
     canvases.emplace_back();
     CanvasEntry& main = canvases.back();
@@ -18,7 +18,7 @@ void displayManager::initCanvas()
     SetTextureFilter(main.texture.texture, TEXTURE_FILTER_POINT);
 }
 
-int displayManager::addCanvas(const std::string& id, int w, int h)
+int DisplayManager::addCanvas(const std::string& id, int w, int h)
 {
     canvases.emplace_back();
     CanvasEntry& entry = canvases.back();
@@ -31,7 +31,7 @@ int displayManager::addCanvas(const std::string& id, int w, int h)
     return (int)canvases.size() - 1;
 }
 
-void displayManager::removeCanvas(int index)
+void DisplayManager::removeCanvas(int index)
 {
     if(index == 0) return;
     if(index < 0 || index >= (int)canvases.size()) return;
@@ -39,18 +39,18 @@ void displayManager::removeCanvas(int index)
     canvases.erase(canvases.begin() + index);
 }
 
-void displayManager::unloadCanvas()
+void DisplayManager::unloadCanvas()
 {
     for(auto& c : canvases) {UnloadRenderTexture(c.texture);}
     canvases.clear();
 }
 
-const RenderTexture2D& displayManager::getCanvas(int index) const
+const RenderTexture2D& DisplayManager::getCanvas(int index) const
 {
     return canvases.at(index).texture;
 }
 
-const RenderTexture2D& displayManager::getCanvas(const std::string& id) const
+const RenderTexture2D& DisplayManager::getCanvas(const std::string& id) const
 {
     for(auto& c : canvases)
     {
@@ -59,7 +59,7 @@ const RenderTexture2D& displayManager::getCanvas(const std::string& id) const
     throw std::runtime_error("Canvas not found: " + id);
 }
 
-int displayManager::getCanvasIndex(const std::string& id) const
+int DisplayManager::getCanvasIndex(const std::string& id) const
 {
     for(int i = 0; i < (int)canvases.size(); i++)
     {
@@ -68,7 +68,7 @@ int displayManager::getCanvasIndex(const std::string& id) const
     return -1;
 }
 
-void displayManager::scaleWindow()
+void DisplayManager::scaleWindow()
 {
     if(!PIXEL_PERFECT) 
     {
@@ -87,7 +87,7 @@ void displayManager::scaleWindow()
     offsetY = (GetScreenHeight() - (int)fit.y)/2;
 };
 
-void displayManager::drawCanvasOnScreen(int index) const 
+void DisplayManager::drawCanvasOnScreen(int index) const 
 {
     const auto& c = canvases.at(index);
     Rectangle srcRec = {0,0,(float)c.width, -(float)c.height};
@@ -98,7 +98,7 @@ void displayManager::drawCanvasOnScreen(int index) const
 
 }
 
-void displayManager::drawCanvasAt(int index, Rectangle dest) const
+void DisplayManager::drawCanvasAt(int index, Rectangle dest) const
 {
     const auto& c = canvases.at(index);
     Rectangle srcRec = {0,0, (float)c.width, -(float)c.height};

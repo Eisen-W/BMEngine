@@ -4,7 +4,6 @@
 #include "display_manager.hpp"
 #include "debug.hpp"
 #include "input_manager.hpp"
-#include "interactable.hpp"
 #include "intro.hpp"
 #include "messagebox.hpp"
 #include "moveblock_manager.hpp"
@@ -14,21 +13,22 @@
 #include "engine_utils.hpp"
 #include "faceset_manager.hpp"
 #include "save_manager.hpp"
+#include "raycaster.hpp"
 
 struct Engine{
-    assetManager AM;
-    displayManager DM;
+    AssetManager AM;
+    DisplayManager DM;
     Debug dbg;
     Mpoint mousepoint;
     Intro intro;
     Tilemap TM;
     Animation Anim;
-    MessageBox MB;
-    Interactable interact;
-    Loader loader;
+    TextBox TB;
+    MadLoader madloader;
     EngineUtils EUtils;
     FacesetManager FSM;
     SaveManager SAVE;
     BlockManager moveblock;
+    Raycaster raycast;
 };
-extern Engine EWE;
+extern Engine BME;

@@ -26,7 +26,7 @@ void Animation::anim_Update(anim_values *self)
     }
 }
 
-Rectangle Animation::anime_frame(anim_values *self, int frames_per_row, int tileset_px)
+Rectangle Animation::anim_frame(anim_values *self, int frames_per_row, int tileset_px)
 {
     int x = (self->curr % frames_per_row) * tileset_px;
     int y = (self->curr / frames_per_row) * tileset_px;

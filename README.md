@@ -1,25 +1,18 @@
-# EWEngine-2D
-drag and drop engine files and template for my 2D games. <br>
-It is more of a game systems library than an engine with visual tools and editor. 
+# Blue Maniac Engine
+drag and drop engine files and template for my games. <br>
+Visual tools and editor not included.
+---
+Raylib version: Raylib
 
-### How to Use
-Just drag and drop include, lib and src folders into engine directory \
-edit the CMakeLists.txt and main according to game after copying and change target paths in that file
-if you're not using the current template/file structure 
-
-Raylib v6 update: in cmakelists target_link_libraries, move X11 after raylib
 
 ### Docs
-- [Handwritten documentation](docs/index.md) <br>
-- Generate Doxygen docs for graphs and visual heirarchies by running:
-```shell
-doxygen Doxyfile
-```
+- [Documentation](docs/index.md) <br>
+
 ### How to Update From Previous Version
 If you're on old engine version and haven't added engine-upstream in remote
 ``` shell
 cd <yourclonedrepo>
-git remote add engine-upstream  https://github.com/Eisen-W/EWEngine-2D.git
+git remote add engine-upstream  https://github.com/Eisen-W/BMengine.git
 git subtree add --prefix=engine/ engine-upstream main --squash
 ```
 After adding subtree, delete everything from 'parent engine' directory and copy contents of 'engine subdirectory' in 'parent engine' directory
@@ -31,13 +24,11 @@ git subtree pull --prefix=engine/ engine-upstream main --squash
 directly use the above command to update if you've already added subtree
 
 ### MadokaScript Integration
-MadokaScript is my custom scripting language now integrated with EWEngine-2D <br>
+MadokaScript is my custom scripting language now integrated with BMEngine <br>
 For now it creates dialogue triggers without hardcoding it in code, simply create a file with '.mad' extension and load it in the game code corresponding to levels. <br>
 To modify the triggers or dialogues just edit the .mad file without worrying about recompiling the game <br>
-check out [madokascript-EWE documentation]() for more help.
+check out [madokascript-BME documentation]() for more help.
 
-### NOTE: 
-17/6/2026: MadokaScript-EWE is no longer a separate repo and has been completely integrated with EWEngine, the core MadokaScript is still a separate repo and now EWEngine only pulls updates for the core in engine/madokascript-engine/base/ directory
 ### Pull madokascript updates from subtree
 ```shell
 git subtree pull --prefix=engine/madokascript-engine/base/ mad-base main --squash

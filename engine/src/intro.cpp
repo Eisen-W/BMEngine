@@ -6,12 +6,12 @@ void Intro::Init()
 {
     Engineintro = 0;
     count = 0;
-    engineTitle = "EWEngine v1";
+    engineTitle = "BMEngine";
     timer = 0.0f;
     speed = 150.0f;
     revealedPixels = 0;
     textSize = MeasureText(engineTitle, 80);
-    printf("intro init");
+    printf("intro init\n");
     
 }
 

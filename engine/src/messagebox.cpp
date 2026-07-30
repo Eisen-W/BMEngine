@@ -13,9 +13,9 @@
     @see Draw
 */
 
-void MessageBox::Start(const std::string& raw, const std::string& speakerName, bool hasFace_, Texture2D faceTex_, Rectangle faceRect_)
+void TextBox::Start(const std::string& raw, const std::string& speakerName, bool hasFace_, Texture2D faceTex_, Rectangle faceRect_)
 {
-    defaultFont = GlobalFont::EngineFont();
+    defaultFont = GlobalFont::EngineFont(BME.AM);
     speaker = "";
     pages.clear();
     currentPage = 0;
@@ -42,7 +42,7 @@ void MessageBox::Start(const std::string& raw, const std::string& speakerName, b
 }
 
 
-void MessageBox::LoadPage(int index)
+void TextBox::LoadPage(int index)
 {
     currentPage = index;
     currentWord = 0;
@@ -62,7 +62,7 @@ void MessageBox::LoadPage(int index)
     wordTimer = WORD_DELAY;
 }
 
-void MessageBox::splitWords(const std::string& page)
+void TextBox::splitWords(const std::string& page)
 {
     words.clear();
     std::stringstream ss(page);
@@ -74,7 +74,7 @@ void MessageBox::splitWords(const std::string& page)
     }
 }
 
-void MessageBox::Update(float dt)
+void TextBox::Update(float dt)
 {
     if(!active) return;
     
@@ -154,7 +154,7 @@ void MessageBox::Update(float dt)
     }
 }
 
-void MessageBox::Draw()
+void TextBox::Draw()
 {
     if(!active) return;
 
@@ -201,15 +201,15 @@ void MessageBox::Draw()
     }
 }
 
-void MessageBox::HandleMB()
+void TextBox::HandleTB()
 {
     if(!isActive())
     {
-        EWE.loader.advanceDialogue();
-        const DialogueData* next = EWE.loader.currentDialogue();
+        BME.madloader.advanceDialogue();
+        const DialogueData* next = BME.madloader.currentDialogue();
         if(next)
         {
-            EWE.EUtils.startMessageBox(*next);
+            BME.EUtils.startMessageBox(*next);
             /*
             EWE.MB.Start(EWE.loader.buildRaw(*next), next->speaker);
             gamestate = GameState::MESSAGE;

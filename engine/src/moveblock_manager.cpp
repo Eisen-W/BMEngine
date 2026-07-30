@@ -8,7 +8,7 @@
 void BlockManager::InitBlocks()
 {
     liveblocks.clear();
-    for(auto& mv : EWE.loader.getMoveables())
+    for(auto& mv : BME.madloader.getMoveables())
     {
         liveblocks.push_back({mv.id, mv.current});
     }
@@ -57,14 +57,14 @@ void BlockManager::checkBlockDest()
         block.rect.y = round(block.rect.y / TILE_SIZE) * TILE_SIZE;
 
         bool matched = false;
-        for(auto& mv : EWE.loader.getMoveables())
+        for(auto& mv : BME.madloader.getMoveables())
         {
             if(mv.id != block.id) continue;
             for(int i = 0; i < (int)mv.dest.size(); i++)
             {
                 if(CheckCollisionRecs(block.rect, mv.dest[i]))
                 {
-                    EWE.loader.setMoveableDestIndex(block.id,i);
+                    BME.madloader.setMoveableDestIndex(block.id,i);
                     matched = true;
                     break;
                 }
@@ -72,7 +72,7 @@ void BlockManager::checkBlockDest()
         }
         if(!matched)
         {
-            EWE.loader.setMoveableDestIndex(block.id, -1);
+            BME.madloader.setMoveableDestIndex(block.id, -1);
         }
     }
 }

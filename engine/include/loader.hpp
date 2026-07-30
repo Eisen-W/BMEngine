@@ -22,7 +22,7 @@ struct StateKeyHash{
     }
 };
 
-class Loader{
+class MadLoader{
     public:
     // handles loading the necessary default files
     // call the load function in your game level Init function

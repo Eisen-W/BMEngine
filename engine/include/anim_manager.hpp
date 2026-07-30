@@ -21,7 +21,7 @@ class Animation{
     };
 
     void anim_Update(anim_values *self);
-    Rectangle anime_frame(anim_values *self, int frames_per_row, int tileset_px);
+    Rectangle anim_frame(anim_values *self, int frames_per_row, int tileset_px);
     
     //Initialize anim_values inside Init Function
     //Call anim_Update inside Update function

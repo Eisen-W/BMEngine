@@ -17,9 +17,9 @@ private:
     int colorsUsed = 0;
 
     int printMemUsage();
-    int countColors(const RenderTexture2D& canvas);
 
-    Vector2 cm;
+    int FS = 20;
+    int xpos = 10;
 
 public:
     void Update();

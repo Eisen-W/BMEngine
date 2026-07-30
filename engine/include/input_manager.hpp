@@ -7,13 +7,24 @@ class Mpoint{
     bool MouseRec(Rectangle Rec);
     Vector2 CMouse;
     float scale = 1;
-    displayManager DM;
+    DisplayManager DM;
 };
 
+inline bool NavTick(float& timer, float delay = 0.15f)
+{
+    timer -= GetFrameTime();
+    if(timer <= 0.f)
+    {
+        timer = delay;
+        return true;
+    }
+    return false;
+}
 
 namespace Input{
-    //MOUSE INPUT
+    //MOUSE INPUT WRAPPER
     inline bool Lclick() { return IsMouseButtonPressed(MOUSE_BUTTON_LEFT); }
+    inline bool Rclick() { return IsMouseButtonPressed(MOUSE_BUTTON_RIGHT); }
 
     //--------------------------------------------------------------
     //KEYBOARD INPUT
@@ -23,24 +34,24 @@ namespace Input{
     constexpr float DEADZONE = 0.25f;
 
     
-    inline bool moveUp() 
+    inline bool holdUp() 
     {return IsKeyDown(KEY_W) 
         || IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_UP)
         || GetGamepadAxisMovement(0, GAMEPAD_AXIS_LEFT_Y) < -DEADZONE;
     }
 
-    inline bool moveDown() 
+    inline bool holdDown() 
     {return IsKeyDown(KEY_S) 
         || IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_DOWN)
         || GetGamepadAxisMovement(0, GAMEPAD_AXIS_LEFT_Y) > DEADZONE;
     }
 
-    inline bool moveRight() 
+    inline bool holdRight() 
     {return IsKeyDown(KEY_D) 
         || IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_RIGHT)
         || GetGamepadAxisMovement(0, GAMEPAD_AXIS_LEFT_X) > DEADZONE;
     }
-    inline bool moveLeft() 
+    inline bool holdLeft() 
     {return IsKeyDown(KEY_A) 
         || IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_LEFT) 
         || GetGamepadAxisMovement(0, GAMEPAD_AXIS_LEFT_X) < -DEADZONE;
@@ -86,8 +97,8 @@ namespace Input{
     }
 
     inline bool pressB() 
-    {return IsGamepadButtonPressed(0, GAMEPAD_BUTTON_RIGHT_FACE_RIGHT) || 
-            IsKeyPressed(KEY_SPACE);
+    {return IsGamepadButtonPressed(0, GAMEPAD_BUTTON_RIGHT_FACE_RIGHT) 
+        || IsKeyPressed(KEY_SPACE);
     }
     
     inline bool pressX()
