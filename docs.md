@@ -1,0 +1,2 @@
+# Blue Maniac Engine Documentation
+

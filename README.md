@@ -2,11 +2,11 @@
 drag and drop engine files and template for my games. <br>
 Visual tools and editor not included.
 ---
-Raylib version: Raylib
+Raylib version: Raylib v6.0
 
 
 ### Docs
-- [Documentation](docs/index.md) <br>
+- [Documentation](docs.md) <br>
 
 ### How to Update From Previous Version
 If you're on old engine version and haven't added engine-upstream in remote
