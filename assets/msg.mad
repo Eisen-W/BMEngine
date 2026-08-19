@@ -1,0 +1,22 @@
+int tile = 16;
+
+DIALOGUES {
+    auto {
+        id = 1;
+        next = 2;
+        once = false;
+        rect = [(0 * tile,0 * tile ,20 * tile ,15 * tile)];
+        speaker = "EW";
+        sprite = "EisenW";
+        lines = ["Welcome to BlueManiacEngine"];
+    }
+    auto{
+        id = 2;
+        next = 1;
+        once = false;
+        rect = [(0 * tile,0 * tile ,20 * tile ,15 * tile)];
+        speaker = "EW";
+        sprite = "EisenW";
+        lines = ["Powered by MadokaScript"];
+    }
+}

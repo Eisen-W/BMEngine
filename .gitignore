@@ -4,7 +4,6 @@ Makefile
 cmake_install.cmake
 build
 .vscode
-assets
 .clangd-tidy
 compile_commands.json
 
