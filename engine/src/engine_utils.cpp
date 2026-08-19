@@ -21,8 +21,8 @@ bool EngineUtils::directionMatch(InteractDirection interactDir, Direction PDir)
 void EngineUtils::startMessageBox(const DialogueData& data)
 {
     Rectangle faceRect;
-    bool hasFace = !data.sprite.empty() && BME.FSM.getFace(data.sprite, faceRect);
-    BME.TB.Start(BME.madloader.buildRaw(data), data.speaker, hasFace, BME.FSM.texture, faceRect);
+    bool hasFace = !data.sprite.empty() && BME.FaceSM.getFace(data.sprite, faceRect);
+    BME.TB.Start(BME.madloader.buildRaw(data), data.speaker, hasFace, BME.FaceSM.texture, faceRect);
     gamestate = GameState::MESSAGE;
 }
 

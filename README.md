@@ -2,7 +2,7 @@
 drag and drop engine files and template for my games. <br>
 Visual tools and editor not included.
 ---
-Raylib version: Raylib v6.0
+Raylib version: Raylib v6.*
 
 
 ### Docs
@@ -46,12 +46,14 @@ git subtree pull --prefix=engine/madokascript-engine/base/ mad-base main --squas
 - [x] Message Box
 - [x] Interactable tiles
 - [x] Madokascript Integration (for dialogues and interactables)
+- [x] Screen Manager
 
 ### ChangeLog
-- v.04: generalized display manager and added MadokaScript features such as Dialogue scripting and moveable block puzzle scripting
-- v0.3: interactable tiles and messagebox
-- v0.2: tilemap parser and default game file structure
-- v0.1: asset manager, display manager, input manager, animation manager, debug view, intro
+- v0.5: Generalized screen manager 
+- v0.4: Generalized display manager and added MadokaScript features such as Dialogue scripting and moveable block puzzle scripting
+- v0.3: Interactable tiles and messagebox
+- v0.2: Tilemap parser and default game file structure
+- v0.1: Asset manager, Display manager, Input manager, Animation manager, Debug view, Engine intro
 
 ### TO-DO
 - [ ] WRITE DOCS ASAP

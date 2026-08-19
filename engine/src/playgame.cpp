@@ -30,7 +30,7 @@ void Play::playgame()
         if(IsWindowResized()) BME.DM.scaleWindow();
 
         if(BME.intro.Engineintro) BME.intro.Update();
-        else if(!game.gameReady && gamestate == GameState::PLAY) game.Update();
+        else if(!game.gameNotReady && gamestate == GameState::PLAY) game.Update();
         else if(gamestate == GameState::MESSAGE)
         {
             BME.TB.Update(dt);
@@ -47,7 +47,7 @@ void Play::playgame()
         ClearBackground(BLACK);
         DrawRectangle(0,0,BME.DM.getCanvasWidth(), BME.DM.getCanvasHeight(), RED);
         if(BME.intro.Engineintro) BME.intro.Draw();
-        else if(!game.gameReady) 
+        else if(!game.gameNotReady) 
         {
             game.Draw();
         }
