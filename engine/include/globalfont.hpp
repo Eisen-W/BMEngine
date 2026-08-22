@@ -19,9 +19,9 @@ namespace JPFont {
 
 namespace GlobalFont{
     inline Font EngineFont(AssetManager& AM)
-        {
-            if(!lang_JP) return GetFontDefault();
-            auto codepoints = JPFont::GetCodePoints();
-            return AM.getFontEx("../assets/JF-Dot-Shinonome16.ttf", 16, codepoints);
-        }
+    {
+        if(!lang_JP) return GetFontDefault();
+        auto codepoints = JPFont::GetCodePoints();
+        return AM.getFontEx("../assets/JF-Dot-Shinonome16.ttf", 16, codepoints);
+    }
 }
