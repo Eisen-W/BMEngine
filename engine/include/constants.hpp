@@ -8,6 +8,4 @@ constexpr int TILE_SIZE = 16;
 constexpr int SPRITE_SIZE = 16;
 
 enum struct GameState { TITLE, PLAY, MENU, MESSAGE };
-enum struct Direction { UP, DOWN, LEFT, RIGHT };
-
 extern GameState gamestate;

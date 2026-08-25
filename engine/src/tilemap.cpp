@@ -2,62 +2,41 @@
 #include "constants.hpp"
 
 #include "engine.hpp"
+#include "engine_constants.hpp"
+#include "raylib.h"
+#include <vector>
 
-//-----------------------------
-void Tilemap::Load(const char *collisionFile, const char *visualFile,
-                   const char *objectFile, const char *TsPath, int width,
-                   int height) {
+void Tilemap::LoadFiles(FilePaths collisionFiles, FilePaths visualFiles, FilePaths objectFiles,
+                    std::string TsPath, int width, int height)
+{
   mapWidth = width;
   mapHeight = height;
   tilesetPath = TsPath;
   Texture2D &tileset = BME.AM.getTexture(tilesetPath);
   tilesPerRow = tileset.width / TILE_SIZE;
+  std::vector<FilePaths*> PathGroups = {&collisionFiles, &visualFiles, &objectFiles};
+  std::vector<TMap*> targets = {&collisionMap, &visualMap, &objectMap};
 
-  //---------COLLISION MAP----------------
-  FILE *col = fopen(collisionFile, "r");
-  if (!col) {
-    printf("failed to load collision map: %s\n", collisionFile);
-    return;
-  }
+  for(int i = 0; i < PathGroups.size(); i++)
+  {
+    auto& group = *PathGroups[i];
+    auto& target = *targets[i];
+    target.resize(group.size()); // one layer per file
 
-  collisionMap.resize(mapHeight, std::vector<int>(mapWidth));
-  for (int y = 0; y < mapHeight; y++) {
-    for (int x = 0; x < mapWidth; x++) {
-      fscanf(col, "%d,", &collisionMap[y][x]);
+    for(int layer = 0; layer < group.size(); layer++)
+    {
+      FILE *f = fopen(group[layer].c_str(), "r");
+      if(!f) { printf("failed to open file: %s", group[layer].c_str()); return; }
+
+      target[layer].resize(mapHeight, std::vector<int>(mapWidth));
+      for(int y = 0; y < mapHeight; y++){
+        for(int x = 0; x < mapWidth; x++){
+          fscanf(f, "%d", &target[layer][y][x]);
+        }
+      }
+      fclose(f);
     }
   }
-
-  fclose(col);
-
-  //---------VISUAL MAP----------------
-  FILE *vis = fopen(visualFile, "r");
-  if (!vis) {
-    printf("failed to load visual map: %s\n", visualFile);
-    return;
-  }
-
-  visualMap.resize(mapHeight, std::vector<int>(mapWidth));
-  for (int y = 0; y < mapHeight; y++) {
-    for (int x = 0; x < mapWidth; x++) {
-      fscanf(vis, "%d,", &visualMap[y][x]);
-    }
-  }
-  fclose(vis);
-
-  //----------OBJECT MAP---------------
-  FILE *obj = fopen(objectFile, "r");
-  if (!obj) {
-    printf("failed to load object map: %s\n", objectFile);
-    return;
-  }
-  objectMap.resize(mapHeight, std::vector<int>(mapWidth));
-  for (int y = 0; y < mapHeight; y++) {
-    for (int x = 0; x < mapWidth; x++) {
-      fscanf(obj, "%d,", &objectMap[y][x]);
-    }
-  }
-  fclose(obj);
-
 }
 
 //-------------------------------
