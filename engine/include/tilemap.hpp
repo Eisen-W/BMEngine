@@ -1,19 +1,39 @@
 #pragma once
+#include "constants.hpp"
 #include "engine_constants.hpp"
-#include<raylib.h>
-#include<string>
+#include <map>
+#include <raylib.h>
+#include <string>
+#include <vector>
+
+struct MapEntry{
+    TMap data;
+    Layer drawLayer;
+};
+
+
+struct MapLoad{
+    MapType id;
+    std::string path;
+    Layer layer;
+};
 
 class Tilemap{
     public:
     // EXPERIMENTAL ===================================
-    void LoadFiles(FilePaths collisionFiles, FilePaths visualFiles, FilePaths objectFiles,
-                    std::string TsPath, int width, int height);
+    void LoadFiles(std::vector<MapLoad> files, std::string TsPath, int width, int height);
     // ================================================
     void Load(const char* collisionFile, const char* visualFile, const char* objectFile, const char* TsPath,  
                 int width, int height) {} // Deprecated and removed
 
     void Draw();
-    void destroyTile(int x, int y);
+
+    //UTILITIES
+    TMap& getMap(const MapType id);
+    void setLayer(const MapType& id, Layer layer);
+
+
+    void destroyTile(int x, int y, Layer layer, MapType mtype = MapType::COLLISION);
 
     void setCollisionTile(int x, int y, int val) { collisionMap[1][y][x] = val; }
     void setVisualTile(int x, int y, int val) { visualMap[2][y][x] = val; }
@@ -28,9 +48,14 @@ class Tilemap{
     std::vector<std::vector<int>> objectMap;
     */
 
+    std::map<MapType, MapEntry> maps;
+
     TMap collisionMap;
     TMap visualMap;
     TMap objectMap; 
+
+    std::map<Layer, TMap> drawableLayers;
+    std::vector<TMap> collisionLayers;
 
     private:
     std::string tilesetPath;

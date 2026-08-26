@@ -1,6 +1,6 @@
 #pragma once
-#include "constants.hpp"
 #include "engine_ast.hpp"
+#include "engine_constants.hpp"
 #include "mad_data.hpp"
 #include "raylib.h"
 
