@@ -8,7 +8,6 @@
 
 struct MapEntry{
     TMap data;
-    Layer drawLayer;
 };
 
 
@@ -18,44 +17,32 @@ struct MapLoad{
     Layer layer;
 };
 
+struct TileInstance{
+    Rectangle src;
+    Vector2 pos;
+};
+
 class Tilemap{
     public:
-    // EXPERIMENTAL ===================================
+    // Old Load function removed
     void LoadFiles(std::vector<MapLoad> files, std::string TsPath, int width, int height);
-    // ================================================
-    void Load(const char* collisionFile, const char* visualFile, const char* objectFile, const char* TsPath,  
-                int width, int height) {} // Deprecated and removed
-
     void Draw();
+    void buildDrawCache();
 
-    //UTILITIES
+    //HELPERS
     TMap& getMap(const MapType id);
-    void setLayer(const MapType& id, Layer layer);
-
 
     void destroyTile(int x, int y, Layer layer, MapType mtype = MapType::COLLISION);
-
-    void setCollisionTile(int x, int y, int val) { collisionMap[1][y][x] = val; }
-    void setVisualTile(int x, int y, int val) { visualMap[2][y][x] = val; }
-    void setObjectTile(int x, int y, int val) { objectMap[3][y][x] = val; }
+    void setTile(int x, int y, int spriteVal, Layer layer, MapType mtype);
 
     int getMapWidth() const { return mapWidth; }
     int getMapHeight() const { return mapHeight; }
 
-    /*
-    std::vector<std::vector<int>> collisionMap;
-    std::vector<std::vector<int>> visualMap;
-    std::vector<std::vector<int>> objectMap;
-    */
-
     std::map<MapType, MapEntry> maps;
+    std::map<Layer, std::vector<TileInstance>> drawCache;
 
-    TMap collisionMap;
-    TMap visualMap;
-    TMap objectMap; 
 
     std::map<Layer, TMap> drawableLayers;
-    std::vector<TMap> collisionLayers;
 
     private:
     std::string tilesetPath;

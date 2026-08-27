@@ -2,7 +2,9 @@
 // Delete it or repurpose it
 
 #include "screen_ex.hpp"
+#include "constants.hpp"
 #include "engine.hpp"
+#include "engine_constants.hpp"
 #include "raylib.h"
 
 // ============= SCREEN 1 ====================
@@ -14,6 +16,11 @@ void ScreenEx1::Init()
     BME.FaceSM.texture = BME.AM.getTexture("../assets/face.png");
     BME.FaceSM.registerFace("EisenW", {0,0,16,16});
     */
+    levelmap.LoadFiles({
+                    {MapType::VISUAL, "../assets/TOWN_visualBG.csv", Layer::VISUAL_BG},
+                    {MapType::VISUAL, "../assets/TOWN_visualFG.csv", Layer::VISUAL_FG},
+                    }, 
+                    "../assets/sprite-temp.png", 30, 20);
 }
 
 void ScreenEx1::Update()
@@ -27,6 +34,12 @@ void ScreenEx1::Update()
     }
 
     // actual update logic
+    if(IsKeyPressed(KEY_D)) 
+    { 
+        printf("pressed D\n");
+        levelmap.destroyTile(4,6, Layer::VISUAL_BG, MapType::VISUAL);
+        levelmap.setTile(4, 7, 2, Layer::VISUAL_BG, MapType::VISUAL);
+    }
     if(!BME.TB.isActive())
     {
       BME.EUtils.checkAutoDialogue({0,0,640,480});
@@ -37,6 +50,7 @@ void ScreenEx1::Update()
 void ScreenEx1::Draw()
 {
     DrawRectangle(0,0, 640, 480, PINK);
+    levelmap.Draw();
 }
 
 // ============ SCREEN 2 ====================

@@ -4,19 +4,12 @@
 #include "engine.hpp"
 #include "engine_constants.hpp"
 #include "raylib.h"
-#include <cstddef>
-#include <iterator>
 #include <vector>
 
-//UTILITIES =============================
+//HELPERS =============================
 TMap& Tilemap::getMap(const MapType id)
 {
   return maps.at(id).data;
-}
-
-void Tilemap::setLayer(const MapType& id, Layer layer)
-{
-  maps.at(id).drawLayer = layer;
 }
 //=======================================
 
@@ -27,8 +20,6 @@ void Tilemap::LoadFiles(std::vector<MapLoad> files, std::string TsPath, int widt
   tilesetPath = TsPath;
   Texture2D &tileset = BME.AM.getTexture(tilesetPath);
   tilesPerRow = tileset.width / TILE_SIZE;
-  //std::vector<FilePaths*> PathGroups = {&collisionFiles, &visualFiles, &objectFiles};
-  //std::vector<TMap*> targets = {&collisionMap, &visualMap, &objectMap};
   
   for(auto& file : files)
   {
@@ -39,54 +30,95 @@ void Tilemap::LoadFiles(std::vector<MapLoad> files, std::string TsPath, int widt
     for(int y = 0; y < mapHeight; y++){
       for(int x = 0; x < mapWidth; x++){
         fscanf(f, "%d", &tl[y][x]);
+        fgetc(f);
       }
     }
 
-    maps[file.id].data.push_back(tl);
-    maps[file.id].drawLayer = file.layer;
+    maps[file.id].data[file.layer] = std::move(tl);
     fclose(f);
   }
+  buildDrawCache();
 }
 
 //===========================================================================================
+void Tilemap::buildDrawCache()
+{
+  drawCache.clear();
+
+  for(auto& [MapType, entry] : maps)
+  {
+    for(auto& [layer, tileLayer] : entry.data)
+    {
+      for(int y = 0; y < mapHeight; y++)
+      {
+        for(int x = 0; x < mapWidth; x++)
+        {
+          int id = tileLayer[y][x];
+          if(id < 0) continue;
+
+          TileInstance tile;
+          tile.src = {(float)((id % tilesPerRow) * TILE_SIZE),
+                      (float)((id / tilesPerRow) * TILE_SIZE),
+                      (float)TILE_SIZE, (float)TILE_SIZE
+                    };
+          
+          tile.pos = {(float)(x * TILE_SIZE), (float)(y * TILE_SIZE)};
+          drawCache[layer].push_back(tile);
+
+        }
+      }
+    }
+  }
+}
+
 void Tilemap::Draw() {
   Texture2D &tilesetTexture = BME.AM.getTexture(tilesetPath);
-  for (int y = 0; y < mapHeight; y++) {
-    for (int x = 0; x < mapWidth; x++) {
-      int tile = visualMap[y][x];
-      // printf("tile value: %d at x:%d y:%d\n", tile, x, y);
-      if (tile == -1)
-        continue;
-
-      Rectangle src = {(float)(tile % tilesPerRow) * TILE_SIZE,
-                       (float)(tile / tilesPerRow) * TILE_SIZE,
-                       (float)(TILE_SIZE), (float)(TILE_SIZE)};
-      // printf("visualmap hit at x:%d y:%d\n", x, y);
-      DrawTextureRec(tilesetTexture, src,
-                     {(float)(x * TILE_SIZE), (float)(y * TILE_SIZE)}, WHITE);
-
-      // printf("tile: %d src x: %f src y: %f\n", tile, src.x, src.y);
-      //printf("tilesPerRow: %d tileset width: %d\n", tilesPerRow,EWE.AM.getTexture(tilesetPath).width);
+  for(auto& [layer, tiles] : drawCache)
+  {
+    for(auto& tile : tiles)
+    {
+      DrawTextureRec(tilesetTexture, tile.src, tile.pos, WHITE);
     }
   }
 }
 
 //====================================================================
-/*
-void Tilemap::destroyTile(int x, int y) {
-  collisionMap[y][x] = -1;
-  visualMap[y][x] = -1;
-}
-*/
-
 void Tilemap::destroyTile(int x, int y, Layer layer, MapType mtype)
 {
   if(x < 0 || y < 0 || x >= mapWidth || y >= mapHeight) {return;}
 
-  const std::size_t layerIndex = static_cast<std::size_t>(layer);
   auto& layers = getMap(mtype);
 
-  if(layerIndex >= layers.size()) {return;}
+  auto it = layers.find(layer);
+  if(it == layers.end())
+  {
+    printf("layer not found for maptype\n");
+    return;
+  }
 
-  layers[layerIndex][y][x] = -1;
+  auto& currentLayer = it->second;
+
+  if(currentLayer[y][x] == -1) {return;}
+  currentLayer[y][x] = -1;
+  buildDrawCache();
+}
+
+void Tilemap::setTile(int x, int y, int spriteVal, Layer layer, MapType mtype)
+{
+  if(x < 0 || y < 0 || x >= mapWidth || y >= mapHeight) {return;}
+
+  auto& layers = getMap(mtype);
+
+  auto it = layers.find(layer);
+  if(it == layers.end())
+  {
+    printf("layer not found for maptype\n");
+    return;
+  }
+
+  auto& currentLayer = it->second;
+
+  if(currentLayer[y][x] == spriteVal) {return;}
+  currentLayer[y][x] = spriteVal;
+  buildDrawCache();
 }

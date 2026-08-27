@@ -49,6 +49,7 @@ git subtree pull --prefix=engine/madokascript-engine/base/ mad-base main --squas
 - [x] Screen Manager
 
 ### ChangeLog
+- v0.6: Better Tilemap with layers and map types
 - v0.5: Generalized screen manager 
 - v0.4: Generalized display manager and added MadokaScript features such as Dialogue scripting and moveable block puzzle scripting
 - v0.3: Interactable tiles and messagebox
