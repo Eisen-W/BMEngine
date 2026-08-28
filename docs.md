@@ -19,6 +19,29 @@ Sound&      getSound(const std::string& path);
 Music&      getMusic(const std::string& path);
 Model&      getModel(const std::string& path);
 ```
+## C
+
+### constants
+```cpp
+static constexpr int canvas_W = 640;
+static constexpr int canvas_H = 480;
+
+//change as needed
+constexpr int TILE_SIZE = 32;
+constexpr int SPRITE_SIZE = 16;
+
+enum struct GameState { TITLE, PLAY, MENU, MESSAGE };
+extern GameState gamestate;
+
+enum struct Layer : int{
+    BACKGROUND = 0,
+    VISUAL_BG = 1,
+    OBJECT = 2,
+    VISUAL_FG = 3,
+    FOREGROUND = 4,
+    UI = 5,
+};
+```
 
 ## D
 
@@ -53,6 +76,19 @@ int     getWWidth()         const {return windowWidth;}
 ```
 
 ## E
+### engine_constants
+```cpp
+// DO NOT TOUCH UNLESS YOU ABSOLUTELY HAVE TO ===========
+using TileLayer = std::vector<std::vector<int>>;
+using TMap = std::map<Layer, TileLayer>;
+using FilePaths = std::vector<std::string>;
+using LayeredFilePaths = std::vector<std::pair<std::string, Layer>>;
+
+enum struct MapType{ COLLISION, VISUAL, OBJECT,};
+// ======================================================
+
+enum struct Direction { UP, DOWN, LEFT, RIGHT };
+```
 
 ### engine_utils
 ``` cpp
@@ -196,14 +232,15 @@ void InitAll();
 
 ### tilemap
 ```cpp
-void Load(const char* collisionFile, const char* visualFile, const char* objectFile, const char* TsPath, int width, int height);
+void LoadFiles(std::vector<MapLoad> files, std::string TsPath, int width, int height);
 void Draw();
+void buildDrawCache();
 
-void destroyTile(int x, int y);
-void setCollisionTile(int x, int y, int val) { collisionMap[y][x] = val; }
-void setVisualTile(int x, int y, int val) {visualMap[y][x] = val; }
-void setObjectTile(int x, int y, int val) { objectMap[y][x] = val; }
+TMap& getMap(const MapType id);
 
-int getMapWidth()   const { return mapWidth; }
-int getMapHeight()  const { return mapHeight; }
+void destroyTile(int x, int y, Layer layer, MapType mtype = MapType::COLLISION);
+void setTile(int x, int y, int spriteVal, Layer layer, MapType mtype);
+
+int getMapWidth() const { return mapWidth; }
+int getMapHeight() const { return mapHeight; }
 ```
