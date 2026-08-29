@@ -34,6 +34,7 @@ class Tilemap{
 
     void destroyTile(int x, int y, Layer layer, MapType mtype = MapType::COLLISION);
     void setTile(int x, int y, int spriteVal, Layer layer, MapType mtype);
+    void updateCache(int x, int y, Layer layer, MapType mtype);
 
     int getMapWidth() const { return mapWidth; }
     int getMapHeight() const { return mapHeight; }

@@ -4,6 +4,7 @@
 #include "engine.hpp"
 #include "engine_constants.hpp"
 #include "raylib.h"
+#include <algorithm>
 #include <vector>
 
 //HELPERS =============================
@@ -100,7 +101,7 @@ void Tilemap::destroyTile(int x, int y, Layer layer, MapType mtype)
 
   if(currentLayer[y][x] == -1) {return;}
   currentLayer[y][x] = -1;
-  buildDrawCache();
+  updateCache(x, y, layer, mtype);
 }
 
 void Tilemap::setTile(int x, int y, int spriteVal, Layer layer, MapType mtype)
@@ -120,5 +121,46 @@ void Tilemap::setTile(int x, int y, int spriteVal, Layer layer, MapType mtype)
 
   if(currentLayer[y][x] == spriteVal) {return;}
   currentLayer[y][x] = spriteVal;
-  buildDrawCache();
+  updateCache(x, y, layer, mtype);
+}
+
+void Tilemap::updateCache(int x, int y, Layer layer, MapType mtype)
+{
+
+  // Remove existing entry at this world pos
+  auto& tiles = drawCache[layer];
+
+  tiles.erase(
+    std::remove_if(tiles.begin(), tiles.end(), 
+      [&](const TileInstance& t)
+          {
+            return t.pos.x == static_cast<float>(x * TILE_SIZE) &&
+                    t.pos.y == static_cast<float>(y * TILE_SIZE);
+          }),
+          tiles.end()
+  );
+
+  // look up tile id
+  auto& layers = getMap(mtype);
+  auto it = layers.find(layer);
+  if(it == layers.end()) {return;}
+  
+  const int id = it->second[y][x];
+  if(id < 0) {return;}
+
+  // build new instance
+  TileInstance tile;
+
+  tile.src = {
+    static_cast<float>((id % tilesPerRow) * TILE_SIZE),
+    static_cast<float>((id / tilesPerRow) * TILE_SIZE),
+    static_cast<float>(TILE_SIZE),
+    static_cast<float>(TILE_SIZE)
+  };
+
+  tile.pos = {static_cast<float>(x * TILE_SIZE),
+              static_cast<float>(y * TILE_SIZE)
+  };
+
+  tiles.push_back(tile);
 }
