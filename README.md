@@ -19,7 +19,7 @@ After adding subtree, delete everything from 'parent engine' directory and copy 
 commit changes and use command below to update/pull changes from remote
 
 ``` shell
-git subtree pull --prefix=engine/ engine-upstream main --squash
+sh engine-update.sh
 ```
 directly use the above command to update if you've already added subtree
 
@@ -31,7 +31,7 @@ check out [madokascript-BME documentation]() for more help.
 
 ### Pull madokascript updates from subtree
 ```shell
-git subtree pull --prefix=engine/madokascript-engine/base/ mad-base main --squash
+sh engine-update-mad.sh
 ```
 
 ### Features

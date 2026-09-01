@@ -12,8 +12,8 @@ struct MapEntry{
 
 
 struct MapLoad{
-    MapType id;
     std::string path;
+    MapType id;
     Layer layer;
 };
 
@@ -31,6 +31,7 @@ class Tilemap{
 
     //HELPERS
     TMap& getMap(const MapType id);
+    TileLayer& getTileLayer(MapType mtype, Layer layer);
 
     void destroyTile(int x, int y, Layer layer, MapType mtype = MapType::COLLISION);
     void setTile(int x, int y, int spriteVal, Layer layer, MapType mtype);

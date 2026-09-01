@@ -12,6 +12,11 @@ TMap& Tilemap::getMap(const MapType id)
 {
   return maps.at(id).data;
 }
+
+TileLayer& Tilemap::getTileLayer(MapType mtype, Layer layer)
+{
+  return maps.at(mtype).data.at(layer);
+}
 //=======================================
 
 void Tilemap::LoadFiles(std::vector<MapLoad> files, std::string TsPath, int width, int height)

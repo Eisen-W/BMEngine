@@ -17,8 +17,8 @@ void ScreenEx1::Init()
     BME.FaceSM.registerFace("EisenW", {0,0,16,16});
     */
     levelmap.LoadFiles({
-                    {MapType::VISUAL, "../assets/TOWN_visualBG.csv", Layer::VISUAL_BG},
-                    {MapType::VISUAL, "../assets/TOWN_visualFG.csv", Layer::VISUAL_FG},
+                    {"../assets/TOWN_visualBG.csv",MapType::VISUAL, Layer::VISUAL_BG},
+                    {"../assets/TOWN_visualFG.csv",MapType::VISUAL, Layer::VISUAL_FG},
                     }, 
                     "../assets/sprite-temp.png", 30, 20);
 }
