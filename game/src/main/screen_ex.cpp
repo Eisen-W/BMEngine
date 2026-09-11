@@ -40,6 +40,7 @@ void ScreenEx1::Update()
         levelmap.destroyTile(4,6, Layer::VISUAL_BG, MapType::VISUAL);
         levelmap.setTile(4, 7, 2, Layer::VISUAL_BG, MapType::VISUAL);
     }
+
     if(!BME.TB.isActive())
     {
       BME.EUtils.checkAutoDialogue({0,0,640,480});
@@ -49,7 +50,7 @@ void ScreenEx1::Update()
 
 void ScreenEx1::Draw()
 {
-    DrawRectangle(0,0, 640, 480, PINK);
+    DrawRectangle(0,0, 640, 480, LIME);
     levelmap.Draw();
 }
 

@@ -2,8 +2,11 @@
 // Delete it or repurpose it
 
 #pragma once
+#include "engine_constants.hpp"
+
 #include "screen_manager.hpp"
 #include "tilemap.hpp"
+
 
 class ScreenEx1 : public IScreen
 {
@@ -16,6 +19,7 @@ class ScreenEx1 : public IScreen
 
     private:
     Tilemap levelmap;
+    Direction dir = Direction::DOWN;
 };
 
 class ScreenEx2 : public IScreen

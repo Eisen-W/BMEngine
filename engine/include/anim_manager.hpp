@@ -1,5 +1,6 @@
 #pragma once
 #include<raylib.h>
+#include <vector>
 
 
 class Animation{
@@ -21,7 +22,7 @@ class Animation{
     };
 
     void anim_Update(anim_values *self);
-    Rectangle anim_frame(anim_values *self, int frames_per_row, int tileset_px);
+    Rectangle anim_frame(anim_values *self, int frames_per_row, int tileWidth, int tileHeight, const std::vector<Rectangle>& customFrames = {});
     
     //Initialize anim_values inside Init Function
     //Call anim_Update inside Update function
