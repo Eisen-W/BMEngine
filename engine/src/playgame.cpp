@@ -8,74 +8,84 @@
 
 void Play::playgame()
 {
+    // Init
+    Init();
+
+    // Main window loop
+    while(!WindowShouldClose())
+    {
+        float dt = GetFrameTime();
+        // Update
+        Update(dt);
+        
+        // Drawing
+        Canvas();
+        Draw();
+    }
+    Unload();
+}
+
+
+void Play::Init()
+{
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     InitWindow(BME.DM.getWWidth(), BME.DM.getWHeight(), "BME");
     SetTargetFPS(60);
     InitAudioDevice();
-
-    Game game;
 
     BME.DM.initCanvas();
     BME.DM.scaleWindow();
     BME.intro.Init();
 
     game.Init();
+}
 
-    //int debugIdx = EWE.DM.addCanvas("debug", 320, 240);
+void Play::Update(float dt)
+{
+    if(IsWindowResized()) BME.DM.scaleWindow();
 
-    while(!WindowShouldClose())
+    if(BME.intro.Engineintro) BME.intro.Update();
+    else if(!game.gameNotReady && gamestate == GameState::PLAY) game.Update();
+    else if(gamestate == GameState::MESSAGE)
     {
-        float dt = GetFrameTime();
-        //UPDATE
-        if(IsWindowResized()) BME.DM.scaleWindow();
-
-        if(BME.intro.Engineintro) BME.intro.Update();
-        else if(!game.gameNotReady && gamestate == GameState::PLAY) game.Update();
-        else if(gamestate == GameState::MESSAGE)
+        BME.TB.Update(dt);
+        if(!BME.TB.isActive())
         {
-            BME.TB.Update(dt);
-            if(!BME.TB.isActive())
-            {
-                BME.TB.HandleTB();
-            }
+            BME.TB.HandleTB();
         }
-        if(DEV_MODE) BME.dbg.Update();
-        
-
-        //TEXTURE MODE
-        BeginTextureMode(BME.DM.getCanvas());
-        ClearBackground(BLACK);
-        DrawRectangle(0,0,BME.DM.getCanvasWidth(), BME.DM.getCanvasHeight(), RED);
-        if(BME.intro.Engineintro) BME.intro.Draw();
-        else if(!game.gameNotReady) 
-        {
-            game.Draw();
-        }
-        BME.TB.Draw();
-        EndTextureMode();
-
-        // Uncomment the code below to render another canvas
-        //=================== "DEBUG" TEXTURE MODE ======================
-        /*
-        BeginTextureMode(BME.DM.getCanvas(debugIdx));
-        ClearBackground(BLACK);
-        DrawRectangle(0,0, 320,240, GREEN);
-        EndTextureMode();
-        */
-        
-        //DRAWING
-        BeginDrawing();
-        ClearBackground(BLACK);
-        BME.DM.drawCanvasOnScreen(0);
-        
-        // Uncomment the code below to render another canvas
-        /*
-        BME.DM.drawCanvasAt(debugIdx,
-            {GetScreenWidth() - 160.0f, 0, 160, 120});
-        */
-        if(DEV_MODE) BME.dbg.Draw();
-        EndDrawing();
     }
+
+    if(DEV_MODE) BME.dbg.Update();
+}
+
+void Play::Canvas()
+{
+    //TEXTURE MODE
+    BeginTextureMode(BME.DM.getCanvas());
+    ClearBackground(BLACK);
+    DrawRectangle(0,0,BME.DM.getCanvasWidth(), BME.DM.getCanvasHeight(), RED);
+    if(BME.intro.Engineintro) BME.intro.Draw();
+    else if(!game.gameNotReady) 
+    {
+        game.Draw();
+    }
+    BME.TB.Draw();
+    EndTextureMode();
+}
+
+void Play::Draw()
+{
+    //DRAWING
+    BeginDrawing();
+    ClearBackground(BLACK);
+    BME.DM.drawCanvasOnScreen(0);
+
+    if(DEV_MODE) BME.dbg.Draw();
+    EndDrawing();
+}
+
+void Play::Unload()
+{
     printf("before unload\n");
     BME.AM.unloadAssets();
     BME.DM.unloadCanvas();
