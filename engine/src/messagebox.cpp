@@ -1,8 +1,10 @@
 #include "messagebox.hpp"
+#include "constants.hpp"
 #include "globalfont.hpp"
 #include "input_manager.hpp"
 #include "raylib.h"
 #include "engine.hpp"
+#include "renderer.hpp"
 #include <sstream>
 #include <string>
 
@@ -154,51 +156,55 @@ void TextBox::Update(float dt)
     }
 }
 
-void TextBox::Draw()
+void TextBox::Draw(Renderer& r)
 {
     if(!active) return;
 
-    
-    //box
-    DrawRectangleRec(MSG_BOX, BLACK);
-    DrawRectangleLinesEx(MSG_BOX, 2,WHITE);
-
-    //face
-    int textOffsetX = MSG_PADDING;
-    if(hasFace)
-    {
-        DrawTexturePro(faceTexture, faceRect, 
-                        {MSG_BOX.x + MSG_PADDING, MSG_BOX.y + MSG_PADDING, faceRect.width, faceRect.height},
-                        {0,0}, 0, WHITE);
-        textOffsetX = MSG_PADDING + (int)faceRect.width + MSG_PADDING;
-    }
-
-    //speaker
-    DrawTextEx(defaultFont, speaker.c_str(), {MSG_BOX.x + textOffsetX, MSG_BOX.y + MSG_PADDING},
-                MSG_FONTSIZE, MSG_SPACING, WHITE);
-
-    //message
-    for(int i = 0; i < (int)lines.size(); i++)
-    {
-        DrawTextEx(defaultFont, lines[i].c_str(), 
-            {MSG_BOX.x + textOffsetX,MSG_BOX.y + MSG_PADDING + (MSG_FONTSIZE + 4) + i * (MSG_FONTSIZE + 4)},
-                    MSG_FONTSIZE, MSG_SPACING, WHITE);
-    }
-    
-    if(msgState == messageState::TYPING && !currentLine.empty())
-    {
-        DrawTextEx(defaultFont,currentLine.c_str(), 
-        {MSG_BOX.x + textOffsetX, MSG_BOX.y + MSG_PADDING + (MSG_FONTSIZE + 4) + (int)lines.size() * (MSG_FONTSIZE + 4)},
-                    MSG_FONTSIZE, MSG_SPACING, WHITE);
-    }
-
-    //prompt
-    if(msgState == messageState::WAITING)
-    {
-        DrawTextEx(defaultFont, "[A]",
-                    {MSG_BOX.x + MSG_BOX.width - 40, MSG_BOX.y + MSG_BOX.height - MSG_FONTSIZE - MSG_PADDING},
-                    MSG_FONTSIZE , MSG_SPACING, WHITE);
-    }
+    r.Submit(Layer::UI,
+        [&]()
+        {
+            //box
+            DrawRectangleRec(MSG_BOX, BLACK);
+            DrawRectangleLinesEx(MSG_BOX, 2,WHITE);
+        
+            //face
+            int textOffsetX = MSG_PADDING;
+            if(hasFace)
+            {
+                DrawTexturePro(faceTexture, faceRect, 
+                                {MSG_BOX.x + MSG_PADDING, MSG_BOX.y + MSG_PADDING, faceRect.width, faceRect.height},
+                                {0,0}, 0, WHITE);
+                textOffsetX = MSG_PADDING + (int)faceRect.width + MSG_PADDING;
+            }
+        
+            //speaker
+            DrawTextEx(defaultFont, speaker.c_str(), {MSG_BOX.x + textOffsetX, MSG_BOX.y + MSG_PADDING},
+                        MSG_FONTSIZE, MSG_SPACING, WHITE);
+        
+            //message
+            for(int i = 0; i < (int)lines.size(); i++)
+            {
+                DrawTextEx(defaultFont, lines[i].c_str(), 
+                    {MSG_BOX.x + textOffsetX,MSG_BOX.y + MSG_PADDING + (MSG_FONTSIZE + 4) + i * (MSG_FONTSIZE + 4)},
+                            MSG_FONTSIZE, MSG_SPACING, WHITE);
+            }
+            
+            if(msgState == messageState::TYPING && !currentLine.empty())
+            {
+                DrawTextEx(defaultFont,currentLine.c_str(), 
+                {MSG_BOX.x + textOffsetX, MSG_BOX.y + MSG_PADDING + (MSG_FONTSIZE + 4) + (int)lines.size() * (MSG_FONTSIZE + 4)},
+                            MSG_FONTSIZE, MSG_SPACING, WHITE);
+            }
+        
+            //prompt
+            if(msgState == messageState::WAITING)
+            {
+                DrawTextEx(defaultFont, "[A]",
+                            {MSG_BOX.x + MSG_BOX.width - 40, MSG_BOX.y + MSG_BOX.height - MSG_FONTSIZE - MSG_PADDING},
+                            MSG_FONTSIZE , MSG_SPACING, WHITE);
+            }
+        }
+    );
 }
 
 void TextBox::HandleTB()

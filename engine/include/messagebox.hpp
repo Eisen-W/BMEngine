@@ -1,5 +1,6 @@
 #pragma once
 #include "raylib.h"
+#include "renderer.hpp"
 #include <string>
 #include <vector>
 
@@ -14,7 +15,7 @@ class TextBox
     public:
     void Start(const std::string& raw, const std::string& speakerName, bool hasFace_ = false, Texture2D faceTex_ = {}, Rectangle faceRect_ = {});
     void Update(float dt);
-    void Draw();
+    void Draw(Renderer& r);
     void HandleTB();
     bool isActive() const { return active; }
 

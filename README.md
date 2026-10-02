@@ -44,8 +44,10 @@ sh engine-update-mad.sh
 - [x] Interactable tiles
 - [x] Madokascript Integration (for dialogues and interactables)
 - [x] Screen Manager
+- [x] Renderer
 
 ### ChangeLog
+- v0.7: Engine Renderer to draw and sort using layers
 - v0.6: Better Tilemap with layers and map types
 - v0.5: Generalized screen manager 
 - v0.4: Generalized display manager and added MadokaScript features such as Dialogue scripting and moveable block puzzle scripting

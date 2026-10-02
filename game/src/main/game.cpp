@@ -22,7 +22,7 @@ void Game::Update() {
   BME.screens.Update();
 }
 
-void Game::Draw(Renderer r) {
+void Game::Draw(Renderer& r) {
   //all draw calls here
   r.Submit(Layer::BACKGROUND,
     [&]()

@@ -72,7 +72,7 @@ void Play::Canvas()
         game.Draw(renderer);
         renderer.RenderLayers();
     }
-    BME.TB.Draw();
+    BME.TB.Draw(renderer);
     EndTextureMode();
 }
 

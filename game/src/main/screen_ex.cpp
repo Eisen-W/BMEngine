@@ -12,11 +12,13 @@
 void ScreenEx1::Init()
 {
     // Init Values
+    
     /*
     BME.madloader.FLoad("../assets/msg.mad");
     BME.FaceSM.texture = BME.AM.getTexture("../assets/face.png");
     BME.FaceSM.registerFace("EisenW", {0,0,16,16});
     */
+    
     levelmap.LoadFiles({
                     {"../assets/TOWN_visualBG.csv",MapType::VISUAL, Layer::VISUAL_BG},
                     {"../assets/TOWN_visualFG.csv",MapType::VISUAL, Layer::VISUAL_FG},
@@ -76,7 +78,7 @@ void ScreenEx2::Update()
 
 void ScreenEx2::Draw(Renderer& r)
 {
-    r.Submit(Layer::BACKGROUND, 
+    r.Submit(Layer::VISUAL_BG, 
         [&]()
         {
             DrawRectangle(0,0, 640, 480, SKYBLUE);

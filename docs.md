@@ -196,6 +196,17 @@ void Update(const Vector2& playerCenter, const std::vector<std::vector<int>>& vi
 void Draw() const;
 ```
 
+## renderer
+``` cpp
+void Submit(Layer layer, std::function<void()> fn, float sortY = 0.0f);
+
+void SubmitTexture(Texture2D& texture, Rectangle src, Vector2 pos,
+                    Layer layer = Layer::OBJECT, float sortY = 0.0f, Color tint = WHITE);
+
+void RenderLayers();
+void Clear();
+```
+
 ## S
 
 ### save_manager
@@ -226,6 +237,9 @@ bool fileExists(const char* path) const;
 void add(const std::string& id, IScreen* screen);
 void switchTo(const std::string& id);
 void InitAll();
+
+void Update();
+void Draw(Renderer& r);
 ```
 
 ## T
