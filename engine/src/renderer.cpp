@@ -18,12 +18,6 @@ void Renderer::SubmitTexture(Texture2D& texture, Rectangle src, Vector2 pos,
     });
 }
 
-// for tiles 
-void Renderer::SubmitTile(const TileInstance& tile, Texture2D& tileset, Layer layer, float sortY)
-{
-    SubmitTexture(tileset, tile.src, tile.pos, layer, sortY);
-}
-
 // sorts all layers and draws
 void Renderer::RenderLayers()
 {
@@ -41,7 +35,7 @@ void Renderer::RenderLayers()
     {
         if(cmd.draw) cmd.draw();
     }
-    
+
     commands.clear();
 }
 

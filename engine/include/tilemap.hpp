@@ -1,6 +1,7 @@
 #pragma once
 #include "constants.hpp"
 #include "engine_constants.hpp"
+#include "renderer.hpp"
 #include <map>
 #include <raylib.h>
 #include <string>
@@ -26,7 +27,7 @@ class Tilemap{
     public:
     // Old Load function removed
     void LoadFiles(std::vector<MapLoad> files, std::string TsPath, int width, int height);
-    void Draw();
+    void Draw(Renderer& r);
     void buildDrawCache();
 
     //HELPERS

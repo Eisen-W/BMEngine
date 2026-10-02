@@ -1,5 +1,6 @@
 #pragma once
 
+#include "renderer.hpp"
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
@@ -9,7 +10,7 @@ class IScreen{
     virtual ~IScreen() = default;
     virtual void Init() {}
     virtual void Update() = 0;
-    virtual void Draw() = 0;
+    virtual void Draw(Renderer& r) = 0;
 
     std::string nextScreen;
     bool LazyInit = false;
@@ -22,7 +23,7 @@ class ScreenManager{
 
     void InitAll();
     void Update();
-    void Draw();
+    void Draw(Renderer& r);
 
     private:
     std::unordered_map<std::string, IScreen*> m_screens;

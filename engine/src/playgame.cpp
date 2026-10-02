@@ -63,11 +63,14 @@ void Play::Canvas()
     //TEXTURE MODE
     BeginTextureMode(BME.DM.getCanvas());
     ClearBackground(BLACK);
+
     DrawRectangle(0,0,BME.DM.getCanvasWidth(), BME.DM.getCanvasHeight(), RED);
+
     if(BME.intro.Engineintro) BME.intro.Draw();
     else if(!game.gameNotReady) 
     {
-        game.Draw();
+        game.Draw(renderer);
+        renderer.RenderLayers();
     }
     BME.TB.Draw();
     EndTextureMode();

@@ -1,4 +1,5 @@
 #include "screen_manager.hpp"
+#include "renderer.hpp"
 
 void ScreenManager::add(const std::string& id, IScreen* screen)
 {
@@ -38,7 +39,7 @@ void ScreenManager::Update()
     }
 }
 
-void ScreenManager::Draw()
+void ScreenManager::Draw(Renderer& r)
 {
-    if(m_current) m_current->Draw();
+    if(m_current) m_current->Draw(r);
 }

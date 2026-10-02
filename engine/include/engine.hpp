@@ -7,6 +7,7 @@
 #include "intro.hpp"
 #include "messagebox.hpp"
 #include "moveblock_manager.hpp"
+#include "renderer.hpp"
 #include "screen_manager.hpp"
 #include "tilemap.hpp"
 #include "anim_manager.hpp"
@@ -31,6 +32,7 @@ struct Engine{
     SaveManager SAVE;
     BlockManager moveblock;
     ScreenManager screens;
+    Renderer renderer;
     Raycaster raycast; // just for fun because why not
 };
 extern Engine BME;

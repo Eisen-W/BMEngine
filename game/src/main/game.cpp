@@ -1,4 +1,5 @@
 #include "game.hpp"
+#include "constants.hpp"
 #include "engine.hpp"
 #include "raylib.h"
 
@@ -21,8 +22,12 @@ void Game::Update() {
   BME.screens.Update();
 }
 
-void Game::Draw() {
+void Game::Draw(Renderer r) {
   //all draw calls here
-  DrawRectangle(0, 0, 640, 480, {0,4,51,255});
-  BME.screens.Draw();
+  r.Submit(Layer::BACKGROUND,
+    [&]()
+    { DrawRectangle(0, 0, 640, 480, {0,4,51,255});
+  });
+  
+ BME.screens.Draw(r);
 }

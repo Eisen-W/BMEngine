@@ -5,7 +5,7 @@ class Game{
     public:
     void Init();
     void Update();
-    void Draw();
+    void Draw(Renderer r);
 
     bool gameNotReady = 1;
 

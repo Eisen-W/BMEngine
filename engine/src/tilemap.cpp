@@ -77,13 +77,13 @@ void Tilemap::buildDrawCache()
   }
 }
 
-void Tilemap::Draw() {
+void Tilemap::Draw(Renderer& r) {
   Texture2D &tilesetTexture = BME.AM.getTexture(tilesetPath);
   for(auto& [layer, tiles] : drawCache)
   {
     for(auto& tile : tiles)
     {
-      DrawTextureRec(tilesetTexture, tile.src, tile.pos, WHITE);
+      r.SubmitTexture(tilesetTexture, tile.src, tile.pos, layer);
     }
   }
 }

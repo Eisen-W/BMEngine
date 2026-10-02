@@ -2,7 +2,6 @@
 
 #include "constants.hpp"
 #include "raylib.h"
-#include "tilemap.hpp"
 #include <functional>
 #include <vector>
 
@@ -23,9 +22,6 @@ class Renderer{
     // for textures
     void SubmitTexture(Texture2D& texture, Rectangle src, Vector2 pos,
                         Layer layer = Layer::OBJECT, float sortY = 0.0f, Color tint = WHITE);
-    
-    // for tiles 
-    void SubmitTile(const TileInstance& tile, Texture2D& tileset, Layer layer, float sortY = 0.0f);
 
     // sorts all layers and draws
     void RenderLayers();

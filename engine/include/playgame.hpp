@@ -13,4 +13,5 @@ class Play{
     void Unload();
 
     Game game;
+    Renderer renderer;
 };

@@ -6,6 +6,7 @@
 #include "engine.hpp"
 #include "engine_constants.hpp"
 #include "raylib.h"
+#include "renderer.hpp"
 
 // ============= SCREEN 1 ====================
 void ScreenEx1::Init()
@@ -48,10 +49,16 @@ void ScreenEx1::Update()
 
 }
 
-void ScreenEx1::Draw()
+void ScreenEx1::Draw(Renderer& r)
 {
-    DrawRectangle(0,0, 640, 480, LIME);
-    levelmap.Draw();
+    r.Submit(Layer::BACKGROUND, 
+        [&]()
+        {
+            DrawRectangle(0,0, 640, 480, LIME);
+        }
+    );
+
+    levelmap.Draw(r);
 }
 
 // ============ SCREEN 2 ====================
@@ -67,7 +74,12 @@ void ScreenEx2::Update()
     }
 }
 
-void ScreenEx2::Draw()
+void ScreenEx2::Draw(Renderer& r)
 {
-    DrawRectangle(0,0, 640, 480, SKYBLUE);
+    r.Submit(Layer::BACKGROUND, 
+        [&]()
+        {
+            DrawRectangle(0,0, 640, 480, SKYBLUE);
+        }
+    );
 }
