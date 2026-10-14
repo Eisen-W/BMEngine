@@ -60,16 +60,49 @@ Model& AssetManager::getModel(const std::string& path)
     return model[path];
 }
 
+Image& AssetManager::getImage(const std::string& path)
+{
+    if(image.find(path) == image.end())
+    {
+        image[path] = LoadImage(path.c_str());
+    }
+    return image[path];
+}
+
+Color* AssetManager::getImagePixels(const std::string& path)
+{
+    if(imagePixels.find(path) == imagePixels.end())
+    {
+        Image& img = getImage(path);
+        imagePixels[path] = LoadImageColors(img);
+    }
+    return imagePixels[path];
+}
+
+
 void AssetManager::unloadAssets()
 {
     for(auto& pair : textures) UnloadTexture(pair.second);
     textures.clear();
+
     for(auto& pair : fonts) UnloadFont(pair.second);
     fonts.clear();
+
     for(auto& pair : sounds) UnloadSound(pair.second);
     sounds.clear();
+
+    for(auto& pair : music) UnloadMusicStream(pair.second);
+    music.clear();
+
     for(auto& pair : model) UnloadModel(pair.second);
     model.clear();
+
+    for(auto& pair : image) UnloadImage(pair.second);
+    image.clear();
+
+    for(auto& pair : imagePixels) UnloadImageColors(pair.second);
+    imagePixels.clear();
+
     unloaded = true;
 }
 

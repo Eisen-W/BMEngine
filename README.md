@@ -46,15 +46,8 @@ sh engine-update-mad.sh
 - [x] Screen Manager
 - [x] Renderer
 - [x] MadokaScript: Options
-
-### ChangeLog
-- v0.7: Engine Renderer to draw and sort using layers
-- v0.6: Better Tilemap with layers and map types
-- v0.5: Generalized screen manager 
-- v0.4: Generalized display manager and added MadokaScript features such as Dialogue scripting and moveable block puzzle scripting
-- v0.3: Interactable tiles and messagebox
-- v0.2: Tilemap parser and default game file structure
-- v0.1: Asset manager, Display manager, Input manager, Animation manager, Debug view, Engine intro
+- [x] Image and image pixels loading and caching in AssetManager
+- [x] Pixel Collision against point(Vector2) and Rectangle
 
 ### TO-DO
 - [ ] WRITE DOCS ASAP

@@ -3,6 +3,7 @@
 #include "asset_manager.hpp"
 #include "display_manager.hpp"
 #include "debug.hpp"
+#include "engine_collision.hpp"
 #include "input_manager.hpp"
 #include "intro.hpp"
 #include "messagebox.hpp"
@@ -34,5 +35,6 @@ struct Engine{
     ScreenManager screens;
     Renderer renderer;
     Raycaster raycast; // just for fun because why not
+    PixelCollision pxCollision;
 };
 extern Engine BME;
