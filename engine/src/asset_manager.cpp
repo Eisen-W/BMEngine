@@ -111,5 +111,4 @@ AssetManager::~AssetManager()
     printf("AM destructor called\n");
     if(!unloaded) unloadAssets();
     printf("after AM destructor\n");
-
 }
