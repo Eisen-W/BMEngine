@@ -30,6 +30,19 @@ void DialogueInterpreter::load(const ParseResult& result, Interpreter& core_inte
         block.sprite = raw.sprite;
         block.lines = raw.lines;
 
+        // ============ OPTIONS ============
+        block.options = std::vector<Option>();
+        for(auto& o : raw.options)
+        {
+            block.options.push_back({o.text, o.next});
+        }
+        
+        if(!block.options.empty() && raw.next != 0)
+        {
+            printf("warning: block id=%d has options but next != 0, \
+                options will be ignored on auto-advance\n", raw.id);
+        }
+
         for(auto& r : raw.rects)
         {
             MRect rect;
@@ -62,23 +75,26 @@ void DialogueInterpreter::startDialogue(int id, int rectIndex)
     running = true;
 }
 
-void DialogueInterpreter::advance()
+void DialogueInterpreter::advance(int chosenNext)
 {
     if(!running) return;
 
     DialogueBlock* block = findByID(currentid);
     if(!block) { running = false; return; }
 
-    if(block->next == 0)
+    int target = (chosenNext >= 0) ? chosenNext : block->next;
+
+    if(target == 0)
     {
         running = false;
         currentid = 0;
         return;
     }
 
-    currentid = block->next;
+    currentid = target;
 
-    if(!findByID(currentid))
+    DialogueBlock* next = findByID(currentid);
+    if(!next)
     {
         running = false;
         currentid = 0;

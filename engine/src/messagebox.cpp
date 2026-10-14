@@ -141,13 +141,24 @@ void TextBox::Update(float dt)
     }
     else if(msgState == messageState::WAITING)
     {
-        if(Input::pressA())
+        // option nav
+        if(hasOptions)
+        {
+            if(Input::pressDown()) selectedOption = (selectedOption + 1) % optionTexts.size();
+            if(Input::pressUp())   selectedOption = (selectedOption - 1 + optionTexts.size() % optionTexts.size());
+            if(Input::pressA())
+            {
+                active = false;
+                msgState = messageState::DONE;
+            }
+        }
+        else if(Input::pressA())
         {
             if(currentPage + 1 < (int)pages.size())
             {
                 LoadPage(currentPage + 1);
             }
-            else  
+            else
             {
                 active = false;
                 msgState = messageState::DONE;
@@ -199,6 +210,17 @@ void TextBox::Draw(Renderer& r)
             //prompt
             if(msgState == messageState::WAITING)
             {
+                if(hasOptions)
+                {
+                    for(int i = 0; i < (int)optionTexts.size(); i++)
+                    {
+                        Color col = (i == selectedOption) ? YELLOW : WHITE;
+                        DrawTextEx(defaultFont, optionTexts[i].c_str(), 
+                        {MSG_BOX.x + textOffsetX, 
+                        MSG_BOX.y + MSG_BOX.height - MSG_PADDING - (optionTexts.size() - i) * (MSG_FONTSIZE + 4)},
+                        MSG_FONTSIZE, MSG_SPACING, col);
+                    }
+                }
                 DrawTextEx(defaultFont, "[A]",
                             {MSG_BOX.x + MSG_BOX.width - 40, MSG_BOX.y + MSG_BOX.height - MSG_FONTSIZE - MSG_PADDING},
                             MSG_FONTSIZE , MSG_SPACING, WHITE);
@@ -211,19 +233,37 @@ void TextBox::HandleTB()
 {
     if(!isActive())
     {
-        BME.madloader.advanceDialogue();
+        int chosen = hasOptions ? getSelectedNext() : -1;
+        BME.madloader.advanceDialogue(chosen);
+
         const DialogueData* next = BME.madloader.currentDialogue();
         if(next)
         {
             BME.EUtils.startMessageBox(*next);
-            /*
-            EWE.MB.Start(EWE.loader.buildRaw(*next), next->speaker);
-            gamestate = GameState::MESSAGE;
-            */
         }
         else
         {
             gamestate = GameState::PLAY;
         }
     }
+}
+
+void TextBox::setOptions(const std::vector<DialogueOption>& opts)
+{
+    optionTexts.clear();
+    optionNexts.clear();
+
+    for(auto& o : opts)
+    {
+        optionTexts.push_back(o.text);
+        optionNexts.push_back(o.next);
+    }
+    hasOptions = !optionTexts.empty();
+    selectedOption = 0;
+}
+
+int TextBox::getSelectedNext() const
+{
+    if(optionNexts.empty()) return 0;
+    return optionNexts[selectedOption];
 }

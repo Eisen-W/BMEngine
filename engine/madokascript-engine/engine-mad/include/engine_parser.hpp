@@ -56,4 +56,7 @@ class EngineParser {
 
     std::vector<std::string> parse_lines();
 
+    // ======================= DIALOGUE OPTION =========================
+    void parse_option_field(RawDialogueBlock& block);
+    RawOption parse_single_option();
 };

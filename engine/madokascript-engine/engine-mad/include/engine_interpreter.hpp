@@ -9,7 +9,7 @@ class DialogueInterpreter{
     public:
     void load(const ParseResult& result, Interpreter& core_interp);
     void startDialogue(int id, int rectIndex = -1);
-    void advance();
+    void advance(int chosenNext = -1); // for dialogue options
     const DialogueBlock* current() const;
     bool isRunning() const;
     std::string buildRaw(const DialogueBlock& block) const;

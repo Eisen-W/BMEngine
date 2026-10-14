@@ -76,32 +76,33 @@ EngineToken EngineLexer::read_word()
 
     //engine keywords FOR DIALOGUES field
     if(word == "DIALOGUES") return make_engine(EngineTokenType::DIALOGUES , word);
-    if(word == "auto") return make_engine(EngineTokenType::AUTO, word);
-    if(word == "interact") return make_engine(EngineTokenType::INTERACT, word);
-    if(word == "id") return make_engine(EngineTokenType::ID, word);
-    if(word == "next") return make_engine(EngineTokenType::NEXT, word);
-    if(word == "once") return make_engine(EngineTokenType::ONCE, word);
-    if(word == "rect") return make_engine(EngineTokenType::RECT, word);
-    if(word == "speaker") return make_engine(EngineTokenType::SPEAKER, word);
-    if(word == "sprite") return make_engine(EngineTokenType::SPRITE, word);
-    if(word == "lines") return make_engine(EngineTokenType::LINES, word);
+    if(word == "auto")      return make_engine(EngineTokenType::AUTO, word);
+    if(word == "interact")  return make_engine(EngineTokenType::INTERACT, word);
+    if(word == "id")        return make_engine(EngineTokenType::ID, word);
+    if(word == "next")      return make_engine(EngineTokenType::NEXT, word);
+    if(word == "once")      return make_engine(EngineTokenType::ONCE, word);
+    if(word == "rect")      return make_engine(EngineTokenType::RECT, word);
+    if(word == "speaker")   return make_engine(EngineTokenType::SPEAKER, word);
+    if(word == "sprite")    return make_engine(EngineTokenType::SPRITE, word);
+    if(word == "lines")     return make_engine(EngineTokenType::LINES, word);
+    if(word == "option")    return make_engine(EngineTokenType::OPTION, word);
 
     //engine keywords for INTERACTABLES field
     if(word == "INTERACTABLES") return make_engine(EngineTokenType::INTERACTABLES, word);
-    if(word == "switcher") return make_engine(EngineTokenType::SWITCHER, word);
-    if(word == "moveable") return make_engine(EngineTokenType::MOVEABLE, word);
-    if(word == "name") return make_engine(EngineTokenType::NAME, word);
-    if(word == "start") return make_engine(EngineTokenType::START, word);
-    if(word == "dest") return make_engine(EngineTokenType::DEST, word);
+    if(word == "switcher")      return make_engine(EngineTokenType::SWITCHER, word);
+    if(word == "moveable")      return make_engine(EngineTokenType::MOVEABLE, word);
+    if(word == "name")          return make_engine(EngineTokenType::NAME, word);
+    if(word == "start")         return make_engine(EngineTokenType::START, word);
+    if(word == "dest")          return make_engine(EngineTokenType::DEST, word);
 
     //core keywords
-    if(word == "int") return make_core(TokenType::INT, word);
-    if(word == "float") return make_core(TokenType::FLOAT, word);
-    if(word == "string") return make_core(TokenType::STRING, word);
-    if(word == "bool") return make_core(TokenType::BOOL, word);
-    if(word == "true") return make_core(TokenType::BOOL_LIT, word);
-    if(word == "false") return make_core(TokenType::BOOL_LIT, word);
-    if(word == "SAY")   return make_core(TokenType::SAY, word);
+    if(word == "int")       return make_core(TokenType::INT, word);
+    if(word == "float")     return make_core(TokenType::FLOAT, word);
+    if(word == "string")    return make_core(TokenType::STRING, word);
+    if(word == "bool")      return make_core(TokenType::BOOL, word);
+    if(word == "true")      return make_core(TokenType::BOOL_LIT, word);
+    if(word == "false")     return make_core(TokenType::BOOL_LIT, word);
+    if(word == "SAY")       return make_core(TokenType::SAY, word);
 
     return make_core(TokenType::IDENT, word);
 }

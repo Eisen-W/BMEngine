@@ -12,11 +12,48 @@ DIALOGUES {
     }
     auto{
         id = 2;
-        next = 1;
+        next = 3;
         once = false;
         rect = [(0 * tile, 0 * tile, 20 * tile, 15 * tile)];
         speaker = "EW";
         sprite = "EisenW";
         lines = ["Powered by MadokaScript"];
+    }
+    auto{
+        id = 3;
+        next = 0;
+        once = false;
+        rect = [(0 * tile, 0 * tile, 20 * tile, 15 * tile)];
+        speaker = "EW";
+        sprite = "EisenW";
+        lines = ["Select an option"];
+        option = [("option 1", 4), ("option 2", 5)];
+    }
+    auto{
+        id = 4;
+        next = 6;
+        once = false;
+        rect = [(0 * tile, 0 * tile, 20 * tile, 15 * tile)];
+        speaker = "EW";
+        sprite = "EisenW";
+        lines = ["you have selected option 1"];
+    }
+    auto{
+        id = 5;
+        next = 6;
+        once = false;
+        rect = [(0 * tile, 0 * tile, 20 * tile, 15 * tile)];
+        speaker = "EW";
+        sprite = "EisenW";
+        lines = ["you have selected option 2"];
+    }
+    auto{
+        id = 6;
+        next = 0;
+        once = false;
+        rect = [(0 * tile, 0 * tile, 20 * tile, 15 * tile)];
+        speaker = "EW";
+        sprite = "EisenW";
+        lines = ["both options lead to same message"];
     }
 }

@@ -97,6 +97,11 @@ void MadLoader::convertDialogueData()
         data.speaker = block.speaker;
         data.sprite = block.sprite;
         data.lines = block.lines;
+        
+        for(auto& o : block.options)
+        {
+            data.options.push_back({o.text, o.next});
+        }
 
         for(auto& r : block.rects)
         {
@@ -150,7 +155,8 @@ void MadLoader::convertInteractableData()
 //==================DIALOGUE PASSTHROUGHS=========================
 const std::vector<DialogueData>& MadLoader::getDialogueBlocks() const { return d_data; } 
 void MadLoader::startDialogue(int id, int rectIndex) { dialogue_interp.startDialogue(id, rectIndex); }
-void MadLoader::advanceDialogue() { dialogue_interp.advance(); }
+//void MadLoader::advanceDialogue() { dialogue_interp.advance(); }
+void MadLoader::advanceDialogue(int chosenNext) {dialogue_interp.advance(chosenNext); }
 bool MadLoader::dialogueRunning() const { return dialogue_interp.isRunning(); }
 bool MadLoader::hasFiredRect(int id, int rectIndex) const
 {

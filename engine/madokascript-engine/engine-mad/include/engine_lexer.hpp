@@ -11,6 +11,7 @@ enum class EngineTokenType {
 
     //dialogue fields
     ID, NEXT, ONCE, RECT, SPEAKER, SPRITE, LINES,
+    OPTION,
 
     // extra symbols
     LBRACE, RBRACE,     // {}        

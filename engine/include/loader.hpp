@@ -29,7 +29,8 @@ class MadLoader{
     // dialogue passthrough
     const std::vector<DialogueData>& getDialogueBlocks() const;
     void startDialogue(int id, int rectIndex = -1);
-    void advanceDialogue();
+    //void advanceDialogue();
+    void advanceDialogue(int chosenNext = -1); // for dialogue options
     const DialogueData* currentDialogue() const;
     bool dialogueRunning() const;
     std::string buildRaw(const DialogueData& data) const;

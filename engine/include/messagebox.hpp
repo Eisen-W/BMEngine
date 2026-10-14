@@ -1,4 +1,5 @@
 #pragma once
+#include "mad_data.hpp"
 #include "raylib.h"
 #include "renderer.hpp"
 #include <string>
@@ -18,6 +19,10 @@ class TextBox
     void Draw(Renderer& r);
     void HandleTB();
     bool isActive() const { return active; }
+
+    // OPTIONS
+    void setOptions(const std::vector<DialogueOption>& opts);
+    int getSelectedNext() const;
 
     private:
 
@@ -51,4 +56,12 @@ class TextBox
     bool hasFace = false;
     Texture2D faceTexture;
     Rectangle faceRect;
+
+    // options
+    std::vector<std::string> optionTexts;
+    std::vector<int> optionNexts;
+    int selectedOption = 0;
+    bool hasOptions = false;
+
+    
 };

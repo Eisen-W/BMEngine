@@ -19,6 +19,9 @@ enum struct InteractableType { SWITCHER, MOVEABLE };
 struct RawRect { ASTNode* x; ASTNode* y; ASTNode* w; ASTNode* h; InteractDirection dir = InteractDirection::ANY; };
 struct MRect { float x, y, w, h; InteractDirection dir = InteractDirection::ANY; };
 
+struct RawOption { std::string text; int next; };
+struct Option    { std::string text; int next; };
+
 //parse time only
 struct RawDialogueBlock {
     int id = 0;
@@ -29,6 +32,7 @@ struct RawDialogueBlock {
     std::string speaker;
     std::string sprite;
     std::vector<std::string> lines;
+    std::vector<RawOption> options;
 };
 
 struct DialogueBlock{
@@ -40,6 +44,7 @@ struct DialogueBlock{
     std::string speaker;
     std::string sprite;
     std::vector<std::string> lines;
+    std::vector<Option> options;
 };
 
 struct DialogueNodes {

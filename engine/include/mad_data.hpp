@@ -10,6 +10,8 @@ struct DialogueRect{
     InteractDirection dir;
 };
 
+struct DialogueOption { std::string text; int next; };
+
 struct DialogueData{
     int id;
     int next;
@@ -19,6 +21,7 @@ struct DialogueData{
     std::string speaker;
     std::string sprite;
     std::vector<std::string> lines;
+    std::vector<DialogueOption> options;
 };
 
 struct SwitcherData{

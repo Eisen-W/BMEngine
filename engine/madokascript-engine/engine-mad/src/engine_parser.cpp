@@ -180,6 +180,13 @@ RawDialogueBlock EngineParser::parse_dialogue_block(bool is_interact)
             block.lines = parse_lines();
             expect_core(TokenType::SEMICOLON, "expected ';'");
         }
+        else if(check_engine(EngineTokenType::OPTION))
+        {
+            advance();
+            expect_core(TokenType::EQUALS, "expected: '='");
+            parse_option_field(block);
+            expect_core(TokenType::SEMICOLON, "expected: ';'");
+        }
         else {
             printf("parse error: unknown field '%s'\n", tokens[pos].value.c_str());
             exit(1);
@@ -416,4 +423,28 @@ void EngineParser::parse_rect_fields_generic(std::vector<RawRect>& rects)
     else {
         rects.push_back(parse_single_rect());
     }
+}
+
+
+// ======================= DIALOGUE OPTION =========================
+void EngineParser::parse_option_field(RawDialogueBlock& block)
+{
+    expect_engine(EngineTokenType::LBRACKET, "expected '[' for option");
+    while(!check_engine(EngineTokenType::RBRACKET) && !check_core(TokenType::EOF_))
+    {
+        block.options.push_back(parse_single_option());
+        if(check_core(TokenType::COMMA)) advance();
+    }
+    expect_engine(EngineTokenType::RBRACKET, "expected ']' for option");
+}
+
+RawOption EngineParser::parse_single_option()
+{
+    expect_core(TokenType::LPAREN, "expected '(' for option");
+    RawOption opt;
+    opt.text = parse_string();
+    expect_core(TokenType::COMMA, "expected ','");
+    opt.next = parse_int();
+    expect_core(TokenType::RPAREN, "expected ')' for option");
+    return opt;
 }

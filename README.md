@@ -45,6 +45,7 @@ sh engine-update-mad.sh
 - [x] Madokascript Integration (for dialogues and interactables)
 - [x] Screen Manager
 - [x] Renderer
+- [x] MadokaScript: Options
 
 ### ChangeLog
 - v0.7: Engine Renderer to draw and sort using layers

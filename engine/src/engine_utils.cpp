@@ -23,6 +23,7 @@ void EngineUtils::startMessageBox(const DialogueData& data)
     Rectangle faceRect;
     bool hasFace = !data.sprite.empty() && BME.FaceSM.getFace(data.sprite, faceRect);
     BME.TB.Start(BME.madloader.buildRaw(data), data.speaker, hasFace, BME.FaceSM.texture, faceRect);
+    BME.TB.setOptions(data.options);
     gamestate = GameState::MESSAGE;
 }
 
