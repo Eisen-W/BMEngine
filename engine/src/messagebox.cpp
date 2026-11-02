@@ -145,7 +145,7 @@ void TextBox::Update(float dt)
         if(hasOptions)
         {
             if(Input::pressDown()) selectedOption = (selectedOption + 1) % optionTexts.size();
-            if(Input::pressUp())   selectedOption = (selectedOption - 1 + optionTexts.size() % optionTexts.size());
+            if(Input::pressUp())   selectedOption = (selectedOption - 1 + (int)optionTexts.size()) % (int)optionTexts.size();
             if(Input::pressA())
             {
                 active = false;

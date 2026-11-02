@@ -56,7 +56,7 @@ float SaveManager::readFloat()
 bool SaveManager::readBool()
 {
     int val = 0;
-    fread(&val, sizeof(int), 1, f);
+    fread(&val, sizeof(bool), 1, f);
     return val != 0;
 }
 

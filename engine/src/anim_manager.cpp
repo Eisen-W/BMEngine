@@ -36,7 +36,7 @@ Rectangle Animation::anim_frame(anim_values *self, int frames_per_row, int tileW
         if(r.width > 0.0f && r.height > 0.0f) return r;
     }
     
-    int x = (self->curr % frames_per_row) * tileHeight;
-    int y = (self->curr / frames_per_row) * tileWidth;
+    int x = (self->curr % frames_per_row) * tileWidth;
+    int y = (self->curr / frames_per_row) * tileHeight;
     return Rectangle{(float)x, (float)y, (float)tileWidth, (float)tileHeight};
 }

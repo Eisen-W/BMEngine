@@ -6,6 +6,7 @@ build
 .vscode
 .clangd-tidy
 compile_commands.json
+*.zip
 
 # doxygen files
 html/
