@@ -83,8 +83,7 @@ void MadLoader::FLoad(const char* madfile)
     }
     // =============================================================================
 
-    // free rect expr nodes =====================
-
+    // free rect expr nodes ============================================
     for(auto& raw : result.dialogues.blocks)
     {
         for(auto& r : raw.rects)
@@ -122,7 +121,7 @@ void MadLoader::FLoad(const char* madfile)
             delete r.h;
         }
     }
-    // ==========================================
+    // ====================================================================
 
     convertDialogueData();
     convertInteractableData();

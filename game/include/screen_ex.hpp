@@ -21,6 +21,7 @@ class ScreenEx1 : public IScreen
     private:
     Tilemap levelmap;
     Direction dir = Direction::DOWN;
+    bool loadmadfiles = 0;
 };
 
 class ScreenEx2 : public IScreen
