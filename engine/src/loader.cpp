@@ -19,6 +19,7 @@ void MadLoader::FLoad(const char* madfile)
         exit(1);
     }
 
+    syncToMaster();
     currentLevelPath = madfile;
     FILE* f = fopen(madfile, "r");
     if(!f)
@@ -163,8 +164,10 @@ bool MadLoader::hasFiredRect(int id, int rectIndex) const
     return dialogue_interp.hasFiredRect(id, rectIndex);
 }
 
-void MadLoader::saveDialogueState(FILE* f) const 
+void MadLoader::saveDialogueState(FILE* f) 
 { 
+    syncToMaster();
+    
     printf("saveDialogue: file pos=%ld\n", ftell(f));
     int count = (int)masterFiredRects.size();
     fwrite(&count, sizeof(int), 1, f);
@@ -253,8 +256,9 @@ void MadLoader::setMoveableDestIndex(int id, int destIndex)
     convertInteractableData();
 }
 
-void MadLoader::saveInteractableState(FILE* f) const 
+void MadLoader::saveInteractableState(FILE* f) 
 {
+    syncToMaster();
     printf("saveInteractable: file pos=%ld\n", ftell(f));
     interact_interp.saveState(f); 
 }
@@ -264,4 +268,36 @@ void MadLoader::loadInteractableState(FILE* f)
     printf("loadInteractable: file pos=%ld\n", ftell(f));
     interact_interp.loadState(f);
     convertInteractableData();
+}
+
+// ====================================================
+void MadLoader::syncToMaster()
+{
+    // DIALOGUES
+    for(auto& block : dialogue_interp.getBlocks())
+    {
+        StateKey key{currentLevelPath, block.id};
+        std::vector<bool> fired;
+        fired.reserve(block.rects.size());
+
+        for(int i = 0; i < (int)block.rects.size(); i++)
+        {
+            fired.push_back(dialogue_interp.hasFiredRect(block.id, i));
+        }
+        masterFiredRects[key] = fired;
+    }
+
+    // SWITCHERS
+    for(auto& sw : interact_interp.getSwitchers())
+    {
+        StateKey key{currentLevelPath, sw.id};
+        masterSwitcherState[key] = interact_interp.getSwitcherState(sw.id);
+    }
+
+    // MOVEABLES
+    for(auto& mv : interact_interp.getMoveables())
+    {
+        StateKey key{currentLevelPath, mv.id};
+        masterMoveableState[key] = interact_interp.getMoveableDestIndex(mv.id);
+    }
 }

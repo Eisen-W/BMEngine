@@ -36,7 +36,7 @@ class MadLoader{
     std::string buildRaw(const DialogueData& data) const;
     bool hasFiredRect(int id, int rectIndex) const;
 
-    void saveDialogueState(FILE* f) const;
+    void saveDialogueState(FILE* f);
     void loadDialogueState(FILE* f);
 
     // interactable passthroughs
@@ -48,10 +48,11 @@ class MadLoader{
     int getMoveableDestIndex(int id) const;
     void setMoveableDestIndex(int id, int destIndex);
     bool isMoveableSolved(int id) const;
-
-    void saveInteractableState(FILE* f) const;
+    
+    void saveInteractableState(FILE* f);
     void loadInteractableState(FILE* f);
-
+    
+    void syncToMaster();
 
     private:
     Interpreter core_interp;
