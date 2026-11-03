@@ -31,7 +31,7 @@ Font& AssetManager::getFontEx(const std::string& path, int FontSize, std::vector
         fonts[key] = LoadFontEx(path.c_str(), FontSize, codepoints.data(), codepoints.size());
         SetTextureFilter(fonts[key].texture, TEXTURE_FILTER_POINT);
     }
-    return fonts[path];
+    return fonts[key];
 }
 
 Sound& AssetManager::getSound(const std::string& path)
