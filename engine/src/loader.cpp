@@ -45,7 +45,9 @@ void MadLoader::FLoad(const char* madfile)
 
     free(src);
 
-    for(auto* node : result.core_statements) core_interp.exec_node(node);
+    // was calling core_statements twice, first in DialogueInterpreter load and second here
+    //for(auto* node : result.core_statements) core_interp.exec_node(node);
+
     dialogue_interp.load(result, core_interp);
     interact_interp.load(result, core_interp);
 
