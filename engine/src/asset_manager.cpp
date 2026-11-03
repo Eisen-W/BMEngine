@@ -1,5 +1,6 @@
 #include "asset_manager.hpp"
 #include "raylib.h"
+#include <string>
 
 Texture2D& AssetManager::getTexture(const std::string& path)
 {
@@ -24,10 +25,11 @@ Font& AssetManager::getFont(const std::string& path)
 
 Font& AssetManager::getFontEx(const std::string& path, int FontSize, std::vector<int> codepoints)
 {
-    if(fonts.find(path) == fonts.end())
+    std::string key = path + "@" + std::to_string(FontSize);
+    if(fonts.find(key) == fonts.end())
     {
-        fonts[path] = LoadFontEx(path.c_str(), FontSize, codepoints.data(), codepoints.size());
-        SetTextureFilter(fonts[path].texture, TEXTURE_FILTER_POINT);
+        fonts[key] = LoadFontEx(path.c_str(), FontSize, codepoints.data(), codepoints.size());
+        SetTextureFilter(fonts[key].texture, TEXTURE_FILTER_POINT);
     }
     return fonts[path];
 }

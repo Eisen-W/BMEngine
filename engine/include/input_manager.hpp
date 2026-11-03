@@ -1,13 +1,11 @@
 #pragma once
 #include<raylib.h>
-#include "display_manager.hpp"
 
 class Mpoint{
     public:
     bool MouseRec(Rectangle Rec);
     Vector2 CMouse;
     float scale = 1;
-    DisplayManager DM;
 };
 
 inline bool NavTick(float& timer, float delay = 0.15f)
