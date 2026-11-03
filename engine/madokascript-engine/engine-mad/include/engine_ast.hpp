@@ -16,7 +16,14 @@ enum struct DialogueTrigger { AUTO, INTERACT };
 
 enum struct InteractableType { SWITCHER, MOVEABLE };
 
-struct RawRect { ASTNode* x; ASTNode* y; ASTNode* w; ASTNode* h; InteractDirection dir = InteractDirection::ANY; };
+struct RawRect { 
+    ASTNode* x; 
+    ASTNode* y; 
+    ASTNode* w; 
+    ASTNode* h; 
+    InteractDirection dir = InteractDirection::ANY;
+};
+
 struct MRect { float x, y, w, h; InteractDirection dir = InteractDirection::ANY; };
 
 struct RawOption { std::string text; int next; };
@@ -100,4 +107,9 @@ struct ParseResult{
     std::vector<ASTNode*> core_statements;
     RawDialogueNodes dialogues;
     RawInteractableNodes interactables;
+
+    ~ParseResult()
+    {
+        for(auto* node : core_statements) delete node;
+    }
 };

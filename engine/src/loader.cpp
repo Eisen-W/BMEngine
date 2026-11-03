@@ -51,7 +51,7 @@ void MadLoader::FLoad(const char* madfile)
     dialogue_interp.load(result, core_interp);
     interact_interp.load(result, core_interp);
 
-    //overlay master state onto fresh loaded blocks
+    //overlay master state onto fresh loaded blocks =============================
     for(auto& block : dialogue_interp.getBlocksMutable())
     {
         StateKey key{currentLevelPath, block.id};
@@ -81,6 +81,48 @@ void MadLoader::FLoad(const char* madfile)
             interact_interp.setMoveableDestIndex(mv.id, it->second);
         }
     }
+    // =============================================================================
+
+    // free rect expr nodes =====================
+
+    for(auto& raw : result.dialogues.blocks)
+    {
+        for(auto& r : raw.rects)
+        {
+            delete r.x;
+            delete r.y;
+            delete r.w;
+            delete r.h;
+        }
+    }
+
+    for(auto& raw : result.interactables.switchers)
+    {
+        for(auto& r : raw.rects)
+        {
+            delete r.x;
+            delete r.y;
+            delete r.w;
+            delete r.h;
+        }
+    }
+
+    for(auto& raw : result.interactables.moveables)
+    {
+        delete raw.start.x;
+        delete raw.start.y;
+        delete raw.start.w;
+        delete raw.start.h;
+
+        for(auto& r : raw.dest)
+        {
+            delete r.x;
+            delete r.y;
+            delete r.w;
+            delete r.h;
+        }
+    }
+    // ==========================================
 
     convertDialogueData();
     convertInteractableData();

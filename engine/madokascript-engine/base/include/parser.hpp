@@ -17,6 +17,8 @@ enum class NodeType {
 };
 
 struct ASTNode {
+    virtual ~ASTNode() = default;
+    
     NodeType type;
     std::string str_val;
     double num_val;
