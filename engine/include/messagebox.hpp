@@ -11,10 +11,15 @@ constexpr int MSG_SPACING = 2;
 constexpr int MSG_FONTSIZE = 20;
 enum class messageState { TYPING, FULL, WAITING, DONE };
 
+struct ColoredWord{
+    std::string text;
+    Color color;
+};
+
 class TextBox
 {
     public:
-    void Start(const std::string& raw, const std::string& speakerName, bool hasFace_ = false, Texture2D faceTex_ = {}, Rectangle faceRect_ = {});
+    void Start(const std::vector<std::vector<ColoredWord>>& inPages, const std::string& speakerName, bool hasFace_ = false, Texture2D faceTex_ = {}, Rectangle faceRect_ = {});
     void Update(float dt);
     void Draw(Renderer& r);
     void HandleTB();
@@ -31,13 +36,12 @@ class TextBox
     void LoadPage(int index);
     void splitWords(const std::string& page);
 
-    std::vector<std::string> pages;
-    std::vector<std::string> words;
-    std::vector<std::string> lines;
+    std::vector<std::vector<ColoredWord>> pages_colored;
+    std::vector<ColoredWord> words;
+    std::vector<ColoredWord> currentLineWords;
+    std::vector<std::vector<ColoredWord>> lines;
 
     std::string speaker;
-    std::string currentLine;
-    std::string displayed;
     int currentPage = 0;
     int currentWord = 0;
 

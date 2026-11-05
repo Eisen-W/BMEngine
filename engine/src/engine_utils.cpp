@@ -3,10 +3,14 @@
 #include "mad_data.hpp"
 #include "engine.hpp"
 #include "engine_ast.hpp"
+#include "messagebox.hpp"
 #include "raylib.h"
 #include <cstddef>
+#include <sstream>
 #include <string>
+#include <vector>
 
+// PRIVATE =======================================================================
 bool EngineUtils::directionMatch(InteractDirection interactDir, Direction PDir)
 {
     if(interactDir == InteractDirection::ANY) return true;
@@ -20,6 +24,15 @@ bool EngineUtils::directionMatch(InteractDirection interactDir, Direction PDir)
     return false;
 }
 
+Color EngineUtils::resolveColor(const std::string& name) const
+{
+    auto it = colorMap.find(name);
+    return it != colorMap.end() ? it->second : WHITE; 
+    // default = white
+}
+// ================================================================================
+
+
 void EngineUtils::startMessageBox(const DialogueData& data)
 {
     Rectangle faceRect;
@@ -27,8 +40,18 @@ void EngineUtils::startMessageBox(const DialogueData& data)
 
     std::string raw = resolveTokens(BME.madloader.buildRaw(data));
     std::string speaker = resolveTokens(data.speaker);
-    
-    BME.TB.Start(raw, speaker, hasFace, BME.FaceSM.texture, faceRect);
+
+    // split pages first =========
+    std::vector<std::vector<ColoredWord>> pages;
+    std::istringstream ss(raw);
+    std::string pageStr;
+    while(std::getline(ss, pageStr, '|'))
+    {
+        if(!pageStr.empty()) pages.push_back(parseColoredString(pageStr));
+    }
+    // ===========================
+
+    BME.TB.Start(pages, speaker, hasFace, BME.FaceSM.texture, faceRect);
     BME.TB.setOptions(data.options);
     gamestate = GameState::MESSAGE;
 }
@@ -103,4 +126,58 @@ std::string EngineUtils::resolveTokens(const std::string& raw) const
         }
     }
     return result;
+}
+
+// COLORED WORDS
+std::vector<ColoredWord> EngineUtils::parseColoredString(const std::string& raw) const
+{
+    std::vector<ColoredWord> result;
+    Color current = WHITE;
+    size_t i = 0;
+
+    while(i < raw.size())
+    {
+        if(raw[i] == '<')
+        {
+            size_t end = raw.find('>', i);
+            if(end == std::string::npos) break;
+    
+            std::string tag = raw.substr(i + 1, end - i - 1);
+    
+            if(tag.substr(0, 3) == "cs:")
+            {
+                current = resolveColor(tag.substr(3));
+                i = end + 1;
+            }
+            else if(tag == "ce")
+            {
+                current = WHITE;
+                i = end + 1;
+            }
+            else {
+                // not a color tag
+                i++;
+            }
+        }
+        else{
+            size_t wordEnd = i;
+            while(wordEnd < raw.size() && raw[wordEnd] != '<')
+            {
+                wordEnd++;
+            }
+
+            std::string chunk = raw.substr(i, wordEnd - i);
+
+            // split chunk into words
+            std::istringstream ss(chunk);
+            std::string word;
+            while (ss >> word)
+            {
+                result.push_back({word, current});
+            }
+            i = wordEnd;
+        }
+    }
+    return result;
+
 }

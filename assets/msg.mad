@@ -9,7 +9,7 @@ DIALOGUES {
         rect = [(0 * tile,0 * tile ,20 * tile ,15 * tile)];
         speaker = "<name>";
         sprite = "EisenW";
-        lines = ["Welcome to BlueManiacEngine, built by <name>"];
+        lines = ["Welcome to <cs:BLUE>Blue<ce><cs:RED>Maniac<ce><cs:GREEN>Engine<ce>, built by <cs:YELLOW><name><ce>"];
     }
     auto{
         id = 2;

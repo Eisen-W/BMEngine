@@ -5,8 +5,8 @@
 #include "raylib.h"
 #include "engine.hpp"
 #include "renderer.hpp"
-#include <sstream>
 #include <string>
+#include <vector>
 
 /** @see Start
     @see loadPage
@@ -15,11 +15,11 @@
     @see Draw
 */
 
-void TextBox::Start(const std::string& raw, const std::string& speakerName, bool hasFace_, Texture2D faceTex_, Rectangle faceRect_)
+void TextBox::Start(const std::vector<std::vector<ColoredWord>>& inPages, const std::string& speakerName, bool hasFace_, Texture2D faceTex_, Rectangle faceRect_)
 {
     defaultFont = GlobalFont::EngineFont(BME.AM);
     speaker = "";
-    pages.clear();
+    pages_colored = inPages;
     currentPage = 0;
 
     speaker = speakerName;
@@ -27,17 +27,7 @@ void TextBox::Start(const std::string& raw, const std::string& speakerName, bool
     faceTexture = faceTex_;
     faceRect = faceRect_;
 
-    pages.clear();
-    currentPage = 0;
-
-    std::stringstream ss(raw);
-    std::string page;
-    while(std::getline(ss, page, '|'))
-    {
-        if(!page.empty()) pages.push_back(page);
-    }
-
-    if(pages.empty()) return;
+    if(pages_colored.empty()) return;
 
     active = true;
     LoadPage(0);
@@ -47,33 +37,19 @@ void TextBox::Start(const std::string& raw, const std::string& speakerName, bool
 void TextBox::LoadPage(int index)
 {
     currentPage = index;
+    words = pages_colored[index];
     currentWord = 0;
-    displayed.clear();
     lines.clear();
-    currentLine.clear();
+    currentLineWords.clear();
     waitFrames = 0;
     msgState = messageState::TYPING;
-    splitWords(pages[index]);
-    
     
     if(!words.empty())
     {
-        currentLine = words[0];
+        currentLineWords = {words[0]};
         currentWord = 1;
     }
     wordTimer = WORD_DELAY;
-}
-
-void TextBox::splitWords(const std::string& page)
-{
-    words.clear();
-    std::stringstream ss(page);
-    std::string word;
-
-    while(ss >> word)
-    {
-        words.push_back(word);
-    }
 }
 
 void TextBox::Update(float dt)
@@ -87,23 +63,28 @@ void TextBox::Update(float dt)
         {
             if(currentWord < (int)words.size())
             {
-                std::string test = currentLine.empty() ? words[currentWord] : currentLine + " " + words[currentWord];
-                Vector2 measured = MeasureTextEx(defaultFont, test.c_str(),MSG_FONTSIZE, MSG_SPACING);
+                std::string lineText;
+                for(auto& w : currentLineWords) lineText += w.text + " ";
+                std::string testText = lineText + words[currentWord].text;
+
+                //std::string test = currentLine.empty() ? words[currentWord] : currentLine + " " + words[currentWord];
+                
+                Vector2 measured = MeasureTextEx(defaultFont, testText.c_str(),MSG_FONTSIZE, MSG_SPACING);
                 if(measured.x > boxWdith)
                 {
-                    lines.push_back(currentLine);
-                    currentLine = words[currentWord];
+                    lines.push_back(currentLineWords);
+                    currentLineWords = {words[currentWord]};
                 }
                 else  
                 {
-                    currentLine = test;
+                    currentLineWords.push_back(words[currentWord]);
                 }
                 currentWord++;
                 wordTimer = WORD_DELAY;
             }
             else  
             {
-                lines.push_back(currentLine);
+                lines.push_back(currentLineWords);
                 msgState = messageState::FULL;
                 waitFrames = 0;
             }
@@ -116,20 +97,23 @@ void TextBox::Update(float dt)
             lines.clear();
             while(currentWord < (int)words.size())
             {
-                std::string test = currentLine.empty() ? words[currentWord] : currentLine + " " + words[currentWord];
-                Vector2 measured = MeasureTextEx(defaultFont, test.c_str(),MSG_FONTSIZE, MSG_SPACING);
+                std::string lineText;
+                for(auto& w : currentLineWords) lineText += w.text + " ";
+                std::string testText = lineText + words[currentWord].text;
+
+                Vector2 measured = MeasureTextEx(defaultFont, testText.c_str(),MSG_FONTSIZE, MSG_SPACING);
                 if(measured.x > boxWdith)
                 {
-                    lines.push_back(currentLine);
-                    currentLine = words[currentWord];
+                    lines.push_back(currentLineWords);
+                    currentLineWords = {words[currentWord]};
                 }
                 else  
                 {
-                    currentLine = test;
+                    currentLineWords.push_back(words[currentWord]);
                 }
                 currentWord++;
             }
-            lines.push_back(currentLine);
+            lines.push_back(currentLineWords);
             msgState = messageState::FULL;
             waitFrames = 0;
         }
@@ -154,7 +138,7 @@ void TextBox::Update(float dt)
         }
         else if(Input::pressA())
         {
-            if(currentPage + 1 < (int)pages.size())
+            if(currentPage + 1 < (int)pages_colored.size())
             {
                 LoadPage(currentPage + 1);
             }
@@ -192,19 +176,36 @@ void TextBox::Draw(Renderer& r)
             DrawTextEx(defaultFont, speaker.c_str(), {MSG_BOX.x + textOffsetX, MSG_BOX.y + MSG_PADDING},
                         MSG_FONTSIZE, MSG_SPACING, WHITE);
         
+            auto drawColoredLine = 
+                [&](const std::vector<ColoredWord>& lineWords, float x, float y)
+                {
+                    float offsetX = x;
+                    for(int i = 0; i < (int)lineWords.size(); i++)
+                    {
+                        DrawTextEx(defaultFont, lineWords[i].text.c_str(), 
+                        {offsetX, y}, MSG_FONTSIZE, 
+                        MSG_SPACING, lineWords[i].color);
+
+                        std::string measured = lineWords[i].text + 
+                            (i < (int)lineWords.size() - 1 ? " " : ""
+                        );
+
+                        offsetX += MeasureTextEx(defaultFont, measured.c_str(), 
+                            MSG_FONTSIZE, MSG_SPACING).x;
+                    }
+                };
+
             //message
             for(int i = 0; i < (int)lines.size(); i++)
             {
-                DrawTextEx(defaultFont, lines[i].c_str(), 
-                    {MSG_BOX.x + textOffsetX,MSG_BOX.y + MSG_PADDING + (MSG_FONTSIZE + 4) + i * (MSG_FONTSIZE + 4)},
-                            MSG_FONTSIZE, MSG_SPACING, WHITE);
+                float y = MSG_BOX.y + MSG_PADDING + (MSG_FONTSIZE + 4) + i * (MSG_FONTSIZE + 4);
+                drawColoredLine(lines[i], MSG_BOX.x + textOffsetX, y);
             }
             
-            if(msgState == messageState::TYPING && !currentLine.empty())
+            if(msgState == messageState::TYPING && !currentLineWords.empty())
             {
-                DrawTextEx(defaultFont,currentLine.c_str(), 
-                {MSG_BOX.x + textOffsetX, MSG_BOX.y + MSG_PADDING + (MSG_FONTSIZE + 4) + (int)lines.size() * (MSG_FONTSIZE + 4)},
-                            MSG_FONTSIZE, MSG_SPACING, WHITE);
+                float y = MSG_BOX.y + MSG_PADDING + (MSG_FONTSIZE + 4) + (int)lines.size() * (MSG_FONTSIZE + 4);
+                drawColoredLine(currentLineWords, MSG_BOX.x + textOffsetX, y);
             }
         
             //prompt
