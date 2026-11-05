@@ -1,4 +1,5 @@
 int tile = 16;
+string sname = "<name>";
 
 DIALOGUES {
     auto {
@@ -6,25 +7,25 @@ DIALOGUES {
         next = 2;
         once = false;
         rect = [(0 * tile,0 * tile ,20 * tile ,15 * tile)];
-        speaker = "EW";
+        speaker = "<name>";
         sprite = "EisenW";
-        lines = ["Welcome to BlueManiacEngine"];
+        lines = ["Welcome to BlueManiacEngine, built by <name>"];
     }
     auto{
         id = 2;
         next = 3;
         once = false;
         rect = [(0 * tile, 0 * tile, 20 * tile, 15 * tile)];
-        speaker = "EW";
+        speaker = "<name>";
         sprite = "EisenW";
-        lines = ["Powered by MadokaScript"];
+        lines = ["Powered by MadokaScript, built by <name>"];
     }
     auto{
         id = 3;
         next = 0;
         once = false;
         rect = [(0 * tile, 0 * tile, 20 * tile, 15 * tile)];
-        speaker = "EW";
+        speaker = "<name>";
         sprite = "EisenW";
         lines = ["Select an option"];
         option = [("option 1", 4), ("option 2", 5)];
@@ -34,7 +35,7 @@ DIALOGUES {
         next = 6;
         once = false;
         rect = [(0 * tile, 0 * tile, 20 * tile, 15 * tile)];
-        speaker = "EW";
+        speaker = "<name>";
         sprite = "EisenW";
         lines = ["you have selected option 1"];
     }
@@ -43,7 +44,7 @@ DIALOGUES {
         next = 6;
         once = false;
         rect = [(0 * tile, 0 * tile, 20 * tile, 15 * tile)];
-        speaker = "EW";
+        speaker = "<name>";
         sprite = "EisenW";
         lines = ["you have selected option 2"];
     }
@@ -52,7 +53,7 @@ DIALOGUES {
         next = 0;
         once = false;
         rect = [(0 * tile, 0 * tile, 20 * tile, 15 * tile)];
-        speaker = "EW";
+        speaker = "<name>";
         sprite = "EisenW";
         lines = ["both options lead to same message"];
     }

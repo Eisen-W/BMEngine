@@ -4,6 +4,8 @@
 #include "engine.hpp"
 #include "engine_ast.hpp"
 #include "raylib.h"
+#include <cstddef>
+#include <string>
 
 bool EngineUtils::directionMatch(InteractDirection interactDir, Direction PDir)
 {
@@ -22,7 +24,11 @@ void EngineUtils::startMessageBox(const DialogueData& data)
 {
     Rectangle faceRect;
     bool hasFace = !data.sprite.empty() && BME.FaceSM.getFace(data.sprite, faceRect);
-    BME.TB.Start(BME.madloader.buildRaw(data), data.speaker, hasFace, BME.FaceSM.texture, faceRect);
+
+    std::string raw = resolveTokens(BME.madloader.buildRaw(data));
+    std::string speaker = resolveTokens(data.speaker);
+    
+    BME.TB.Start(raw, speaker, hasFace, BME.FaceSM.texture, faceRect);
     BME.TB.setOptions(data.options);
     gamestate = GameState::MESSAGE;
 }
@@ -44,12 +50,6 @@ void EngineUtils::checkInteractDialogue(Rectangle playerRec, Direction playerDir
                 if(current)
                 {
                     startMessageBox(*current);
-                    /*
-                    Rectangle faceRect;
-                    bool hasFace = !current->sprite.empty() && EWE.FSM.getFace(current->sprite, faceRect);
-                    EWE.MB.Start(EWE.loader.buildRaw(*current), current->speaker, hasFace, EWE.FSM.texture, faceRect);
-                    gamestate = GameState::MESSAGE;
-                    */
                 }
                 return;
             }
@@ -73,16 +73,34 @@ void EngineUtils::checkAutoDialogue(Rectangle playerRec)
                 if(current)
                 {
                     startMessageBox(*current);
-                    /*
-                    Rectangle faceRect;
-                    bool hasFace = !current->sprite.empty() && EWE.FSM.getFace(current->sprite, faceRect);
-                    EWE.MB.Start(EWE.loader.buildRaw(*current), current->speaker, hasFace, EWE.FSM.texture, faceRect);
-                    gamestate = GameState::MESSAGE;
-                    */
                 }
                 return;
             }
         }
         
     }
+}
+
+// SUBSTITUTE STRING
+void EngineUtils::madSetString(const std::string& key, const std::string& value)
+{
+    tokens[key] = value;
+}
+
+std::string EngineUtils::resolveTokens(const std::string& raw) const
+{
+    std::string result = raw;
+
+    for(auto& pair : tokens)
+    {
+        std::string tag = "<" + pair.first + ">";
+        size_t pos = 0;
+
+        while((pos = result.find(tag, pos)) != std::string::npos)
+        {
+            result.replace(pos, tag.size(), pair.second);
+            pos += pair.second.size();
+        }
+    }
+    return result;
 }

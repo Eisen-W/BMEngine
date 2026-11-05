@@ -2,8 +2,12 @@
 #include "constants.hpp"
 #include "engine.hpp"
 #include "raylib.h"
+#include <string>
 
 void Game::Init() {
+  std::string engName = "EisenW";
+  BME.EUtils.madSetString("name", engName);
+  
   //to load/initialize all game objects
   BME.screens.add("ex1", &screen1);
   BME.screens.add("ex2", &screen2);
