@@ -26,8 +26,6 @@ void ScreenEx1::Init()
                     {"../assets/TOWN_visualFG.csv",MapType::VISUAL, Layer::VISUAL_FG},
                     }, 
                     "../assets/sprite-temp.png", 30, 20);
-
-    BME.TB.Start(BME.EUtils.processString("HELLO, from <cs:BLUE>EisenW<ce>"), "<name>");
 }
 
 void ScreenEx1::Update()
@@ -52,8 +50,6 @@ void ScreenEx1::Update()
     {
       BME.EUtils.checkAutoDialogue({0,0,640,480});
     }
-    float dt = GetFrameTime();
-    BME.TB.Update(dt);
 
 }
 
@@ -67,7 +63,6 @@ void ScreenEx1::Draw(Renderer& r)
     );
 
     levelmap.Draw(r);
-    BME.TB.Draw(r);
 }
 
 // ============ SCREEN 2 ====================

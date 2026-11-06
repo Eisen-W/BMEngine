@@ -18,6 +18,8 @@
 #include "save_manager.hpp"
 #include "raycaster.hpp"
 
+// ENGINE VERSION: 0.9
+
 struct Engine{
     AssetManager AM;
     DisplayManager DM;
