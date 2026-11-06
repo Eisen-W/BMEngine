@@ -9,7 +9,7 @@ DIALOGUES {
         rect = [(0 * tile,0 * tile ,20 * tile ,15 * tile)];
         speaker = "<name>";
         sprite = "EisenW";
-        lines = ["Welcome to <cs:BLUE>Blue<ce><cs:RED>Maniac<ce><cs:GREEN>Engine<ce>, built by <cs:YELLOW><name><ce>"];
+        lines = ["Welcome to <cs:BLUE>Blue<ce><cs:RED>Maniac<ce><cs:GREEN>Engine<ce>, definitely built by <cs:YELLOW><name><ce>"];
     }
     auto{
         id = 2;
@@ -37,7 +37,8 @@ DIALOGUES {
         rect = [(0 * tile, 0 * tile, 20 * tile, 15 * tile)];
         speaker = "<name>";
         sprite = "EisenW";
-        lines = ["you have selected option 1"];
+        lines = ["you have selected option 1,
+                <cs:VIOLET>V<ce><cs:DARKBLUE>I<ce><cs:BLUE>B<ce><cs:GREEN>G<ce><cs:YELLOW>Y<ce><cs:ORANGE>O<ce><cs:RED>R<ce>"];
     }
     auto{
         id = 5;

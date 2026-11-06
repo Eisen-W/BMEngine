@@ -1,5 +1,10 @@
 ### ChangeLog
 
+### v0.9:
+- String substitution for MadokaScript strings 
+- Colored words for MadokaScript Dialogues
+- Updated to raylib v6.2
+
 ### v0.8: 
 - Dialogue options in MadokaScript
 - Load Image and ImagePixels in Asset Manager

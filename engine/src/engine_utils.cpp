@@ -41,16 +41,7 @@ void EngineUtils::startMessageBox(const DialogueData& data)
     std::string raw = resolveTokens(BME.madloader.buildRaw(data));
     std::string speaker = resolveTokens(data.speaker);
 
-    // split pages first =========
-    std::vector<std::vector<ColoredWord>> pages;
-    std::istringstream ss(raw);
-    std::string pageStr;
-    while(std::getline(ss, pageStr, '|'))
-    {
-        if(!pageStr.empty()) pages.push_back(parseColoredString(pageStr));
-    }
-    // ===========================
-
+    auto pages = processString(BME.madloader.buildRaw(data));
     BME.TB.Start(pages, speaker, hasFace, BME.FaceSM.texture, faceRect);
     BME.TB.setOptions(data.options);
     gamestate = GameState::MESSAGE;
@@ -179,5 +170,19 @@ std::vector<ColoredWord> EngineUtils::parseColoredString(const std::string& raw)
         }
     }
     return result;
+}
 
+
+// GENERALIZED
+std::vector<std::vector<ColoredWord>> EngineUtils::processString(const std::string& raw) const
+{
+    std::string resolved = resolveTokens(raw);
+    std::vector<std::vector<ColoredWord>> pages;
+    std::istringstream ss(resolved);
+    std::string pageStr;
+    while(std::getline(ss, pageStr, '|'))
+    {
+        if(!pageStr.empty()) pages.push_back(parseColoredString(pageStr));
+    }
+    return pages;
 }

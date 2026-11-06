@@ -25,9 +25,13 @@ class ScreenManager{
     void Update();
     void Draw(Renderer& r);
 
+    const std::string& getCurrentID() const {return m_currentID; }
+
     private:
     std::unordered_map<std::string, IScreen*> m_screens;
     IScreen* m_current = nullptr;
+
+    std::string m_currentID;
 
     //for lazy loading
     std::unordered_set<std::string> m_initialized;

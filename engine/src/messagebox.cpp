@@ -187,7 +187,7 @@ void TextBox::Draw(Renderer& r)
                         MSG_SPACING, lineWords[i].color);
 
                         std::string measured = lineWords[i].text + 
-                            (i < (int)lineWords.size() - 1 ? " " : ""
+                            (i < (int)lineWords.size() - 1 ? " " : " "
                         );
 
                         offsetX += MeasureTextEx(defaultFont, measured.c_str(), 

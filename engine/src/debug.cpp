@@ -1,4 +1,6 @@
 #include "debug.hpp"
+#include "engine.hpp"
+#include "raylib.h"
 #include<fstream>
 #include<string>
 
@@ -37,4 +39,5 @@ void Debug::Draw()
     DrawText(TextFormat("memory: %d mb", memory/1024), xpos, 50, FS, WHITE);
     DrawText(TextFormat("frame time: %.2f ms", GetFrameTime() * 1000.0f), xpos,70, FS, WHITE);
     DrawText(TextFormat("%d", (int)GetTime()), xpos, 90, FS, WHITE);
+    DrawText(TextFormat("current screen: %s", BME.screens.getCurrentID().c_str()), xpos, 110, FS, WHITE);
 }

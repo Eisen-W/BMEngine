@@ -2,7 +2,7 @@
 drag and drop engine files and template for my games. <br>
 Visual tools and editor not included.
 ---
-Raylib version: Raylib v6.*
+Raylib version: Raylib v6.2
 
 
 ### Docs
@@ -48,6 +48,7 @@ sh engine-update-mad.sh
 - [x] MadokaScript: Options
 - [x] Image and image pixels loading and caching in AssetManager
 - [x] Pixel Collision against point(Vector2) and Rectangle
+- [x] Colored words for MadokaScript Dialogues
 
 ### TO-DO
 - [ ] WRITE DOCS ASAP

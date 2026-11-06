@@ -16,6 +16,7 @@ void ScreenManager::switchTo(const std::string& id)
         m_initialized.insert(id);
     }
     m_current = next;
+    m_currentID = id;
 }
 
 

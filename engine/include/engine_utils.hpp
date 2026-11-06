@@ -48,4 +48,6 @@ class EngineUtils {
     std::string resolveTokens(const std::string& raw) const;
 
     std::vector<ColoredWord> parseColoredString(const std::string& raw) const;
+
+    std::vector<std::vector<ColoredWord>> processString(const std::string& raw) const;
 };
