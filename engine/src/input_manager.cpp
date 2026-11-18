@@ -4,6 +4,11 @@
 
 bool Mpoint::MouseRec(Rectangle Rec)
 {
+    return CheckCollisionPointRec(CMouse, Rec);
+}
+
+void Mpoint::UpdateMouse()
+{
     Vector2 mouse = GetMousePosition();
     auto& dm = BME.DM;
     float ox = dm.getOffsetX();
@@ -13,14 +18,9 @@ bool Mpoint::MouseRec(Rectangle Rec)
 
     if(mouse.x < ox || mouse.x >= ox + fit.x ||
         mouse.y < oy || mouse.y >= oy + fit.y)
-        {
-            return false;
-        }
+    {
+        return;
+    }
     
     CMouse = {(mouse.x - ox)/scale, (mouse.y - oy)/scale}; 
-
-
-    return CheckCollisionPointRec(CMouse, Rec);
-    
-   //return CheckCollisionPointRec(GetMousePosition(), Rec);
 }

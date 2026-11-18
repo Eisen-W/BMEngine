@@ -15,7 +15,11 @@
     @see Draw
 */
 
-void TextBox::Start(const std::vector<std::vector<ColoredWord>>& inPages, const std::string& speakerName, bool hasFace_, Texture2D faceTex_, Rectangle faceRect_)
+void TextBox::Start(const std::vector<std::vector<ColoredWord>>& inPages, 
+                const std::string& speakerName, 
+                bool hasFace_, Texture2D faceTex_, Rectangle faceRect_,
+                TextBoxConfig cfg_, OptionsConfig optCfg_
+)
 {
     defaultFont = GlobalFont::EngineFont(BME.AM);
     speaker = "";
@@ -26,6 +30,9 @@ void TextBox::Start(const std::vector<std::vector<ColoredWord>>& inPages, const 
     hasFace = hasFace_;
     faceTexture = faceTex_;
     faceRect = faceRect_;
+    
+    cfg = cfg_;
+    optCfg = optCfg_;
 
     if(pages_colored.empty()) return;
 
@@ -69,7 +76,7 @@ void TextBox::Update(float dt)
 
                 //std::string test = currentLine.empty() ? words[currentWord] : currentLine + " " + words[currentWord];
                 
-                Vector2 measured = MeasureTextEx(defaultFont, testText.c_str(),MSG_FONTSIZE, MSG_SPACING);
+                Vector2 measured = MeasureTextEx(defaultFont, testText.c_str(),cfg.fontSize, cfg.spacing);
                 if(measured.x > boxWdith)
                 {
                     lines.push_back(currentLineWords);
@@ -101,7 +108,7 @@ void TextBox::Update(float dt)
                 for(auto& w : currentLineWords) lineText += w.text + " ";
                 std::string testText = lineText + words[currentWord].text;
 
-                Vector2 measured = MeasureTextEx(defaultFont, testText.c_str(),MSG_FONTSIZE, MSG_SPACING);
+                Vector2 measured = MeasureTextEx(defaultFont, testText.c_str(),cfg.fontSize, cfg.spacing);
                 if(measured.x > boxWdith)
                 {
                     lines.push_back(currentLineWords);
@@ -159,22 +166,29 @@ void TextBox::Draw(Renderer& r)
         [&]()
         {
             //box
-            DrawRectangleRec(MSG_BOX, BLACK);
-            DrawRectangleLinesEx(MSG_BOX, 2,WHITE);
+            if(cfg.slice.active)
+            {
+                DrawTextureNPatch(cfg.slice.texture, cfg.slice.npatch, cfg.box, {0,0}, 0, WHITE);
+            }
+            else 
+            {
+                DrawRectangleRec(cfg.box, BLACK);
+                DrawRectangleLinesEx(cfg.box, 2,WHITE);
+            }
         
             //face
-            int textOffsetX = MSG_PADDING;
+            int textOffsetX = cfg.padding;
             if(hasFace)
             {
                 DrawTexturePro(faceTexture, faceRect, 
-                                {MSG_BOX.x + MSG_PADDING, MSG_BOX.y + MSG_PADDING, faceRect.width, faceRect.height},
+                                {cfg.box.x + cfg.padding, cfg.box.y + cfg.padding, faceRect.width, faceRect.height},
                                 {0,0}, 0, WHITE);
-                textOffsetX = MSG_PADDING + (int)faceRect.width + MSG_PADDING;
+                textOffsetX = cfg.padding + (int)faceRect.width + cfg.padding;
             }
         
             //speaker
-            DrawTextEx(defaultFont, speaker.c_str(), {MSG_BOX.x + textOffsetX, MSG_BOX.y + MSG_PADDING},
-                        MSG_FONTSIZE, MSG_SPACING, WHITE);
+            DrawTextEx(defaultFont, speaker.c_str(), {cfg.box.x + textOffsetX, cfg.box.y + cfg.padding},
+                        cfg.fontSize, cfg.spacing, WHITE);
         
             auto drawColoredLine = 
                 [&](const std::vector<ColoredWord>& lineWords, float x, float y)
@@ -183,29 +197,29 @@ void TextBox::Draw(Renderer& r)
                     for(int i = 0; i < (int)lineWords.size(); i++)
                     {
                         DrawTextEx(defaultFont, lineWords[i].text.c_str(), 
-                        {offsetX, y}, MSG_FONTSIZE, 
-                        MSG_SPACING, lineWords[i].color);
+                        {offsetX, y}, cfg.fontSize, 
+                        cfg.spacing, lineWords[i].color);
 
                         std::string measured = lineWords[i].text + 
                             (i < (int)lineWords.size() - 1 ? " " : " "
                         );
 
                         offsetX += MeasureTextEx(defaultFont, measured.c_str(), 
-                            MSG_FONTSIZE, MSG_SPACING).x;
+                            cfg.fontSize, cfg.spacing).x;
                     }
                 };
 
             //message
             for(int i = 0; i < (int)lines.size(); i++)
             {
-                float y = MSG_BOX.y + MSG_PADDING + (MSG_FONTSIZE + 4) + i * (MSG_FONTSIZE + 4);
-                drawColoredLine(lines[i], MSG_BOX.x + textOffsetX, y);
+                float y = cfg.box.y + cfg.padding + (cfg.fontSize + 4) + i * (cfg.fontSize + 4);
+                drawColoredLine(lines[i], cfg.box.x + textOffsetX, y);
             }
             
             if(msgState == messageState::TYPING && !currentLineWords.empty())
             {
-                float y = MSG_BOX.y + MSG_PADDING + (MSG_FONTSIZE + 4) + (int)lines.size() * (MSG_FONTSIZE + 4);
-                drawColoredLine(currentLineWords, MSG_BOX.x + textOffsetX, y);
+                float y = cfg.box.y + cfg.padding + (cfg.fontSize + 4) + (int)lines.size() * (cfg.fontSize + 4);
+                drawColoredLine(currentLineWords, cfg.box.x + textOffsetX, y);
             }
         
             //prompt
@@ -217,14 +231,14 @@ void TextBox::Draw(Renderer& r)
                     {
                         Color col = (i == selectedOption) ? YELLOW : WHITE;
                         DrawTextEx(defaultFont, optionTexts[i].c_str(), 
-                        {MSG_BOX.x + textOffsetX, 
-                        MSG_BOX.y + MSG_BOX.height - MSG_PADDING - (optionTexts.size() - i) * (MSG_FONTSIZE + 4)},
-                        MSG_FONTSIZE, MSG_SPACING, col);
+                        {cfg.box.x + textOffsetX, 
+                        cfg.box.y + cfg.box.height - cfg.padding - (optionTexts.size() - i) * (cfg.fontSize + 4)},
+                        cfg.fontSize, cfg.spacing, col);
                     }
                 }
                 DrawTextEx(defaultFont, "[A]",
-                            {MSG_BOX.x + MSG_BOX.width - 40, MSG_BOX.y + MSG_BOX.height - MSG_FONTSIZE - MSG_PADDING},
-                            MSG_FONTSIZE , MSG_SPACING, WHITE);
+                            {cfg.box.x + cfg.box.width - 40, cfg.box.y + cfg.box.height - cfg.fontSize - cfg.padding},
+                            cfg.fontSize , cfg.spacing, WHITE);
             }
         }
     );

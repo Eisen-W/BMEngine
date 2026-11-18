@@ -5,11 +5,37 @@
 #include <string>
 #include <vector>
 
-constexpr Rectangle MSG_BOX = {16, 340, 608, 124};
-constexpr int MSG_PADDING = 8;
-constexpr int MSG_SPACING = 2;
-constexpr int MSG_FONTSIZE = 20;
 enum class messageState { TYPING, FULL, WAITING, DONE };
+
+struct NineSlice
+{
+    Texture2D texture;
+    NPatchInfo npatch;
+    bool active = false;
+};
+
+struct TextBoxConfig
+{  
+    Rectangle box = {16, 340, 608, 124};
+    int padding = 8;
+    int spacing = 2;
+    int fontSize = 20;
+    int waitFrames = 10;
+    float wordDelay = 0.08f;
+
+    Color defaultColor = WHITE;
+    Color borderColor = WHITE;
+    Color bgColor = BLACK;
+    Color promptColor = WHITE;
+
+    NineSlice slice;
+};
+
+struct OptionsConfig
+{
+    Color defaultColor = WHITE;
+    Color selectedColor = YELLOW;
+};
 
 struct ColoredWord{
     std::string text;
@@ -19,7 +45,11 @@ struct ColoredWord{
 class TextBox
 {
     public:
-    void Start(const std::vector<std::vector<ColoredWord>>& inPages, const std::string& speakerName, bool hasFace_ = false, Texture2D faceTex_ = {}, Rectangle faceRect_ = {});
+    void Start(const std::vector<std::vector<ColoredWord>>& inPages, 
+                const std::string& speakerName, 
+                bool hasFace_ = false, Texture2D faceTex_ = {}, Rectangle faceRect_ = {},
+                TextBoxConfig cfg_ = {}, OptionsConfig optCfg_ = {}
+    );
     void Update(float dt);
     void Draw(Renderer& r);
     void HandleTB();
@@ -31,6 +61,9 @@ class TextBox
 
     private:
 
+    TextBoxConfig cfg;
+    OptionsConfig optCfg;
+    
     Font defaultFont = {0,0,0,0};
 
     void LoadPage(int index);
@@ -54,7 +87,7 @@ class TextBox
     messageState msgState = messageState::DONE;
     bool active = false;
 
-    int boxWdith = MSG_BOX.width - MSG_PADDING * 2;
+    int boxWdith = cfg.box.width - cfg.padding * 2;
 
     // faceset
     bool hasFace = false;

@@ -42,7 +42,9 @@ void EngineUtils::startMessageBox(const DialogueData& data)
     std::string speaker = resolveTokens(data.speaker);
 
     auto pages = processString(BME.madloader.buildRaw(data));
-    BME.TB.Start(pages, speaker, hasFace, BME.FaceSM.texture, faceRect);
+    BME.TB.Start(pages, speaker, hasFace, 
+        BME.FaceSM.texture, faceRect,
+        TextBoxConfig{}, OptionsConfig{});
     BME.TB.setOptions(data.options);
     gamestate = GameState::MESSAGE;
 }

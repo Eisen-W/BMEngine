@@ -4,6 +4,7 @@
 class Mpoint{
     public:
     bool MouseRec(Rectangle Rec);
+    void UpdateMouse();
     Vector2 CMouse;
     float scale = 1;
 };
