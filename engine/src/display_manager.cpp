@@ -68,21 +68,24 @@ int DisplayManager::getCanvasIndex(const std::string& id) const
     return -1;
 }
 
-void DisplayManager::scaleWindow()
+void DisplayManager::scaleWindow(int canvasIndex)
 {
+    int cw = getCanvasWidth(canvasIndex);
+    int ch = getCanvasHeight(canvasIndex);
+
     if(!PIXEL_PERFECT) 
     {
-        scale = fminf((float)GetScreenWidth()/canvasWidth, (float)GetScreenHeight()/canvasHeight);
+        scale = fminf((float)GetScreenWidth()/cw, (float)GetScreenHeight()/ch);
     }
     else{
-        int scaleX = GetScreenWidth() / canvasWidth;
-        int scaleY = GetScreenHeight() / canvasHeight;
+        int scaleX = GetScreenWidth() / cw;
+        int scaleY = GetScreenHeight() / ch;
         scale = (int)(scaleX < scaleY) ? scaleX : scaleY;
         if(scale < 1) scale = 1;
     }
     
 
-    fit = {(float)(canvasWidth * scale), (float)(canvasHeight * scale)};
+    fit = {(float)(cw * scale), (float)(ch * scale)};
     offsetX = (GetScreenWidth() - (int)fit.x)/2;
     offsetY = (GetScreenHeight() - (int)fit.y)/2;
 };

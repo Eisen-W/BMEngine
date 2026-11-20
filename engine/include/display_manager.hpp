@@ -22,8 +22,8 @@ class DisplayManager{
     static constexpr int windowWidth = 640; // initial window size
     static constexpr int windowHeight = 480;
 
-    static constexpr int canvasWidth = 640; // canvas dimensions
-    static constexpr int canvasHeight = 480;
+    int canvasWidth = 640; // default canvas dimensions
+    int canvasHeight = 480;
 
     std::vector<CanvasEntry> canvases;
 
@@ -44,7 +44,7 @@ class DisplayManager{
     int getCanvasIndex(const std::string& id) const;
     int getCanvasCount() const { return (int)canvases.size(); }
 
-    void scaleWindow();
+    void scaleWindow(int canvasIndex = 0);
     void drawCanvasOnScreen(int index = 0) const;
     void drawCanvasAt(int index, Rectangle dest) const;
 
@@ -52,8 +52,8 @@ class DisplayManager{
     int     getOffsetY()        const {return offsetY;}
     float   getScale()          const {return scale;}
     Vector2 getFit()            const {return fit;}
-    int     getCanvasWidth()    const {return canvasWidth;}
-    int     getCanvasHeight()   const {return canvasHeight;}
+    int     getCanvasWidth(int index = 0)    const {return canvases[index].width;}
+    int     getCanvasHeight(int index = 0)   const {return canvases[index].height;}
     int     getWHeight()        const {return windowHeight;}
     int     getWWidth()         const {return windowWidth;}
 };

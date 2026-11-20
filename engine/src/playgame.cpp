@@ -29,11 +29,16 @@ void Play::playgame()
 void Play::Init()
 {
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
-    InitWindow(BME.DM.getWWidth(), BME.DM.getWHeight(), "BME");
+    InitWindow(BME.DM.getWWidth(), BME.DM.getWHeight(), game.WindowName.c_str());
     SetTargetFPS(60);
-    InitAudioDevice();
+    
+    if(game.devCfg.USE_AUDIO) InitAudioDevice();
 
-    BME.DM.initCanvas();
+    BME.DM.addCanvas(game.gamecanvasCfg.gameCanvasName, 
+        game.gamecanvasCfg.cWidth, game.gamecanvasCfg.cHeight);
+
+    //BME.DM.initCanvas();  // default canvas
+
     BME.DM.scaleWindow();
     BME.intro.Init();
 
@@ -55,16 +60,20 @@ void Play::Update(float dt)
         }
     }
 
-    if(DEV_MODE) BME.dbg.Update();
+    if(DEV_MODE && game.devCfg.DEBUG_VIEW) BME.dbg.Update();
 }
 
 void Play::Canvas()
 {
     //TEXTURE MODE
-    BeginTextureMode(BME.DM.getCanvas());
+    BeginTextureMode(BME.DM.getCanvas(game.gamecanvasCfg.gameCanvasName));
     ClearBackground(BLACK);
 
-    DrawRectangle(0,0,BME.DM.getCanvasWidth(), BME.DM.getCanvasHeight(), RED);
+    DrawRectangle(0,0,
+        BME.DM.getCanvasWidth(BME.DM.getCanvasIndex(game.gamecanvasCfg.gameCanvasName)),
+        BME.DM.getCanvasHeight(BME.DM.getCanvasIndex(game.gamecanvasCfg.gameCanvasName)),
+        RED
+    );
 
     if(BME.intro.Engineintro) BME.intro.Draw();
     else if(!game.gameNotReady) 
@@ -81,9 +90,9 @@ void Play::Draw()
     //DRAWING
     BeginDrawing();
     ClearBackground(BLACK);
-    BME.DM.drawCanvasOnScreen(0);
+    BME.DM.drawCanvasOnScreen(BME.DM.getCanvasIndex(game.gamecanvasCfg.gameCanvasName));
 
-    if(DEV_MODE) BME.dbg.Draw();
+    if(DEV_MODE && game.devCfg.DEBUG_VIEW) BME.dbg.Draw();
     EndDrawing();
 }
 
@@ -93,7 +102,9 @@ void Play::Unload()
     BME.AM.unloadAssets();
     BME.DM.unloadCanvas();
     printf("after unload\n");
-    CloseAudioDevice();
+
+    if(game.devCfg.USE_AUDIO) CloseAudioDevice();
     CloseWindow();
+
     printf("after close\n");
 }
