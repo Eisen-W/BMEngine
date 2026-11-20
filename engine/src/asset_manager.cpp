@@ -81,6 +81,18 @@ Color* AssetManager::getImagePixels(const std::string& path)
     return imagePixels[path];
 }
 
+// function overloading
+Texture2D&  AssetManager::getTexture(const std::string& key, const Image& img)
+{
+    auto it = textures.find(key);
+    if(it == textures.end())
+    {
+        Texture2D texture = LoadTextureFromImage(img);
+        SetTextureFilter(texture, TEXTURE_FILTER_POINT);
+        it = textures.emplace(key, texture).first;
+    }
+    return it->second;
+}
 
 void AssetManager::unloadAssets()
 {

@@ -1,6 +1,9 @@
 ### ChangeLog
 
-### v1.0
+### v1.1 - DEV
+- Asset Manager: get texture from image
+
+### v1.0 - RELEASE
 - fixed Display manager
 - fixed Cmouse in Mousepoint/Input Manager
 - dev configs in game.hpp

@@ -25,7 +25,10 @@ class AssetManager{
         Model&      getModel(const std::string& path);
         Image&      getImage(const std::string& path);
         Color*      getImagePixels(const std::string& path);
-        
+  
+        // function overloading
+        Texture2D&  getTexture(const std::string& key, const Image& img);
+
         void unloadAssets();
         ~AssetManager();
 };
