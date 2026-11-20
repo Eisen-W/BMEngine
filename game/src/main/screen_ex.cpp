@@ -8,6 +8,7 @@
 #include "messagebox.hpp"
 #include "raylib.h"
 #include "renderer.hpp"
+#include <string>
 
 // ============= SCREEN 1 ====================
 void ScreenEx1::Init()
@@ -20,7 +21,6 @@ void ScreenEx1::Init()
         BME.FaceSM.texture = BME.AM.getTexture("../assets/face.png");
         BME.FaceSM.registerFace("EisenW", {0,0,16,16});
     }
-    
 
     levelmap.LoadFiles({
                     {"../assets/TOWN_visualBG.csv",MapType::VISUAL, Layer::VISUAL_BG},
@@ -39,23 +39,7 @@ void ScreenEx1::Update()
         closeScreen = true;
     }
 
-    if(IsKeyPressed(KEY_ENTER))
-    {
-        TextBoxConfig cfg;
-        //cfg.box = {50,50,300, 100};
-        cfg.slice.texture = BME.AM.getTexture("../assets/textboxnslice.png");
-        cfg.slice.active = true;
-        cfg.slice.npatch.source = {0,0,32,32};
-
-        int npx = 8;
-        cfg.slice.npatch.left = cfg.slice.npatch.bottom = cfg.slice.npatch.right = cfg.slice.npatch.top = npx;
-        cfg.slice.npatch.layout = NPATCH_NINE_PATCH;
-
-        BME.TB.Start(BME.EUtils.processString("custom box"), "",
-        false, {}, {}, cfg
-        );
-
-    }
+    
     float dt = GetFrameTime();
     BME.TB.Update(dt);
     // actual update logic
