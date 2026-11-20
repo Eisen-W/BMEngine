@@ -28,6 +28,7 @@ class AssetManager{
   
         // function overloading
         Texture2D&  getTexture(const std::string& key, const Image& img);
+        Color* getImagePixels(const std::string& key, const Image& img);
 
         void unloadAssets();
         ~AssetManager();

@@ -94,6 +94,19 @@ Texture2D&  AssetManager::getTexture(const std::string& key, const Image& img)
     return it->second;
 }
 
+Color* AssetManager::getImagePixels(const std::string& key, const Image& img)
+{
+    auto it = imagePixels.find(key);
+    if(it == imagePixels.end())
+    {
+        Color* pixels = LoadImageColors(img);
+        it = imagePixels.emplace(key, pixels).first;
+    }
+
+    return it->second;
+}
+
+// Unloading
 void AssetManager::unloadAssets()
 {
     for(auto& pair : textures) UnloadTexture(pair.second);

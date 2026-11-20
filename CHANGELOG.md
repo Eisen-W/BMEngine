@@ -2,6 +2,7 @@
 
 ### v1.1 - DEV
 - Asset Manager: get texture from image
+- Asset Manager: get color from image
 
 ### v1.0 - RELEASE
 - fixed Display manager
