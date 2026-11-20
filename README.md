@@ -4,6 +4,8 @@ Visual tools and editor not included.
 ---
 Raylib version: Raylib v6.2
 
+Engine version: v1.0
+
 
 ### Docs
 - [Documentation](docs.md) <br>
@@ -49,6 +51,7 @@ sh engine-update-mad.sh
 - [x] Image and image pixels loading and caching in AssetManager
 - [x] Pixel Collision against point(Vector2) and Rectangle
 - [x] Colored words for MadokaScript Dialogues
+- [x] Generalized Text Box
 
 ### TO-DO
 - [ ] WRITE DOCS ASAP

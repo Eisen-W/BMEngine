@@ -18,7 +18,7 @@
 #include "save_manager.hpp"
 #include "raycaster.hpp"
 
-// ENGINE VERSION: 0.9
+// ENGINE VERSION: 1.0
 
 struct Engine{
     AssetManager AM;

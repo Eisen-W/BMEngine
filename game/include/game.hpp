@@ -6,13 +6,13 @@
 struct DevConfigs
 {
     static constexpr bool DEBUG_VIEW = true;
-    static constexpr bool USE_AUDIO = false;
+    static constexpr bool USE_AUDIO = true;
 };
 
 struct GameCanvasConfigs
 {
-    int cWidth = 320;
-    int cHeight = 320;
+    int cWidth = 640;
+    int cHeight = 480;
     std::string gameCanvasName = "gamecanvas"; 
 };
 // ======================================================

@@ -1,5 +1,10 @@
 ### ChangeLog
 
+### v1.0
+- fixed Display manager
+- fixed Cmouse in Mousepoint/Input Manager
+- dev configs in game.hpp
+
 ### v0.9:
 - String substitution for MadokaScript strings 
 - Colored words for MadokaScript Dialogues
