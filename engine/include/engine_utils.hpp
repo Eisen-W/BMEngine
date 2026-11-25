@@ -1,4 +1,5 @@
 #pragma once
+#include "constants.hpp"
 #include "engine_ast.hpp"
 #include "engine_constants.hpp"
 #include "mad_data.hpp"
@@ -51,3 +52,7 @@ class EngineUtils {
 
     std::vector<std::vector<ColoredWord>> processString(const std::string& raw) const;
 };
+
+// when using box2d
+inline float toMeters(float pixels) { return pixels / TILE_SIZE; }
+inline float toPixels(float meters) { return meters * TILE_SIZE; }

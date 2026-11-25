@@ -2,6 +2,7 @@
 #include "engine.hpp"
 #include "raylib.h"
 #include<fstream>
+#include <sstream>
 #include<string>
 
 
@@ -9,15 +10,18 @@ int Debug::printMemUsage()
 {
     std::ifstream file("/proc/self/status");
     std::string line;
+    unsigned long rss = 0;
 
     while (std::getline(file, line)) {
-        if (line.rfind("VmRSS:", 0) == 0) {
-            std::string value = line.substr(6);
-            return std::stoul(value);
+        if (line.rfind("VmRSS:", 0) == 0) 
+        {
+            std::istringstream ss(line.substr(6));
+            ss >> rss;
+            break;
         }
     }
 
-    return 0;
+    return (int)rss;
 }
 
 

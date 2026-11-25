@@ -6,7 +6,7 @@
 struct DevConfigs
 {
     static constexpr bool DEBUG_VIEW = true;
-    static constexpr bool USE_AUDIO = true;
+    static constexpr bool USE_AUDIO = false;
 };
 
 struct GameCanvasConfigs

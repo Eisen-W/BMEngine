@@ -1,6 +1,5 @@
 #pragma once
 #include<raylib.h>
-#include<sys/resource.h>
 
 #ifdef __linux__
 #include<sys/resource.h>
